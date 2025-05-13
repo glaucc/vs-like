@@ -13,7 +13,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var level = Autoload.level
 	var enemy_speed = Autoload.enemy_speed
-	
 	var direction = global_position.direction_to(player.global_position)
 	velocity= direction * 600.0 * enemy_speed
 	move_and_slide()
@@ -25,7 +24,6 @@ func take_damage():
 	
 	if health <= 0:
 		queue_free()
-		Autoload.score += 10
 		gem.emit()
 		Autoload.add_coins(1)
 		print(Autoload.player_coins)

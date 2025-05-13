@@ -64,8 +64,8 @@ func _on_player_health_depleted() -> void:
 
 func _on_button_pressed() -> void:
 	get_tree().paused = false
-	get_tree().reload_current_scene()
 	Autoload.reset_variables()
+	get_tree().reload_current_scene()
 	level = 1
 
 
