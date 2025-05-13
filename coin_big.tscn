@@ -1,0 +1,81 @@
+[gd_scene load_steps=12 format=3 uid="uid://cmkon3srsu28n"]
+
+[ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="1_0mi3t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mi3t"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkis2"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkup1"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3gbe"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdsu0"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfg1g"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njjpa"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stqye"]
+atlas = ExtResource("1_0mi3t")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jkis2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mi3t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkis2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkup1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3gbe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdsu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfg1g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njjpa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stqye")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l5nea"]
+radius = 24.0208
+
+[node name="CoinBig" type="Area2D"]
+collision_layer = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_jkis2")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l5nea")

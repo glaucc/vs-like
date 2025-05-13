@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://b77u2sg5kdopd"]
+
+[ext_resource type="Texture2D" uid="uid://cd7jo3p0dbbd1" path="res://main_menu_bg.png" id="1_lti8b"]
+[ext_resource type="Script" uid="uid://d1at8cr4bhu7r" path="res://menu.gd" id="1_mae5d"]
+[ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_ouk20"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_mae5d")
+
+[node name="MainMenuBg" type="Sprite2D" parent="."]
+position = Vector2(964.375, 589.75)
+scale = Vector2(1.25244, 1.25244)
+texture = ExtResource("1_lti8b")
+
+[node name="PlayButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 760.0
+offset_top = 559.0
+offset_right = 1560.0
+offset_bottom = 799.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("2_ouk20")
+theme_override_font_sizes/font_size = 96
+text = "Play"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 760.0
+offset_top = 732.0
+offset_right = 1560.0
+offset_bottom = 972.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("2_ouk20")
+theme_override_font_sizes/font_size = 96
+text = "Settings"
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 760.0
+offset_top = 906.0
+offset_right = 1560.0
+offset_bottom = 1146.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("2_ouk20")
+theme_override_font_sizes/font_size = 96
+text = "Quit"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 157.0
+offset_top = 176.0
+offset_right = 3352.0
+offset_bottom = 531.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("2_ouk20")
+theme_override_font_sizes/font_size = 355
+text = "Woodballs"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

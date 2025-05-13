@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dacl0go1b0cli"]
+
+[ext_resource type="Texture2D" uid="uid://dafbal3p60kov" path="res://pixel-ball.png" id="1_5j2qx"]
+[ext_resource type="Script" uid="uid://bl2kmlkq04cd5" path="res://boss_10.gd" id="1_n0dp6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dxalf"]
+radius = 343.013
+
+[node name="Boss-10" type="CharacterBody2D"]
+script = ExtResource("1_n0dp6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -17)
+shape = SubResource("CircleShape2D_dxalf")
+
+[node name="Pixel-ball" type="Sprite2D" parent="."]
+texture = ExtResource("1_5j2qx")
