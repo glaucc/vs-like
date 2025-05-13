@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=17 format=4 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="Texture2D" uid="uid://5xurshwaq5ox" path="res://overworld_tileset_grass.png" id="1_5hk42"]
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
@@ -8,12 +8,17 @@
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v4mvp"]
 [ext_resource type="PackedScene" uid="uid://dcqtjyc37jgdw" path="res://gun.tscn" id="3_1ns3a"]
 [ext_resource type="PackedScene" uid="uid://cmkon3srsu28n" path="res://coin_big.tscn" id="3_hio4h"]
+[ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4mvp"]
 bg_color = Color(0.490196, 0.454902, 1, 0.870588)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_286o7"]
+atlas = ExtResource("5_fnffn")
+region = Rect2(2528, 2464, 544, 160)
 
 [sub_resource type="Curve2D" id="Curve2D_1ns3a"]
 _data = {
@@ -563,6 +568,7 @@ theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
 
 [node name="UpgradeButton1" type="Button" parent="Score/UpgradeMenu/Upgrade1"]
+unique_name_in_owner = true
 process_mode = 2
 layout_mode = 0
 offset_left = 4.0
@@ -610,6 +616,7 @@ theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
 
 [node name="UpgradeButton2" type="Button" parent="Score/UpgradeMenu/Upgrade2"]
+unique_name_in_owner = true
 process_mode = 2
 layout_mode = 0
 offset_left = 4.0
@@ -657,6 +664,7 @@ theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
 
 [node name="UpgradeButton3" type="Button" parent="Score/UpgradeMenu/Upgrade3"]
+unique_name_in_owner = true
 process_mode = 2
 layout_mode = 0
 offset_left = 4.0
@@ -666,6 +674,7 @@ offset_bottom = 182.0
 flat = true
 
 [node name="Upgrade4" type="ColorRect" parent="Score/UpgradeMenu"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 13
@@ -705,6 +714,7 @@ theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
 
 [node name="UpgradeButton4" type="Button" parent="Score/UpgradeMenu/Upgrade4"]
+unique_name_in_owner = true
 process_mode = 2
 layout_mode = 0
 offset_left = 4.0
@@ -712,6 +722,48 @@ offset_top = 2.0
 offset_right = 544.0
 offset_bottom = 182.0
 flat = true
+
+[node name="arrows" type="Node2D" parent="Score/UpgradeMenu"]
+visible = false
+
+[node name="arrow1" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
+unique_name_in_owner = true
+position = Vector2(-60, 240)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_286o7")
+
+[node name="arrow2" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
+unique_name_in_owner = true
+position = Vector2(598, 240)
+rotation = -3.14159
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_286o7")
+
+[node name="arrow3" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
+unique_name_in_owner = true
+position = Vector2(-60, 443)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_286o7")
+
+[node name="arrow4" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
+unique_name_in_owner = true
+position = Vector2(598, 443)
+rotation = -3.14159
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_286o7")
+
+[node name="arrow5" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
+unique_name_in_owner = true
+position = Vector2(-60, 626)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_286o7")
+
+[node name="arrow6" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
+unique_name_in_owner = true
+position = Vector2(598, 626)
+rotation = -3.14159
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_286o7")
 
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
 position = Vector2(963, 547)
@@ -722,7 +774,7 @@ curve = SubResource("Curve2D_1ns3a")
 [node name="PathFollow2D" type="PathFollow2D" parent="player/Path2D"]
 unique_name_in_owner = true
 position = Vector2(-2420.85, -1539.07)
-rotation = 0.026197
+rotation = 0.0261967
 
 [node name="gun6" parent="player" instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
