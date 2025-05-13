@@ -8,6 +8,9 @@ var enemy_speed:float = 0.1
 var level:int = 1
 var bullet_speed:int = 500
 var bullet_range:int = 500
+var player_speed_percent:int = 100
+var player_damage_percent:int = 100
+
 
 func _ready() -> void:
 	load_coins()

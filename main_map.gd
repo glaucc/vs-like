@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		%MobSpawnTimer.wait_time = 0.13
 		%gun6.set_process_mode(Node.PROCESS_MODE_INHERIT)
 		%gun6.show()
-		
+
 
 func spawn_mob():
 	var new_mob = preload("res://mob.tscn").instantiate()

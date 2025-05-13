@@ -4,14 +4,48 @@ signal health_depleted
 
 var health = 100.0
 var max_health = 100.0
-const SPEED = 50
+var speed = 300
 const DAMAGE_RATE = 100.0
 
+#mobile movement support
+var touch_start_pos := Vector2.ZERO
+var touch_current_pos := Vector2.ZERO
+var touching := false
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			touch_start_pos = event.position
+			touch_current_pos = event.position
+			touching = true
+		else:
+			touching = false
+			velocity = Vector2.ZERO
+
+	elif event is InputEventScreenDrag:
+		touch_current_pos = event.position
+
+
 func _physics_process(delta: float) -> void:
-	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity = direction * 600
-	move_and_slide()
 	
+	#Movement
+	var direction := Vector2.ZERO
+	
+	if touching:
+		direction += (touch_current_pos - touch_start_pos).normalized()
+
+	# Keyboard movement (WASD, arrows)
+	direction += Input.get_vector("move_left", "move_right", "move_up", "move_down")
+
+	# Normalize to prevent faster diagonal movement
+	if direction.length() > 1:
+		direction = direction.normalized()
+
+	velocity = direction * speed
+	if !touching and velocity.length() > 0.1:
+		velocity = velocity.move_toward(Vector2.ZERO, 200 * delta)
+	move_and_slide()
 	
 	
 	if velocity.length() > 0.0:
