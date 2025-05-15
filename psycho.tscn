@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://byeufpkch6dfv"]
+
+[ext_resource type="Texture2D" uid="uid://bh1b4d3qmvwbg" path="res://assets/psycho1.png" id="1_p03fm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p03fm"]
+radius = 122.0
+height = 456.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnv06"]
+atlas = ExtResource("1_p03fm")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgi0q"]
+atlas = ExtResource("1_p03fm")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf4cg"]
+atlas = ExtResource("1_p03fm")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7cmg7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnv06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgi0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pf4cg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[node name="psycho" type="CharacterBody2D"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12, 67)
+shape = SubResource("CapsuleShape2D_p03fm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7cmg7")
+animation = &"idle"
+frame_progress = 0.0658863

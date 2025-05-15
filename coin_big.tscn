@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmkon3srsu28n"]
+[gd_scene load_steps=13 format=3 uid="uid://cmkon3srsu28n"]
 
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="1_0mi3t"]
+[ext_resource type="Script" uid="uid://dqsfr77owe5qp" path="res://coin_big.gd" id="1_jkis2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0mi3t"]
 atlas = ExtResource("1_0mi3t")
@@ -71,6 +72,7 @@ radius = 24.0208
 
 [node name="CoinBig" type="Area2D"]
 collision_layer = 0
+script = ExtResource("1_jkis2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
@@ -79,3 +81,5 @@ animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l5nea")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

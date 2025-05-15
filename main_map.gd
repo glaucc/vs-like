@@ -1,5 +1,9 @@
 extends Node2D
 
+var time_passed: float = 0.0
+var game_over:bool = false
+var end_time:float = 0.0
+
 var level:int = Autoload.level
 var required_xp = [0,50,100,150,300,650,790,850,950,1000,50000]
 
@@ -91,6 +95,30 @@ func _physics_process(delta: float) -> void:
 		%MobSpawnTimer.wait_time = 0.13
 		%gun6.set_process_mode(Node.PROCESS_MODE_INHERIT)
 		%gun6.show()
+	
+	if not get_tree().paused and not game_over:
+		time_passed += delta
+	
+	var minutes = int(time_passed) / 60
+	var seconds = int(time_passed) % 60
+	%Time.text = "%02d:%02d" % [minutes, seconds]
+	
+	if time_passed < 120:
+		spawn_easy_wave()
+	elif time_passed < 600:
+		spawn_medium_wave()
+	else:
+		spawn_hard_wave()
+
+func spawn_easy_wave():
+	var new_mob = preload("res://mob.tscn").instantiate()
+
+func spawn_medium_wave():
+	var new_mob = preload("res://mob.tscn").instantiate()
+
+func spawn_hard_wave():
+	var new_mob = preload("res://mob.tscn").instantiate()
+
 
 
 func spawn_mob():
@@ -106,6 +134,9 @@ func _on_mob_spawn_timer_timeout() -> void:
 
 func _on_player_health_depleted() -> void:
 	%GameOver.show()
+	end_time = time_passed
+	game_over = true
+	time_passed = 0.0
 	get_tree().paused = true
 
 

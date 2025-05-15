@@ -28,10 +28,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	
+
 	#Movement
 	var direction := Vector2.ZERO
-	
+
 	if touching:
 		direction += (touch_current_pos - touch_start_pos).normalized()
 
@@ -46,15 +46,15 @@ func _physics_process(delta: float) -> void:
 	if !touching and velocity.length() > 0.1:
 		velocity = velocity.move_toward(Vector2.ZERO, 200 * delta)
 	move_and_slide()
-	
-	
+
+
 	if velocity.length() > 0.0:
 		pass
 		#walk animation
 	else:
 		pass
 		#idle animation
-	
+
 	var overlapping_mobs = %HurtBox.get_overlapping_bodies()
 	if overlapping_mobs.size() > 0:
 		health -= overlapping_mobs.size() * DAMAGE_RATE * delta
@@ -62,4 +62,3 @@ func _physics_process(delta: float) -> void:
 		%ProgressBar.max_value = max_health
 		if health <= 0.0:
 			health_depleted.emit()
-	

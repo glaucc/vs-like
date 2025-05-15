@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bojkdybhjl8qf"]
+
+[ext_resource type="Script" uid="uid://bxp2kudx4j0fs" path="res://python.gd" id="1_mnhft"]
+[ext_resource type="Texture2D" uid="uid://c6hftywdpxypd" path="res://assets/python.png" id="1_xg1k6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mnhft"]
+radius = 9.0
+height = 56.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n2dr0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xg1k6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="python" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_mnhft")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -1)
+shape = SubResource("CapsuleShape2D_mnhft")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_n2dr0")

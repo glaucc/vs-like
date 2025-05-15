@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=18 format=4 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="Texture2D" uid="uid://5xurshwaq5ox" path="res://overworld_tileset_grass.png" id="1_5hk42"]
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dcqtjyc37jgdw" path="res://gun.tscn" id="3_1ns3a"]
 [ext_resource type="PackedScene" uid="uid://cmkon3srsu28n" path="res://coin_big.tscn" id="3_hio4h"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
+[ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
@@ -765,6 +766,52 @@ rotation = -3.14159
 scale = Vector2(0.2, 0.2)
 texture = SubResource("AtlasTexture_286o7")
 
+[node name="Time" type="Label" parent="Score"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 61.0
+offset_right = 71.0
+offset_bottom = 84.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 26
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="DebugUI" type="CanvasLayer" parent="Score"]
+visible = false
+script = ExtResource("6_286o7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Score/DebugUI"]
+offset_left = 1803.0
+offset_top = 66.0
+offset_right = 1908.0
+offset_bottom = 202.0
+
+[node name="kill" type="Button" parent="Score/DebugUI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Kill player"
+
+[node name="add_xp" type="Button" parent="Score/DebugUI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add XP"
+
+[node name="+5minutes" type="Button" parent="Score/DebugUI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+5 minutes"
+
+[node name="reset_health" type="Button" parent="Score/DebugUI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset health"
+
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
 position = Vector2(963, 547)
 
@@ -891,6 +938,10 @@ position = Vector2(950, 512)
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade3/UpgradeButton3" to="." method="_on_upgrade_button_3_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade4/UpgradeButton4" to="." method="_on_upgrade_button_4_pressed"]
+[connection signal="pressed" from="Score/DebugUI/VBoxContainer/kill" to="Score/DebugUI" method="_on_kill_pressed"]
+[connection signal="pressed" from="Score/DebugUI/VBoxContainer/add_xp" to="Score/DebugUI" method="_on_add_xp_pressed"]
+[connection signal="pressed" from="Score/DebugUI/VBoxContainer/+5minutes" to="Score/DebugUI" method="_on_minutes_pressed"]
+[connection signal="pressed" from="Score/DebugUI/VBoxContainer/reset_health" to="Score/DebugUI" method="_on_reset_health_pressed"]
 [connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timer_timeout"]
 [connection signal="pressed" from="GameOver/Button" to="." method="_on_button_pressed"]

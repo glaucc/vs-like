@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwys4572l7nly"]
+
+[ext_resource type="Texture2D" uid="uid://bwny7v5xdyp2n" path="res://assets/bull.png" id="1_7spvr"]
+[ext_resource type="Script" uid="uid://q32yfjbr4fh3" path="res://bull_boss_10.gd" id="1_v3paf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v3paf"]
+size = Vector2(58, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qg8mf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7spvr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="bull" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_v3paf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 11.5)
+shape = SubResource("RectangleShape2D_v3paf")
+debug_color = Color(0.867054, 0.340319, 0.265558, 0.42)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qg8mf")
