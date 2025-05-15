@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_dxalf"]
 radius = 343.013
 
-[node name="Boss-10" type="CharacterBody2D"]
+[node name="Boss-10" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_n0dp6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

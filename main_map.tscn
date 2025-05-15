@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=19 format=4 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="Texture2D" uid="uid://5xurshwaq5ox" path="res://overworld_tileset_grass.png" id="1_5hk42"]
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cmntp4fqdkg0k" path="res://coin.tscn" id="2_qu338"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v4mvp"]
 [ext_resource type="PackedScene" uid="uid://dcqtjyc37jgdw" path="res://gun.tscn" id="3_1ns3a"]
-[ext_resource type="PackedScene" uid="uid://cmkon3srsu28n" path="res://coin_big.tscn" id="3_hio4h"]
+[ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
 
@@ -20,6 +20,10 @@ bg_color = Color(0.490196, 0.454902, 1, 0.870588)
 [sub_resource type="AtlasTexture" id="AtlasTexture_286o7"]
 atlas = ExtResource("5_fnffn")
 region = Rect2(2528, 2464, 544, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ly05"]
+atlas = ExtResource("5_286o7")
+region = Rect2(2, 2, 12, 12)
 
 [sub_resource type="Curve2D" id="Curve2D_1ns3a"]
 _data = {
@@ -453,8 +457,6 @@ sources/2 = SubResource("TileSetAtlasSource_5hk42")
 [node name="MainMap" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_ob7o4")
-coin_scene = ExtResource("2_qu338")
-big_coin_scene = ExtResource("3_hio4h")
 
 [node name="Score" type="CanvasLayer" parent="."]
 
@@ -811,6 +813,27 @@ text = "+5 minutes"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reset health"
+
+[node name="Coins" type="Label" parent="Score"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -290.0
+offset_top = 47.0
+offset_right = -55.0
+offset_bottom = 89.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Coin1" type="Sprite2D" parent="Score"]
+position = Vector2(1879.75, 67.2499)
+scale = Vector2(2.04167, 2.04167)
+texture = SubResource("AtlasTexture_4ly05")
 
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
 position = Vector2(963, 547)

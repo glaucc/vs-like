@@ -2,12 +2,9 @@ extends CharacterBody2D
 
 signal gem
 
-var health = 100
+var health = 800
 
 @onready var player = get_node("/root/MainMap/player")
-
-@export var coin: PackedScene = preload("res://coin.tscn")
-@export var coin_big: PackedScene = preload("res://coin_big.tscn")
 
 func _ready() -> void:
 	pass #play walk animation
@@ -28,27 +25,14 @@ func take_damage():
 	if health <= 0:
 		queue_free()
 		gem.emit()
-		#Autoload.add_coins(1)
+		Autoload.add_coins(1)
 		print(Autoload.player_coins)
 		
 		const SMOKE_EXPLOSION = preload("res://smoke_explosion/smoke_explosion.tscn")
 		var smoke = SMOKE_EXPLOSION.instantiate()
 		get_parent().add_child(smoke)
 		smoke.global_position = global_position
-		
-		var rng = randf()
-		
-		if rng < 0.1:
-			# 10% chance to drop big coin
-			var coin_big = coin_big.instantiate()
-			get_parent().add_child(coin_big)
-			coin_big.global_position = global_position
-		elif rng < 0.4:
-			# 40% chance to drop regular coin
-			var coin = coin.instantiate()
-			get_parent().add_child(coin)
-			coin.global_position = global_position
-		# else: no drop (50%)
+	
 	
 
 

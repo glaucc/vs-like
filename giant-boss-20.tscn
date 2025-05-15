@@ -18,7 +18,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="giant" type="CharacterBody2D"]
+[node name="giant" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_rhx30")
 

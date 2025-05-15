@@ -2,10 +2,10 @@ extends CharacterBody2D
 
 signal health_depleted
 
-var health = 100.0
-var max_health = 100.0
-var speed = 300
-const DAMAGE_RATE = 100.0
+var health = 100.0 * Autoload.player_health_percent
+var max_health = 100.0 * Autoload.player_health_percent
+var speed = 300 * Autoload.player_speed_percent
+var DAMAGE_RATE = 100.0 * Autoload.player_armor_percent
 
 #mobile movement support
 var touch_start_pos := Vector2.ZERO
@@ -28,7 +28,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-
 	#Movement
 	var direction := Vector2.ZERO
 

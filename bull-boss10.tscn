@@ -17,7 +17,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="bull" type="CharacterBody2D"]
+[node name="bull" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
 script = ExtResource("1_v3paf")
 

@@ -17,7 +17,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="gem" type="Area2D"]
+[node name="gem" type="Area2D" groups=["drops"]]
 scale = Vector2(0.2, 0.2)
 collision_layer = 0
 script = ExtResource("1_edvqy")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://byeufpkch6dfv"]
+[gd_scene load_steps=8 format=3 uid="uid://byeufpkch6dfv"]
 
 [ext_resource type="Texture2D" uid="uid://bh1b4d3qmvwbg" path="res://assets/psycho1.png" id="1_p03fm"]
+[ext_resource type="Script" uid="uid://buq1o7yfh4giv" path="res://psycho.gd" id="1_wnv06"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p03fm"]
 radius = 122.0
@@ -35,8 +36,9 @@ animations = [{
 "speed": 4.0
 }]
 
-[node name="psycho" type="CharacterBody2D"]
+[node name="psycho" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
+script = ExtResource("1_wnv06")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(12, 67)
