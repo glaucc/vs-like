@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage():
-	health -= 50
+	health -= 50 * Autoload.player_damage_percent
 	#play hurt animation
 	
 	if health <= 0:

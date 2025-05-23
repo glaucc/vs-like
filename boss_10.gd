@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var health = 1000
+var health = 1200
 
 @onready var player = get_node("/root/MainMap/player")
 
@@ -18,12 +18,12 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage():
-	health -= 50
+	health -= 50 * Autoload.player_damage_percent
 	#play hurt animation
 	
 	if health <= 0:
 		queue_free()
-		Autoload.score += 10000
+		Autoload.score += 2000
 		
 		
 		const SMOKE_EXPLOSION = preload("res://smoke_explosion/smoke_explosion.tscn")

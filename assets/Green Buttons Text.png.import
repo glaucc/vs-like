@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bab6dbo80c2bc"
-path="res://.godot/imported/gem.png-46357e64ca7868d253c551e3de9166f1.ctex"
+uid="uid://0lg704w863mf"
+path="res://.godot/imported/Green Buttons Text.png-2bea666a322ddfe21ef01b63bcb688c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://topdown_shooter/guns/gem.png"
-dest_files=["res://.godot/imported/gem.png-46357e64ca7868d253c551e3de9166f1.ctex"]
+source_file="res://assets/Green Buttons Text.png"
+dest_files=["res://.godot/imported/Green Buttons Text.png-2bea666a322ddfe21ef01b63bcb688c0.ctex"]
 
 [params]
 

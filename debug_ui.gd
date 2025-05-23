@@ -20,7 +20,7 @@ func _on_add_xp_pressed() -> void:
 func _on_minutes_pressed() -> void:
 	var time = get_tree().get_first_node_in_group("MainMap")  # Or wherever the timer is
 	if time:
-		time.time_passed += 300.0
+		time.time_passed += 60.0
 
 
 func _on_reset_health_pressed() -> void:

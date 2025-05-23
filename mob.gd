@@ -29,7 +29,7 @@ func take_damage():
 		queue_free()
 		gem.emit()
 		#Autoload.add_coins(1)
-		print(Autoload.player_coins)
+		#print(Autoload.player_coins)
 		
 		const SMOKE_EXPLOSION = preload("res://smoke_explosion/smoke_explosion.tscn")
 		var smoke = SMOKE_EXPLOSION.instantiate()
@@ -38,16 +38,18 @@ func take_damage():
 		
 		var rng = randf()
 		
-		if rng < 0.1:
-			# 10% chance to drop big coin
+		if rng < 0.02:
+			# 0.2% chance to drop big coin
 			var coin_big = coin_big.instantiate()
 			get_parent().add_child(coin_big)
 			coin_big.global_position = global_position
-		elif rng < 0.4:
-			# 40% chance to drop regular coin
+			coin_big.global_position.x += 50
+		elif rng < 0.2:
+			# 0.2% chance to drop regular coin
 			var coin = coin.instantiate()
 			get_parent().add_child(coin)
 			coin.global_position = global_position
+			coin.global_position.x += 30
 		# else: no drop (50%)
 	
 

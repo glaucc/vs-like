@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=26 format=4 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="Texture2D" uid="uid://5xurshwaq5ox" path="res://overworld_tileset_grass.png" id="1_5hk42"]
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
+[ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
@@ -24,6 +25,67 @@ region = Rect2(2528, 2464, 544, 160)
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ly05"]
 atlas = ExtResource("5_286o7")
 region = Rect2(2, 2, 12, 12)
+
+[sub_resource type="Animation" id="Animation_4ly05"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%UpgradeMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%UpgradeMenu:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_286o7"]
+resource_name = "show_menu"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%UpgradeMenu:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%UpgradeMenu:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.42, 0.42), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ly05"]
+_data = {
+&"RESET": SubResource("Animation_4ly05"),
+&"show_menu": SubResource("Animation_286o7")
+}
 
 [sub_resource type="Curve2D" id="Curve2D_1ns3a"]
 _data = {
@@ -454,7 +516,18 @@ texture = ExtResource("1_5hk42")
 sources/0 = SubResource("TileSetAtlasSource_ob7o4")
 sources/2 = SubResource("TileSetAtlasSource_5hk42")
 
-[node name="MainMap" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt6kx"]
+atlas = ExtResource("10_4ly05")
+region = Rect2(481, 193, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i4yi8"]
+texture = SubResource("AtlasTexture_dt6kx")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3ofs"]
+atlas = ExtResource("10_4ly05")
+region = Rect2(385, 193, 94, 30)
+
+[node name="MainMap" type="Node2D" groups=["MainMap"]]
 y_sort_enabled = true
 script = ExtResource("1_ob7o4")
 
@@ -463,7 +536,7 @@ script = ExtResource("1_ob7o4")
 [node name="LevelProgressBar" type="ProgressBar" parent="Score"]
 unique_name_in_owner = true
 offset_top = 15.0
-offset_right = 415.0
+offset_right = 416.0
 offset_bottom = 22.0
 scale = Vector2(4.62278, 4.62278)
 theme_override_styles/background = SubResource("StyleBoxFlat_1ns3a")
@@ -486,18 +559,20 @@ horizontal_alignment = 1
 
 [node name="UpgradeMenu" type="ColorRect" parent="Score"]
 unique_name_in_owner = true
-visible = false
-anchors_preset = 13
+process_mode = 3
+modulate = Color(1, 1, 1, 0)
+anchors_preset = -1
 anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_top = 0.513
+anchor_right = 0.502
+anchor_bottom = 0.513
 offset_left = -241.0
-offset_top = 75.0
-offset_right = 299.0
-offset_bottom = -75.0
+offset_top = -479.04
+offset_right = 295.16
+offset_bottom = 450.96
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.171579, 0.356329, 0.594625, 1)
+color = Color(0.137255, 0.564706, 0.388235, 1)
 
 [node name="LevelUpText2" type="Label" parent="Score/UpgradeMenu"]
 layout_mode = 0
@@ -544,9 +619,10 @@ offset_right = 269.0
 offset_bottom = -586.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.498039, 0.439216, 0.541176, 1)
+color = Color(0.0862745, 0.352941, 0.298039, 1)
 
-[node name="Upgrade1" type="Label" parent="Score/UpgradeMenu/Upgrade1"]
+[node name="Upgrade1text" type="Label" parent="Score/UpgradeMenu/Upgrade1"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 98.0
 offset_top = 17.0
@@ -559,16 +635,18 @@ theme_override_font_sizes/font_size = 36
 text = "Skill"
 
 [node name="UpgradeDesc1" type="Label" parent="Score/UpgradeMenu/Upgrade1"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 130.0
 offset_top = 89.0
-offset_right = 634.0
-offset_bottom = 129.0
+offset_right = 784.0
+offset_bottom = 235.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
+autowrap_mode = 2
 
 [node name="UpgradeButton1" type="Button" parent="Score/UpgradeMenu/Upgrade1"]
 unique_name_in_owner = true
@@ -578,6 +656,7 @@ offset_left = 4.0
 offset_top = 2.0
 offset_right = 544.0
 offset_bottom = 182.0
+focus_next = NodePath("../../Upgrade2/UpgradeButton2")
 flat = true
 
 [node name="Upgrade2" type="ColorRect" parent="Score/UpgradeMenu"]
@@ -592,9 +671,10 @@ offset_right = 269.0
 offset_bottom = -399.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.498039, 0.439216, 0.541176, 1)
+color = Color(0.0862745, 0.352941, 0.298039, 1)
 
-[node name="Upgrade2" type="Label" parent="Score/UpgradeMenu/Upgrade2"]
+[node name="Upgrade2text" type="Label" parent="Score/UpgradeMenu/Upgrade2"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 90.0
 offset_top = 12.0
@@ -607,16 +687,18 @@ theme_override_font_sizes/font_size = 36
 text = "Skill"
 
 [node name="UpgradeDesc2" type="Label" parent="Score/UpgradeMenu/Upgrade2"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 130.0
 offset_top = 89.0
-offset_right = 634.0
-offset_bottom = 129.0
+offset_right = 744.0
+offset_bottom = 199.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
+autowrap_mode = 2
 
 [node name="UpgradeButton2" type="Button" parent="Score/UpgradeMenu/Upgrade2"]
 unique_name_in_owner = true
@@ -626,6 +708,7 @@ offset_left = 4.0
 offset_top = 2.0
 offset_right = 544.0
 offset_bottom = 182.0
+focus_next = NodePath("../../Upgrade3/UpgradeButton3")
 flat = true
 
 [node name="Upgrade3" type="ColorRect" parent="Score/UpgradeMenu"]
@@ -640,9 +723,10 @@ offset_right = 269.0
 offset_bottom = -212.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.498039, 0.439216, 0.541176, 1)
+color = Color(0.0862745, 0.352941, 0.298039, 1)
 
-[node name="Upgrade3" type="Label" parent="Score/UpgradeMenu/Upgrade3"]
+[node name="Upgrade3text" type="Label" parent="Score/UpgradeMenu/Upgrade3"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 90.0
 offset_top = 12.0
@@ -655,16 +739,18 @@ theme_override_font_sizes/font_size = 36
 text = "Skill"
 
 [node name="UpgradeDesc3" type="Label" parent="Score/UpgradeMenu/Upgrade3"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 130.0
 offset_top = 89.0
-offset_right = 634.0
-offset_bottom = 129.0
+offset_right = 774.0
+offset_bottom = 205.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
+autowrap_mode = 2
 
 [node name="UpgradeButton3" type="Button" parent="Score/UpgradeMenu/Upgrade3"]
 unique_name_in_owner = true
@@ -674,6 +760,7 @@ offset_left = 4.0
 offset_top = 2.0
 offset_right = 544.0
 offset_bottom = 182.0
+focus_next = NodePath("../../Upgrade4/UpgradeButton4")
 flat = true
 
 [node name="Upgrade4" type="ColorRect" parent="Score/UpgradeMenu"]
@@ -690,9 +777,10 @@ offset_right = 269.0
 offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.498039, 0.439216, 0.541176, 1)
+color = Color(0.0862745, 0.352941, 0.298039, 1)
 
-[node name="Upgrade4" type="Label" parent="Score/UpgradeMenu/Upgrade4"]
+[node name="Upgrade4text" type="Label" parent="Score/UpgradeMenu/Upgrade4"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 90.0
 offset_top = 12.0
@@ -705,6 +793,7 @@ theme_override_font_sizes/font_size = 36
 text = "Skill"
 
 [node name="UpgradeDesc4" type="Label" parent="Score/UpgradeMenu/Upgrade4"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 130.0
 offset_top = 89.0
@@ -715,6 +804,7 @@ theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
+autowrap_mode = 2
 
 [node name="UpgradeButton4" type="Button" parent="Score/UpgradeMenu/Upgrade4"]
 unique_name_in_owner = true
@@ -773,10 +863,10 @@ unique_name_in_owner = true
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
+offset_left = -35.0
 offset_top = 61.0
-offset_right = 71.0
-offset_bottom = 84.0
+offset_right = 95.0
+offset_bottom = 87.0
 grow_horizontal = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_v4mvp")
@@ -785,7 +875,6 @@ text = "00:00"
 horizontal_alignment = 1
 
 [node name="DebugUI" type="CanvasLayer" parent="Score"]
-visible = false
 script = ExtResource("6_286o7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Score/DebugUI"]
@@ -807,7 +896,7 @@ text = "Add XP"
 [node name="+5minutes" type="Button" parent="Score/DebugUI/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "+5 minutes"
+text = "+1 minute"
 
 [node name="reset_health" type="Button" parent="Score/DebugUI/VBoxContainer"]
 unique_name_in_owner = true
@@ -835,6 +924,13 @@ position = Vector2(1879.75, 67.2499)
 scale = Vector2(2.04167, 2.04167)
 texture = SubResource("AtlasTexture_4ly05")
 
+[node name="menu_animations" type="AnimationPlayer" parent="Score"]
+unique_name_in_owner = true
+process_mode = 3
+libraries = {
+&"": SubResource("AnimationLibrary_4ly05")
+}
+
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
 position = Vector2(963, 547)
 
@@ -846,31 +942,31 @@ unique_name_in_owner = true
 position = Vector2(-2420.85, -1539.07)
 rotation = 0.0261967
 
-[node name="gun6" parent="player" instance=ExtResource("3_1ns3a")]
+[node name="gun6" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
 visible = false
 position = Vector2(-122.663, 16.2007)
 
-[node name="gun5" parent="player" instance=ExtResource("3_1ns3a")]
+[node name="gun5" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
 visible = false
 position = Vector2(-111.091, -48.6022)
 
-[node name="gun4" parent="player" instance=ExtResource("3_1ns3a")]
+[node name="gun4" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
 visible = false
 position = Vector2(-81.0037, -99.5188)
 
-[node name="gun3" parent="player" instance=ExtResource("3_1ns3a")]
+[node name="gun3" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
 visible = false
 position = Vector2(64.803, -101.833)
 
-[node name="gun2" parent="player" instance=ExtResource("3_1ns3a")]
+[node name="gun2" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
 visible = false
@@ -915,7 +1011,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.619608)
+color = Color(0, 0, 0, 0.454902)
 
 [node name="Label" type="Label" parent="GameOver/ColorRect"]
 layout_mode = 1
@@ -924,14 +1020,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -392.0
+offset_top = -49.0
+offset_right = 392.0
+offset_bottom = 49.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 128
-text = "Game Over bruh"
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 63
+text = "You Died"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -942,17 +1039,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -92.0
-offset_top = 81.0
-offset_right = 235.0
-offset_bottom = 177.0
+offset_left = -238.0
+offset_top = 366.0
+offset_right = 473.0
+offset_bottom = 558.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.671205, 0.671205)
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 64
-text = "Play Again"
+theme_override_styles/hover = SubResource("StyleBoxTexture_i4yi8")
+icon = SubResource("AtlasTexture_t3ofs")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Coin" parent="." instance=ExtResource("2_qu338")]
 position = Vector2(950, 512)

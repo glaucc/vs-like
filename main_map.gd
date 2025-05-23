@@ -4,14 +4,112 @@ var time_passed: float = 0.0
 var game_over:bool = false
 var end_time:float = 0.0
 
+const MENU = preload("res://menu.tscn")
+
+
 var level:int = Autoload.level
-var required_xp = [0,50,100,150,300,650,790,850,950,1000,50000]
+var required_xp = [
+	0,
+	40,
+	102,
+	197,
+	338,
+	540,
+	824,
+	1217,
+	1748,
+	2434,
+	3312,
+	4428,
+	5849,
+	7657,
+	9961,
+	12903,
+	16521,
+	20967,
+	26415,
+	33066,
+	41201,
+	51172,
+	63312,
+	78052,
+	95854,
+	117707,
+	143547,
+	174104,
+	210234,
+	252837,
+	302853,
+	361279,
+	429195,
+	507751,
+	598177,
+	701795,
+	820000,
+	954293,
+	1109531,
+	1285706,
+	1489114
+]
 
 var coins:int = 0
 
 var current_selection:int = 0  # Track selected option
 var max_selection = 3  # Assuming there are 4 upgrade options (adjust based on your UI)
-var upgrade_options = ["Upgrade 1", "Upgrade 2", "Upgrade 3", "Upgrade 4"]
+var all_upgrades = {
+	"Damage": [
+		{"desc": "+10% Damage", "apply": func(): Autoload.player_damage_percent += 0.1},
+		{"desc": "+15% Damage", "apply": func(): Autoload.player_damage_percent += 0.15},
+		{"desc": "+20% Damage", "apply": func(): Autoload.player_damage_percent += 0.2},
+	],
+	"Attack Speed": [
+		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
+		{"desc": "+25% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.2},
+		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
+		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
+		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
+		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
+		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
+	],
+	"Move Speed": [
+		{"desc": "+20% Move Speed", "apply": func(): Autoload.player_speed_percent += 0.3},
+	],
+	"Crit Chance": [
+		{"desc": "+10% Crit Chance", "apply": func(): Autoload.crit_chance += 0.1},
+		{"desc": "+10% Crit Chance", "apply": func(): Autoload.crit_chance += 0.1},
+		{"desc": "+10% Crit Chance", "apply": func(): Autoload.crit_chance += 0.1},
+	],
+	"Bullet Size": [
+		{"desc": "+15% Bullet Size", "apply": func(): Autoload.bullet_scale += 0.15},
+	],
+	"Health": [
+		{"desc": "+20% Max Health", "apply": func(): apply_health_upgrade()}
+	],
+	"Luck": [
+		{"desc": "+20% Luck", "apply": func(): Autoload.player_luck_percent += 0.2}
+	],
+	"Health Regen": [
+		{ "desc": "Regenerate 2 HP per second", "apply": func(): print("Regen +2HP/s") }
+	],
+	"Gun 1": [
+		{"desc": "+1 Bullet", "apply": func(): Autoload.gun1_bullets += 1},
+		{"desc": "+20% Fire Rate", "apply": func(): Autoload.gun1_attack_speed += 0.2},
+	],
+	"Gun 2": [
+		{"desc": "Unlock Gun 2", "apply": func(): gun2_activate()},
+		{"desc": "+1 Bullet (Gun 2)", "apply": func(): Autoload.gun2_bullets += 1},
+	],
+	# Crown
+}
+
+var upgrade_levels = {
+	"Attack Speed": 1,
+	"Health Regen": 1,
+	"Crit Chance": 0,
+	"Gun 1": 0,
+	"Gun 2": 0,
+}  # e.g., {"Damage": 1, "Crit Chance": 2}
+
 
 var easy_wave_spawned:bool = false
 var medium_wave_spawned:bool = false
@@ -20,10 +118,49 @@ var boss1_spawned:bool = false
 var boss2_spawned:bool = false
 var boss3_spawned:bool = false
 
-func handle_upgrade_input():
-	if not %UpgradeMenu.visible:
-		return
+const MOB_EASY = preload("res://mob.tscn")
+const MOB_MEDIUM = preload("res://python.tscn")
+const MOB_HARD = preload("res://psycho.tscn")
+const BOSS_1 = preload("res://boss_10.tscn")
+const BOSS_2 = preload("res://bull-boss10.tscn")
+const BOSS_3 = preload("res://giant-boss-20.tscn")
 
+var first_wave_speed: bool = false
+var second_wave_speed: bool = false
+var third_wave_speed: bool = false
+var _4th_wave_speed: bool = false
+var _5h_wave_speed: bool = false
+var _6th_wave_speed: bool = false
+var _7th_wave_speed: bool = false
+var _8th_wave_speed: bool = false
+
+
+func _ready() -> void:
+	randomize()
+	for skill in all_upgrades.keys():
+		upgrade_levels[skill] = 0
+	
+	%UpgradeMenu.hide()
+	$Score/DebugUI.hide()
+	%GameOver.hide()
+
+func gun2_activate():
+	%gun2.set_process_mode(Node.PROCESS_MODE_INHERIT);
+	%gun2.show()
+
+
+func apply_health_upgrade():
+	var player = get_node("player")
+	player.max_health = int(player.max_health * 1.2)
+	player.health = player.max_health
+	player.get_node("%ProgressBar").max_value = player.max_health
+	player.get_node("%ProgressBar").value = player.health
+
+
+func handle_upgrade_input():
+	#if not %UpgradeMenu.visible:
+		#return
+		#print("shit works")
 	var max_selection = 3
 	if %Upgrade4.visible:
 		max_selection = 4
@@ -33,9 +170,11 @@ func handle_upgrade_input():
 		current_selection = max(current_selection - 1, 0)
 	elif Input.is_action_just_pressed("move_down"):
 		current_selection = min(current_selection + 1, max_selection - 1)
+	else:
+		print("nah")
 	
 	# Select
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("enter") or Input.is_action_just_pressed("space"):
 		match current_selection:
 			0:
 				%UpgradeButton1.emit_signal("pressed")
@@ -54,6 +193,7 @@ func handle_upgrade_input():
 func highlight_selection(count):
 	var upgrades = [%Upgrade1, %Upgrade2, %Upgrade3, %Upgrade4]
 	for i in range(count):
+		print(current_selection)
 		upgrades[i].modulate = Color.YELLOW if i == current_selection else Color.WHITE
 
 
@@ -73,30 +213,35 @@ func _physics_process(delta: float) -> void:
 		else:
 			upgrade_count == 3
 		%UpgradeMenu.show()
+		%UpgradeButton1.grab_focus()
+		assign_upgrades_to_buttons()
+		%menu_animations.play("show_menu")
+		
+		
 		get_tree().paused = true
 		level += 1
-	if level == 2:
-		%MobSpawnTimer.wait_time = 0.8
-	elif level == 3:
-		%MobSpawnTimer.wait_time = 0.4
-		%gun2.set_process_mode(Node.PROCESS_MODE_INHERIT)
-		%gun2.show()
-	elif level == 4:
-		%MobSpawnTimer.wait_time = 0.25
-		%gun3.set_process_mode(Node.PROCESS_MODE_INHERIT)
-		%gun3.show()
-	elif level == 5:
-		%MobSpawnTimer.wait_time = 0.17
-		%gun4.set_process_mode(Node.PROCESS_MODE_INHERIT)
-		%gun4.show()
-	elif level == 6:
-		%MobSpawnTimer.wait_time = 0.14
-		%gun5.set_process_mode(Node.PROCESS_MODE_INHERIT)
-		%gun5.show()
-	elif level == 7:
-		%MobSpawnTimer.wait_time = 0.13
-		%gun6.set_process_mode(Node.PROCESS_MODE_INHERIT)
-		%gun6.show()
+	#if level == 2:
+		#%MobSpawnTimer.wait_time = 0.8
+	#elif level == 3:
+		#%MobSpawnTimer.wait_time = 0.4
+		#%gun2.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		#%gun2.show()
+	#elif level == 4:
+		#%MobSpawnTimer.wait_time = 0.25
+		#%gun3.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		#%gun3.show()
+	#elif level == 5:
+		#%MobSpawnTimer.wait_time = 0.17
+		#%gun4.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		#%gun4.show()
+	#elif level == 6:
+		#%MobSpawnTimer.wait_time = 0.14
+		#%gun5.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		#%gun5.show()
+	#elif level == 7:
+		#%MobSpawnTimer.wait_time = 0.13
+		#%gun6.set_process_mode(Node.PROCESS_MODE_INHERIT)
+		#%gun6.show()
 	
 	if not get_tree().paused and not game_over:
 		time_passed += delta
@@ -104,53 +249,69 @@ func _physics_process(delta: float) -> void:
 	var minutes = int(time_passed) / 60
 	var seconds = int(time_passed) % 60
 	%Time.text = "%02d:%02d" % [minutes, seconds]
-	%Coins.text = str(coins)
-	if time_passed > 0 and time_passed < 120:
-		spawn_easy_wave()
-	elif time_passed < 240 and time_passed > 120:
-		spawn_medium_wave()
-	elif time_passed < 300 and !boss1_spawned:
+	#print(coins)
+	%Coins.text = str(Autoload.player_coins)
+	
+	if not boss1_spawned and time_passed >= 300:
 		spawn_boss1()
-	elif time_passed < 480 and time_passed > 240:
-		spawn_hard_wave()
-	elif time_passed < 600 and !boss2_spawned:
+	elif time_passed >= 60 and not first_wave_speed:
+		%MobSpawnTimer.wait_time = 0.8
+		first_wave_speed = true
+	elif time_passed >= 150 and not second_wave_speed:
+		%MobSpawnTimer.wait_time = 0.5
+		second_wave_speed = true
+	elif time_passed >= 240 and not third_wave_speed:
+		%MobSpawnTimer.wait_time = 0.4
+		third_wave_speed = true
+	elif time_passed >= 480 and not _4th_wave_speed:
+		%MobSpawnTimer.wait_time = 0.17
+		_4th_wave_speed = true
+	elif not boss2_spawned and time_passed >= 600:
 		spawn_boss2()
-	elif time_passed < 900 and !boss3_spawned:
+	elif not boss3_spawned and time_passed >= 900:
 		spawn_boss3()
 
-func spawn_easy_wave():
-	var new_mob = preload("res://mob.tscn").instantiate()
-	easy_wave_spawned = true
 
-func spawn_medium_wave():
-	var new_mob = preload("res://python.tscn").instantiate()
-	medium_wave_spawned = true
-
-func spawn_hard_wave():
-	var new_mob = preload("res://psycho.tscn").instantiate()
-	hard_wave_spawned = true
-
-func spawn_boss1():
-	var new_mob = preload("res://boss_10.tscn").instantiate()
-	boss1_spawned = true
-
-func spawn_boss2():
-	var new_mob = preload("res://bull-boss10.tscn").instantiate()
-	boss2_spawned = true
-
-func spawn_boss3():
-	var new_mob = preload("res://giant-boss-20.tscn").instantiate()
-	boss3_spawned = true
-
-func spawn_mob():
-	var new_mob = preload("res://mob.tscn").instantiate()
+func spawn_mob(mob_scene: PackedScene) -> void:
+	var new_mob = mob_scene.instantiate()
 	%PathFollow2D.progress_ratio = randf()
 	new_mob.global_position = %PathFollow2D.global_position
 	add_child(new_mob)
 
 
+# Spawning logic
+func spawn_easy_wave():
+	spawn_mob(MOB_EASY)
+	easy_wave_spawned = true
+
+func spawn_medium_wave():
+	spawn_mob(MOB_MEDIUM)
+	medium_wave_spawned = true
+
+func spawn_hard_wave():
+	spawn_mob(MOB_HARD)
+	hard_wave_spawned = true
+
+func spawn_boss1():
+	spawn_mob(BOSS_1)
+	boss1_spawned = true
+
+func spawn_boss2():
+	spawn_mob(BOSS_2)
+	boss2_spawned = true
+
+func spawn_boss3():
+	spawn_mob(BOSS_3)
+	boss3_spawned = true
+
+
 func _on_mob_spawn_timer_timeout() -> void:
-	spawn_mob()
+	if time_passed > 0 and time_passed < 120:
+		spawn_easy_wave()
+	elif time_passed < 240 and time_passed > 120:
+		spawn_medium_wave()
+	elif time_passed < 480 and time_passed > 240:
+		spawn_hard_wave()
 
 
 func _on_player_health_depleted() -> void:
@@ -163,30 +324,79 @@ func _on_player_health_depleted() -> void:
 
 
 func _on_button_pressed() -> void:
-	get_tree().paused = false
 	Autoload.reset_variables()
 	reset_game()
 	%GameOver.hide()
+	get_tree().change_scene_to_packed(MENU)
+	
+	# Load main menu
+
+
+#-----------------------------------------------------
+#UPGRADES
+#-----------------------------------------------------
+
+
+func assign_upgrades_to_buttons():
+	var upgrade_buttons = [%UpgradeButton1, %UpgradeButton2, %UpgradeButton3, %UpgradeButton4]
+	var upgrade_labels = [%Upgrade1text, %Upgrade2text, %Upgrade3text, %Upgrade4text]
+	var upgrade_descs = [%UpgradeDesc1, %UpgradeDesc2, %UpgradeDesc3, %UpgradeDesc4]
+	
+	# How many upgrades to show? If Upgrade4 isn't visible, only 3.
+	var count = upgrade_buttons.size()
+	if not %Upgrade4.visible:
+		count = 3
+	
+	
+	var upgrade_keys = all_upgrades.keys()
+	upgrade_keys.shuffle()
+	
+	
+	var filled = 0
+	var i = 0
+	while filled < count and i < upgrade_keys.size():
+		var upgrade_type = upgrade_keys[i]
+		var level = upgrade_levels.get(upgrade_type, 0)
+		var upgrade_data = all_upgrades[upgrade_type]
+
+		if level < upgrade_data.size():
+			var upgrade = upgrade_data[level]
+			upgrade_buttons[filled].set_meta("upgrade_type", upgrade_type)
+			upgrade_buttons[filled].set_meta("upgrade_level", level)
+			upgrade_labels[filled].text = upgrade_type
+			upgrade_descs[filled].text = upgrade["desc"]
+			filled += 1
+		i += 1
+
+
+
+func apply_upgrade(button):
+	var type = button.get_meta("upgrade_type")
+	var level = button.get_meta("upgrade_level")
+	
+	var upgrade = all_upgrades[type][level]
+	if "apply" in upgrade and upgrade["apply"] is Callable:
+		upgrade["apply"].call()
+	else:
+		push_error("Missing or invalid 'apply' for upgrade: %s" % type)
+	
+	upgrade_levels[type] = upgrade_levels.get(type, 0) + 1
+	%UpgradeMenu.hide()
+	get_tree().paused = false
 
 
 func _on_upgrade_button_1_pressed() -> void:
-	get_tree().paused = false
-	%UpgradeMenu.hide()
-
+	apply_upgrade(%UpgradeButton1)
 
 func _on_upgrade_button_2_pressed() -> void:
-	get_tree().paused = false
-	%UpgradeMenu.hide()
-
+	apply_upgrade(%UpgradeButton2)
 
 func _on_upgrade_button_3_pressed() -> void:
-	get_tree().paused = false # Replace with function body.
-	%UpgradeMenu.hide()
-
+	apply_upgrade(%UpgradeButton3)
 
 func _on_upgrade_button_4_pressed() -> void:
-	get_tree().paused = false # Replace with function body.
-	%UpgradeMenu.hide()
+	apply_upgrade(%UpgradeButton4)
+
 
 
 func reset_game():
@@ -200,12 +410,12 @@ func reset_game():
 	%Time.text = "00:00"
 	%Score.text = "Level 1 0/..."
 	Autoload.add_coins(coins)
-	%Coins.text = str(0)
+	#%Coins.text = str(0)
 	%LevelProgressBar.value = 0
 
 	# Reset player
 	var player = get_node("player")
-	print(player.max_health)
+	#print(player.max_health)
 	player.health = player.max_health
 	player.velocity = Vector2.ZERO
 	player.global_position = Vector2(300, 300) # spawn position
@@ -224,7 +434,20 @@ func reset_game():
 
 	# Reset guns
 	for gun in get_tree().get_nodes_in_group("guns"):
-		gun.reset() # you define this to hide and disable
-
+		if gun.name == "gun":
+			gun.show()
+			gun.set_process_mode(Node.PROCESS_MODE_INHERIT);
+			continue
+			
+		gun.set_process_mode(Node.PROCESS_MODE_DISABLED);
+		gun.hide() # you define this to hide and disable
+		
+	
 	# Reset timers, variables, etc.
 	%MobSpawnTimer.start()
+
+
+#func _on_menu_animations_animation_finished(anim_name: StringName) -> void:
+	#if anim_name == "show_menu":
+		#%UpgradeMenu.show()
+		#print("showed")

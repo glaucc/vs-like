@@ -39,7 +39,7 @@ shape = SubResource("CircleShape2D_sh265")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="gun" parent="." instance=ExtResource("3_i3pqv")]
+[node name="gun" parent="." groups=["guns"] instance=ExtResource("3_i3pqv")]
 position = Vector2(124.977, 16.2008)
 
 [node name="HurtBox" type="Area2D" parent="."]

@@ -4,7 +4,7 @@ signal health_depleted
 
 var health = 100.0 * Autoload.player_health_percent
 var max_health = 100.0 * Autoload.player_health_percent
-var speed = 300 * Autoload.player_speed_percent
+var speed = 100 * Autoload.player_speed_percent
 var DAMAGE_RATE = 100.0 * Autoload.player_armor_percent
 
 #mobile movement support

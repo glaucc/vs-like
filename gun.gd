@@ -27,3 +27,4 @@ func shoot():
 
 func _on_timer_timeout() -> void:
 	shoot()
+	$Timer.wait_time = Autoload.player_attack_speed

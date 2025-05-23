@@ -19,6 +19,7 @@ animations = [{
 }]
 
 [node name="python" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(2, 2)
 collision_layer = 2
 script = ExtResource("1_mnhft")
 
@@ -28,3 +29,5 @@ shape = SubResource("CapsuleShape2D_mnhft")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n2dr0")
+
+[connection signal="gem" from="." to="." method="_on_gem"]
