@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcqtjyc37jgdw"]
+[gd_scene load_steps=4 format=3 uid="uid://cu74gysmdrlfo"]
 
 [ext_resource type="Script" uid="uid://bb1ub80urqrkd" path="res://gun.gd" id="1_dk5gl"]
 [ext_resource type="Texture2D" uid="uid://bi46dq5jjouxi" path="res://sharp-gun.png" id="1_vk1bi"]
@@ -7,11 +7,13 @@
 radius = 1416.46
 
 [node name="gun" type="Area2D"]
+visible = false
 collision_mask = 2
 script = ExtResource("1_dk5gl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_r8ywq")
+debug_color = Color(0, 0.6, 0.701961, 0.0235294)
 
 [node name="WeaponPivot" type="Marker2D" parent="."]
 

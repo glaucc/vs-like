@@ -17,6 +17,23 @@ var player_armor_percent:float = 1.0
 var player_attack_speed :float = 1.35
 var bullet_scale := 1.0
 var crit_chance := 0.0
+var gun1_bullets:int = 1
+var gun2_bullets:int = 1
+var gun3_bullets:int = 1
+var gun4_bullets:int = 1
+var gun5_bullets:int = 1
+var gun6_bullets:int = 1
+var health_regen:float = 0.0
+
+
+# Shotgun
+var shotgun_magazine:int = 6
+var shotgun_spread_bullets:int = 5
+var shotgun_cooldown:float = 0.3
+var shotgun_reload_duration:float = 2.0
+
+var shotgun_bullet_speed:int = 700
+var shotgun_bullet_range:int = 500
 
 
 func _ready() -> void:

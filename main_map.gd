@@ -6,6 +6,7 @@ var end_time:float = 0.0
 
 const MENU = preload("res://menu.tscn")
 
+var shake_strength:float = 0.0
 
 var level:int = Autoload.level
 var required_xp = [
@@ -89,7 +90,7 @@ var all_upgrades = {
 		{"desc": "+20% Luck", "apply": func(): Autoload.player_luck_percent += 0.2}
 	],
 	"Health Regen": [
-		{ "desc": "Regenerate 2 HP per second", "apply": func(): print("Regen +2HP/s") }
+		{ "desc": "Regenerate 2 HP per second", "apply": func(): Autoload.health_regen += 1}
 	],
 	"Gun 1": [
 		{"desc": "+1 Bullet", "apply": func(): Autoload.gun1_bullets += 1},
@@ -99,7 +100,23 @@ var all_upgrades = {
 		{"desc": "Unlock Gun 2", "apply": func(): gun2_activate()},
 		{"desc": "+1 Bullet (Gun 2)", "apply": func(): Autoload.gun2_bullets += 1},
 	],
-	# Crown
+	"Gun 3": [
+		{"desc": "Unlock Gun 3", "apply": func(): gun3_activate()},
+		{"desc": "+1 Bullet (Gun 3)", "apply": func(): Autoload.gun3_bullets += 1},
+	],
+	"Gun 4": [
+		{"desc": "Unlock Gun 4", "apply": func(): gun4_activate()},
+		{"desc": "+1 Bullet (Gun 4)", "apply": func(): Autoload.gun4_bullets += 1},
+	],
+	"Gun 5": [
+		{"desc": "Unlock Gun 5", "apply": func(): gun5_activate()},
+		{"desc": "+1 Bullet (Gun 5)", "apply": func(): Autoload.gun5_bullets += 1},
+	],
+	"Gun 6": [
+		{"desc": "Unlock Gun 6", "apply": func(): gun6_activate()},
+		{"desc": "+1 Bullet (Gun 6)", "apply": func(): Autoload.gun6_bullets += 1},
+	],
+	# Crown, Penetration
 }
 
 var upgrade_levels = {
@@ -143,10 +160,37 @@ func _ready() -> void:
 	%UpgradeMenu.hide()
 	$Score/DebugUI.hide()
 	%GameOver.hide()
+	
+	for gun in get_tree().get_nodes_in_group("guns"):
+		if gun.name == "gun":
+			gun.set_process_mode(Node.PROCESS_MODE_DISABLED);
+			gun.hide()
+
+func gun1_activate():
+	for gun in get_tree().get_nodes_in_group("guns"):
+		if gun.name == "gun":
+			gun.set_process_mode(Node.PROCESS_MODE_INHERIT);
+			gun.show()
 
 func gun2_activate():
 	%gun2.set_process_mode(Node.PROCESS_MODE_INHERIT);
 	%gun2.show()
+
+func gun3_activate():
+	%gun3.set_process_mode(Node.PROCESS_MODE_INHERIT);
+	%gun3.show()
+
+func gun4_activate():
+	%gun4.set_process_mode(Node.PROCESS_MODE_INHERIT);
+	%gun4.show()
+
+func gun5_activate():
+	%gun5.set_process_mode(Node.PROCESS_MODE_INHERIT);
+	%gun5.show()
+
+func gun6_activate():
+	%gun6.set_process_mode(Node.PROCESS_MODE_INHERIT);
+	%gun6.show()
 
 
 func apply_health_upgrade():
@@ -195,6 +239,19 @@ func highlight_selection(count):
 	for i in range(count):
 		print(current_selection)
 		upgrades[i].modulate = Color.YELLOW if i == current_selection else Color.WHITE
+
+
+# Shake effect
+#func apply_shake(amount):
+	#shake_strength = amount
+#
+#
+#func _process(delta: float) -> void:
+	#if shake_strength > 0:
+		#offset = Vector2(randf() - 0.5, randf() - 0.5) * shake_strength
+		#shake_strength = lerp(shake_strength, 0, delta * 10)
+	#else:
+		#offset = Vector2.ZERO
 
 
 func _physics_process(delta: float) -> void:
@@ -255,16 +312,16 @@ func _physics_process(delta: float) -> void:
 	if not boss1_spawned and time_passed >= 300:
 		spawn_boss1()
 	elif time_passed >= 60 and not first_wave_speed:
-		%MobSpawnTimer.wait_time = 0.8
+		%MobSpawnTimer.wait_time = 2.0
 		first_wave_speed = true
 	elif time_passed >= 150 and not second_wave_speed:
-		%MobSpawnTimer.wait_time = 0.5
+		%MobSpawnTimer.wait_time = 1.5
 		second_wave_speed = true
 	elif time_passed >= 240 and not third_wave_speed:
-		%MobSpawnTimer.wait_time = 0.4
+		%MobSpawnTimer.wait_time = 0.8
 		third_wave_speed = true
 	elif time_passed >= 480 and not _4th_wave_speed:
-		%MobSpawnTimer.wait_time = 0.17
+		%MobSpawnTimer.wait_time = 0.4
 		_4th_wave_speed = true
 	elif not boss2_spawned and time_passed >= 600:
 		spawn_boss2()

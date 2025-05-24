@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c68q4ddwixr4l" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://dafbal3p60kov" path="res://pixel-ball.png" id="2_onrkg"]
-[ext_resource type="PackedScene" uid="uid://dcqtjyc37jgdw" path="res://gun.tscn" id="3_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://cu74gysmdrlfo" path="res://gun.tscn" id="3_i3pqv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sh265"]
 radius = 69.0
@@ -37,10 +37,9 @@ texture = ExtResource("2_onrkg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_sh265")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="gun" parent="." groups=["guns"] instance=ExtResource("3_i3pqv")]
-position = Vector2(124.977, 16.2008)
+visible = false
+position = Vector2(115.72, 53.231)
 
 [node name="HurtBox" type="Area2D" parent="."]
 unique_name_in_owner = true

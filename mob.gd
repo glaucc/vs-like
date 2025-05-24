@@ -11,6 +11,7 @@ var health = 100
 
 func _ready() -> void:
 	pass #play walk animation
+	
 
 
 func _physics_process(delta: float) -> void:
@@ -23,7 +24,7 @@ func _physics_process(delta: float) -> void:
 
 func take_damage():
 	health -= 50 * Autoload.player_damage_percent
-	#play hurt animation
+	
 	
 	if health <= 0:
 		queue_free()
@@ -51,6 +52,15 @@ func take_damage():
 			coin.global_position = global_position
 			coin.global_position.x += 30
 		# else: no drop (50%)
+	else:
+		#play hurt animation
+		self.modulate = Color(1, 0.3, 0.3) # Flash red
+		await get_tree().create_timer(0.05).timeout
+		self.modulate = Color(1, 1, 1, 1) # Reset
+		
+		# Knockback
+		var knockback = global_position.direction_to(player.global_position) * -100
+		global_position += knockback
 	
 
 

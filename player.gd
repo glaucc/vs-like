@@ -4,7 +4,7 @@ signal health_depleted
 
 var health = 100.0 * Autoload.player_health_percent
 var max_health = 100.0 * Autoload.player_health_percent
-var speed = 100 * Autoload.player_speed_percent
+var speed = 150 * Autoload.player_speed_percent
 var DAMAGE_RATE = 100.0 * Autoload.player_armor_percent
 
 #mobile movement support
@@ -57,6 +57,12 @@ func _physics_process(delta: float) -> void:
 	var overlapping_mobs = %HurtBox.get_overlapping_bodies()
 	if overlapping_mobs.size() > 0:
 		health -= overlapping_mobs.size() * DAMAGE_RATE * delta
+		
+		#VFX
+		self.modulate = Color(1, 0.3, 0.3) # Flash red
+		await get_tree().create_timer(0.05).timeout
+		self.modulate = Color(1, 1, 1, 1) # Reset
+		
 		%ProgressBar.value = health
 		%ProgressBar.max_value = max_health
 		if health <= 0.0:

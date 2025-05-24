@@ -1,16 +1,18 @@
-[gd_scene load_steps=26 format=4 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=28 format=4 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="Texture2D" uid="uid://5xurshwaq5ox" path="res://overworld_tileset_grass.png" id="1_5hk42"]
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
 [ext_resource type="Texture2D" uid="uid://dafbal3p60kov" path="res://pixel-ball.png" id="2_km2bi"]
-[ext_resource type="PackedScene" uid="uid://cmntp4fqdkg0k" path="res://coin.tscn" id="2_qu338"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v4mvp"]
-[ext_resource type="PackedScene" uid="uid://dcqtjyc37jgdw" path="res://gun.tscn" id="3_1ns3a"]
+[ext_resource type="PackedScene" uid="uid://cu74gysmdrlfo" path="res://gun.tscn" id="3_1ns3a"]
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
+[ext_resource type="Script" uid="uid://damg5plgh0m8w" path="res://camera_2d.gd" id="8_dt6kx"]
+[ext_resource type="PackedScene" uid="uid://cc12rdodeg0oa" path="res://guns/shotgun.tscn" id="9_dt6kx"]
 [ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
+[ext_resource type="AudioStream" uid="uid://cg4cdjqncvodt" path="res://assets/music/LeftRightExcluded.mp3" id="12_t3ofs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
@@ -945,32 +947,35 @@ rotation = 0.0261967
 [node name="gun6" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
-visible = false
 position = Vector2(-122.663, 16.2007)
 
 [node name="gun5" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
-visible = false
 position = Vector2(-111.091, -48.6022)
 
 [node name="gun4" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
-visible = false
 position = Vector2(-81.0037, -99.5188)
 
 [node name="gun3" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
-visible = false
 position = Vector2(64.803, -101.833)
 
 [node name="gun2" parent="player" groups=["guns"] instance=ExtResource("3_1ns3a")]
 unique_name_in_owner = true
 process_mode = 4
-visible = false
 position = Vector2(106.462, -50.9166)
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+unique_name_in_owner = true
+script = ExtResource("8_dt6kx")
+
+[node name="shotgun" parent="player" instance=ExtResource("9_dt6kx")]
+position = Vector2(148.121, 2.31439)
+scale = Vector2(2, 2)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -30
@@ -998,7 +1003,7 @@ texture = ExtResource("2_km2bi")
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 1.2
+wait_time = 3.5
 autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]
@@ -1056,8 +1061,11 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="Coin" parent="." instance=ExtResource("2_qu338")]
-position = Vector2(950, 512)
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("12_t3ofs")
+volume_db = -3.0
+autoplay = true
 
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
