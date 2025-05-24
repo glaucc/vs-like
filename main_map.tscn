@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
-[ext_resource type="Script" uid="uid://damg5plgh0m8w" path="res://camera_2d.gd" id="8_dt6kx"]
+[ext_resource type="Script" uid="uid://dmxcp7p83404t" path="res://camera_2d.gd" id="8_dt6kx"]
 [ext_resource type="PackedScene" uid="uid://cc12rdodeg0oa" path="res://guns/shotgun.tscn" id="9_dt6kx"]
 [ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
 [ext_resource type="AudioStream" uid="uid://cg4cdjqncvodt" path="res://assets/music/LeftRightExcluded.mp3" id="12_t3ofs"]

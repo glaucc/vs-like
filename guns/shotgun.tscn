@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cc12rdodeg0oa"]
 
-[ext_resource type="Script" uid="uid://b88fbaxvrcycc" path="res://shotgun.gd" id="1_5bb75"]
+[ext_resource type="Script" uid="uid://b47k8ro4bpdbw" path="res://shotgun.gd" id="1_5bb75"]
 [ext_resource type="Texture2D" uid="uid://dteqn7n44osy3" path="res://topdown_shooter/guns/shotgun/shot_side.png" id="1_hn68x"]
 [ext_resource type="AudioStream" uid="uid://buy1ifccujner" path="res://assets/SFX/shotgun-shoot.mp3" id="3_2u46a"]
 [ext_resource type="AudioStream" uid="uid://dl0n7cmuqbc41" path="res://assets/SFX/reload-single.mp3" id="3_xlcjn"]

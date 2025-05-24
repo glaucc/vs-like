@@ -38,7 +38,6 @@ texture = ExtResource("2_onrkg")
 shape = SubResource("CircleShape2D_sh265")
 
 [node name="gun" parent="." groups=["guns"] instance=ExtResource("3_i3pqv")]
-visible = false
 position = Vector2(115.72, 53.231)
 
 [node name="HurtBox" type="Area2D" parent="."]
