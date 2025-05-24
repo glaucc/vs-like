@@ -1,0 +1,86 @@
+[gd_scene load_steps=9 format=3 uid="uid://dl7workh8olqo"]
+
+[ext_resource type="Script" uid="uid://b47k8ro4bpdbw" path="res://shotgun.gd" id="1_5bb75"]
+[ext_resource type="Texture2D" uid="uid://dteqn7n44osy3" path="res://topdown_shooter/guns/shotgun/shot_side.png" id="1_hn68x"]
+[ext_resource type="AudioStream" path="res://assets/SFX/shotgun-shoot.mp3" id="3_2u46a"]
+[ext_resource type="AudioStream" path="res://assets/SFX/reload-single.mp3" id="3_xlcjn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hn68x"]
+radius = 644.078
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ysfag"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hn68x")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7oeqp"]
+bg_color = Color(0.0487392, 0.243848, 0.20365, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8mn3"]
+bg_color = Color(0.117647, 0.737255, 0.45098, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="shotgun" type="Area2D" groups=["guns"]]
+collision_mask = 2
+script = ExtResource("1_5bb75")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hn68x")
+debug_color = Color(0, 0.6, 0.701961, 0.133333)
+
+[node name="WeaponPivot" type="Marker2D" parent="."]
+
+[node name="Shotgun" type="AnimatedSprite2D" parent="WeaponPivot"]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_ysfag")
+animation = &"idle"
+
+[node name="ShootingPoint" type="Marker2D" parent="WeaponPivot/Shotgun"]
+unique_name_in_owner = true
+position = Vector2(12, -0.5)
+
+[node name="CooldownTimer" type="Timer" parent="WeaponPivot"]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="WeaponPivot"]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="ReloadSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_xlcjn")
+volume_db = -3.0
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_2u46a")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -32.0
+offset_top = 13.0
+offset_right = 30.0
+offset_bottom = 20.0
+theme_override_styles/background = SubResource("StyleBoxFlat_7oeqp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a8mn3")
+value = 48.59
+show_percentage = false
+
+[connection signal="timeout" from="WeaponPivot/CooldownTimer" to="." method="_on_CooldownTimer_timeout"]
+[connection signal="timeout" from="WeaponPivot/ReloadTimer" to="." method="_on_ReloadTimer_timeout"]
