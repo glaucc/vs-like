@@ -59,9 +59,10 @@ var current_selection:int = 0  # Track selected option
 var max_selection = 3  # Assuming there are 4 upgrade options (adjust based on your UI)
 var all_upgrades = {
 	"Damage": [
-		{"desc": "+10% Damage", "apply": func(): Autoload.player_damage_percent += 0.1},
-		{"desc": "+15% Damage", "apply": func(): Autoload.player_damage_percent += 0.15},
 		{"desc": "+20% Damage", "apply": func(): Autoload.player_damage_percent += 0.2},
+		{"desc": "+15% Damage", "apply": func(): Autoload.player_damage_percent += 0.15},
+		{"desc": "+10% Damage", "apply": func(): Autoload.player_damage_percent += 0.1},
+		{"desc": "+10% Damage", "apply": func(): Autoload.player_damage_percent += 0.1},
 	],
 	"Attack Speed": [
 		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
@@ -73,10 +74,14 @@ var all_upgrades = {
 		{"desc": "+20% Attack Speed", "apply": func(): Autoload.player_attack_speed -= 0.15},
 	],
 	"Move Speed": [
-		{"desc": "+20% Move Speed", "apply": func(): Autoload.player_speed_percent += 0.3},
+		{"desc": "+30% Move Speed", "apply": func(): Autoload.player_speed_percent += 0.3},
+		{"desc": "+20% Move Speed", "apply": func(): Autoload.player_speed_percent += 0.2},
+		{"desc": "+20% Move Speed", "apply": func(): Autoload.player_speed_percent += 0.2},
+		{"desc": "+20% Move Speed", "apply": func(): Autoload.player_speed_percent += 0.2},
 	],
 	"Crit Chance": [
-		{"desc": "+10% Crit Chance", "apply": func(): Autoload.crit_chance += 0.1},
+		{"desc": "+5% Crit Chance", "apply": func(): Autoload.crit_chance += 0.05},
+		{"desc": "+5% Crit Chance", "apply": func(): Autoload.crit_chance += 0.05},
 		{"desc": "+10% Crit Chance", "apply": func(): Autoload.crit_chance += 0.1},
 		{"desc": "+10% Crit Chance", "apply": func(): Autoload.crit_chance += 0.1},
 	],
@@ -84,15 +89,20 @@ var all_upgrades = {
 		{"desc": "+15% Bullet Size", "apply": func(): Autoload.bullet_scale += 0.15},
 	],
 	"Health": [
-		{"desc": "+20% Max Health", "apply": func(): apply_health_upgrade()}
+		{"desc": "+20% Max Health", "apply": func(): apply_health_upgrade()},
+		{"desc": "+20% Max Health", "apply": func(): apply_health_upgrade()},
+		{"desc": "+20% Max Health", "apply": func(): apply_health_upgrade()},
 	],
 	"Luck": [
-		{"desc": "+20% Luck", "apply": func(): Autoload.player_luck_percent += 0.2}
+		{"desc": "+20% Luck", "apply": func(): Autoload.player_luck_percent += 0.2},
+		{"desc": "+20% Luck", "apply": func(): Autoload.player_luck_percent += 0.2},
 	],
 	"Health Regen": [
-		{ "desc": "Regenerate 2 HP per second", "apply": func(): Autoload.health_regen += 1}
+		{ "desc": "Regenerate 2 HP per second", "apply": func(): Autoload.health_regen += 1},
+		{ "desc": "Regenerate 2 HP per second", "apply": func(): Autoload.health_regen += 1},
 	],
 	"Gun 1": [
+		{"desc": "Unlock Gun 2", "apply": func(): gun1_activate()},
 		{"desc": "+1 Bullet", "apply": func(): Autoload.gun1_bullets += 1},
 		{"desc": "+20% Fire Rate", "apply": func(): Autoload.gun1_attack_speed += 0.2},
 	],
@@ -115,6 +125,18 @@ var all_upgrades = {
 	"Gun 6": [
 		{"desc": "Unlock Gun 6", "apply": func(): gun6_activate()},
 		{"desc": "+1 Bullet (Gun 6)", "apply": func(): Autoload.gun6_bullets += 1},
+	],
+	"Shotgun": [
+		#{"desc": "Unlock Shotgun", "apply": func(): gun6_activate()},
+		{"desc": "+1 Magazine", "apply": func(): Autoload.shotgun_magazine += 1},
+		{"desc": "-0.1sec Attack Cooldown", "apply": func(): Autoload.shotgun_cooldown -= 0.1},
+		{"desc": "+100% Damage", "apply": func(): Autoload.shotgun_base_damage += 20},
+		{"desc": "+1 Magazine", "apply": func(): Autoload.shotgun_magazine += 1},
+		{"desc": "-0.5sec Reload", "apply": func(): Autoload.shotgun_reload_duration -= 0.5},
+		{"desc": "+1 Magazine", "apply": func(): Autoload.shotgun_magazine += 1},
+		{"desc": "-0.5sec Reload", "apply": func(): Autoload.shotgun_reload_duration -= 0.5},
+		{"desc": "+1 Magazine", "apply": func(): Autoload.shotgun_magazine += 1},
+		{"desc": "+50% Range", "apply": func(): Autoload.shotgun_bullet_range += 250},
 	],
 	# Crown, Penetration
 }
@@ -312,13 +334,13 @@ func _physics_process(delta: float) -> void:
 	if not boss1_spawned and time_passed >= 300:
 		spawn_boss1()
 	elif time_passed >= 60 and not first_wave_speed:
-		%MobSpawnTimer.wait_time = 2.0
+		%MobSpawnTimer.wait_time = 0.9
 		first_wave_speed = true
-	elif time_passed >= 150 and not second_wave_speed:
-		%MobSpawnTimer.wait_time = 1.5
+	elif time_passed >= 120 and not second_wave_speed:
+		%MobSpawnTimer.wait_time = 2.0
 		second_wave_speed = true
 	elif time_passed >= 240 and not third_wave_speed:
-		%MobSpawnTimer.wait_time = 0.8
+		%MobSpawnTimer.wait_time = 0.6
 		third_wave_speed = true
 	elif time_passed >= 480 and not _4th_wave_speed:
 		%MobSpawnTimer.wait_time = 0.4

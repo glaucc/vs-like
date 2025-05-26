@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ctmiwft81bfju"]
 
-[ext_resource type="Script" path="res://bullets/bullet_shotgun.gd" id="1_cei2x"]
+[ext_resource type="Script" uid="uid://b2f05goca043g" path="res://bullets/bullet_shotgun.gd" id="1_cei2x"]
 [ext_resource type="Texture2D" uid="uid://djbrsjtbqkcjr" path="res://topdown_shooter/other/bulleta.png" id="1_hniui"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cei2x"]
@@ -17,7 +17,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_xok6y"]
 radius = 4.0
 
-[node name="bullet-shotgun" type="Area2D"]
+[node name="bullet-shotgun" type="Area2D" groups=["bullets"]]
 collision_mask = 2
 script = ExtResource("1_cei2x")
 

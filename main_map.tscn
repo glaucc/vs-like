@@ -1003,7 +1003,7 @@ texture = ExtResource("2_km2bi")
 
 [node name="MobSpawnTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 3.5
+wait_time = 1.4
 autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]

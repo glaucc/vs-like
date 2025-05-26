@@ -21,6 +21,11 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
-	queue_free()
 	if body.has_method("take_damage"):
-		body.take_damage()
+		var damage = Autoload.shotgun_base_damage * Autoload.player_damage_percent
+		var is_crit = randf() < Autoload.crit_chance
+		if is_crit:
+			damage *= Autoload.crit_multiplier
+		body.take_damage(damage, is_crit)
+	
+	queue_free()

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ciy1u8dk5gfyr"]
+
+[ext_resource type="Script" uid="uid://dmijyy8md323p" path="res://damage_label.gd" id="1_iprbo"]
+[ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="1_ny5dv"]
+
+[node name="DamageLabel" type="Label"]
+offset_right = 84.0
+offset_bottom = 23.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_ny5dv")
+theme_override_font_sizes/font_size = 24
+text = "1230"
+script = ExtResource("1_iprbo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

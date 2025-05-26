@@ -66,6 +66,7 @@ func shoot():
 
 func _on_CooldownTimer_timeout():
 	can_shoot = true
+	%CooldownTimer.wait_time = Autoload.shotgun_cooldown
 
 
 func start_reload():

@@ -38,6 +38,7 @@ enemies=""
 drops=""
 MainMap=""
 guns=""
+bullets=""
 
 [input]
 
