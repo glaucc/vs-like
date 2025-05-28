@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="1_ny5dv"]
 
 [node name="DamageLabel" type="Label"]
+z_index = 10
 offset_right = 84.0
 offset_bottom = 23.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)

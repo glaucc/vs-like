@@ -42,9 +42,17 @@ var shotgun_reload_duration:float = 2.0
 var shotgun_bullet_speed:int = 700
 var shotgun_bullet_range:int = 500
 
+#Settings
+var controls_flipped:bool= false  # false = default (move left, shoot right)
+var vibration_enabled:bool=true
+var vibration_duration_ms := 200    # milliseconds (100-500ms recommended)
+var vibration_amplitude := 0.5      # 0.0 (weak) to 1.0 (strong) (Godot 4.4+)
+var vibration_cooldown_sec := 0.3   # seconds (prevents spam)
+
 
 func _ready() -> void:
 	load_coins()
+	load_settings()
 
 func reset_variables():
 	level = 1
@@ -60,10 +68,29 @@ func save_coins():
 func load_coins():
 	var save_file = FileAccess.open(save_path, FileAccess.READ)
 	if save_file:
-		player_coins = save_file.get_var(player_coins)
+		player_coins = save_file.get_var()
 		save_file.close()
 		print(player_coins)
 
 func add_coins(amount: int) -> void:
 	player_coins += amount
 	save_coins()
+
+
+func save_settings():
+	var config = ConfigFile.new()
+	config.set_value("controls", "flipped", controls_flipped)
+	config.set_value("vibration", "enabled", vibration_enabled)
+	config.set_value("vibration", "duration_ms", vibration_duration_ms)
+	config.set_value("vibration", "amplitude", vibration_amplitude)
+	config.set_value("vibration", "cooldown_sec", vibration_cooldown_sec)
+	config.save("user://settings.cfg")
+
+func load_settings():
+	var config = ConfigFile.new()
+	if config.load("user://settings.cfg") == OK:
+		controls_flipped = config.get_value("controls", "flipped", false)
+		vibration_enabled = config.get_value("vibration", "enabled", true)
+		vibration_duration_ms = config.get_value("vibration", "duration_ms", 200)
+		vibration_amplitude = config.get_value("vibration", "amplitude", 0.5)
+		vibration_cooldown_sec = config.get_value("vibration", "cooldown_sec", 0.3)

@@ -8,6 +8,7 @@ const MENU = preload("res://menu.tscn")
 
 var shake_strength:float = 0.0
 
+
 var level:int = Autoload.level
 var required_xp = [
 	0,
@@ -182,6 +183,7 @@ func _ready() -> void:
 	%UpgradeMenu.hide()
 	$Score/DebugUI.hide()
 	%GameOver.hide()
+	%PauseMenu.hide()
 	
 	for gun in get_tree().get_nodes_in_group("guns"):
 		if gun.name == "gun":
@@ -321,6 +323,7 @@ func _physics_process(delta: float) -> void:
 		#%MobSpawnTimer.wait_time = 0.13
 		#%gun6.set_process_mode(Node.PROCESS_MODE_INHERIT)
 		#%gun6.show()
+	
 	
 	if not get_tree().paused and not game_over:
 		time_passed += delta
@@ -530,3 +533,13 @@ func reset_game():
 	#if anim_name == "show_menu":
 		#%UpgradeMenu.show()
 		#print("showed")
+
+
+func _on_pause_button_pressed() -> void:
+	get_tree().paused = true
+	%PauseMenu.show()
+
+
+func _on_resume_button_pressed() -> void:
+	get_tree().paused = false
+	%PauseMenu.hide()

@@ -12,9 +12,18 @@ var touch_start_pos := Vector2.ZERO
 var touch_current_pos := Vector2.ZERO
 var touching := false
 
+var can_vibrate := true # Android
 
 func _unhandled_input(event: InputEvent) -> void:
+	var screen_width = get_viewport_rect().size.x
+	var move_side_left = not Autoload.controls_flipped
+
 	if event is InputEventScreenTouch:
+		var is_left = event.position.x < screen_width * 0.5
+
+		if move_side_left != is_left:
+			return  # Touch is not on the movement side
+
 		if event.pressed:
 			touch_start_pos = event.position
 			touch_current_pos = event.position
@@ -24,6 +33,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			velocity = Vector2.ZERO
 
 	elif event is InputEventScreenDrag:
+		var is_left = event.position.x < screen_width * 0.5
+		if move_side_left != is_left:
+			return  # Drag is not on the movement side
 		touch_current_pos = event.position
 
 
@@ -57,6 +69,15 @@ func _physics_process(delta: float) -> void:
 	var overlapping_mobs = %HurtBox.get_overlapping_bodies()
 	if overlapping_mobs.size() > 0:
 		health -= overlapping_mobs.size() * DAMAGE_RATE * delta
+		
+		if Autoload.vibration_enabled and can_vibrate:
+			Input.vibrate_handheld(
+		Autoload.vibration_duration_ms,  # Customizable duration (e.g., 200ms)
+		Autoload.vibration_amplitude    # Optional: strength (0.0 to 1.0, Godot 4.4+)
+			)
+		can_vibrate = false
+		await get_tree().create_timer(Autoload.vibration_cooldown_sec).timeout
+		can_vibrate = true
 		
 		#VFX
 		self.modulate = Color(1, 0.3, 0.3) # Flash red

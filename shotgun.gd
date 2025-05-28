@@ -39,17 +39,24 @@ func _physics_process(delta):
 
 
 func _unhandled_input(event):
+	var screen_width = get_viewport_rect().size.x
+	var shoot_side_left = Autoload.controls_flipped
+
 	if is_reloading or not can_shoot:
 		return
 
-	if event.is_action_pressed("shoot") and magazine > 0:
-		shoot()
-		magazine -= 1
-		can_shoot = false
-		cooldown_timer.start(cooldown)
+	if event is InputEventScreenTouch and event.pressed:
+		var is_left = event.position.x < screen_width * 0.5
+		if shoot_side_left != is_left:
+			return  # Tap is not on the shooting side
 
-		if magazine == 0:
-			start_reload()
+		if magazine > 0:
+			shoot()
+			magazine -= 1
+			can_shoot = false
+			cooldown_timer.start(cooldown)
+			if magazine == 0:
+				start_reload()
 
 
 func shoot():

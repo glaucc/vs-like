@@ -206,6 +206,7 @@ unique_name_in_owner = true
 stream = ExtResource("6_l48gv")
 volume_db = -3.0
 autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]

@@ -32,6 +32,7 @@ func take_damage(damage: float, is_crit: bool = false):
 	
 	# Enemy Death
 	if health <= 0:
+		reset_physics_interpolation()
 		queue_free()
 		gem.emit()
 		#Autoload.add_coins(1)

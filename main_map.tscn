@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=42 format=4 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="Texture2D" uid="uid://5xurshwaq5ox" path="res://overworld_tileset_grass.png" id="1_5hk42"]
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
+[ext_resource type="Texture2D" uid="uid://cuum1miyepyxw" path="res://assets/Orange Button Icons.png" id="6_i4yi8"]
+[ext_resource type="Script" uid="uid://fogay071g7lv" path="res://pause_menu.gd" id="7_1k36j"]
 [ext_resource type="Script" uid="uid://dmxcp7p83404t" path="res://camera_2d.gd" id="8_dt6kx"]
 [ext_resource type="PackedScene" uid="uid://cc12rdodeg0oa" path="res://guns/shotgun.tscn" id="9_dt6kx"]
 [ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
@@ -88,6 +90,46 @@ _data = {
 &"RESET": SubResource("Animation_4ly05"),
 &"show_menu": SubResource("Animation_286o7")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_np7p1"]
+atlas = ExtResource("6_i4yi8")
+region = Rect2(97, 257, 30, 30)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i4yi8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4yi8"]
+atlas = ExtResource("6_i4yi8")
+region = Rect2(129, 257, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1k36j"]
+texture = SubResource("AtlasTexture_i4yi8")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k36j"]
+atlas = ExtResource("10_4ly05")
+region = Rect2(385, 129, 94, 30)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1k36j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nr864"]
+atlas = ExtResource("10_4ly05")
+region = Rect2(577, 129, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qf1q8"]
+texture = SubResource("AtlasTexture_nr864")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e37sb"]
+atlas = ExtResource("10_4ly05")
+region = Rect2(481, 129, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nr864"]
+texture = SubResource("AtlasTexture_e37sb")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf1q8"]
+atlas = ExtResource("10_4ly05")
+region = Rect2(577, 129, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fya7d"]
+texture = SubResource("AtlasTexture_qf1q8")
 
 [sub_resource type="Curve2D" id="Curve2D_1ns3a"]
 _data = {
@@ -933,6 +975,113 @@ libraries = {
 &"": SubResource("AnimationLibrary_4ly05")
 }
 
+[node name="PauseButton" type="Button" parent="Score"]
+offset_left = 23.0
+offset_top = 49.0
+offset_right = 79.0
+offset_bottom = 110.0
+scale = Vector2(2, 2)
+theme_override_icons/icon = SubResource("AtlasTexture_np7p1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_i4yi8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_1k36j")
+flat = true
+expand_icon = true
+
+[node name="PauseMenu" type="Control" parent="Score"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 151.0
+offset_top = 153.0
+offset_right = -151.0
+offset_bottom = -153.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_1k36j")
+
+[node name="MarginContainer" type="MarginContainer" parent="Score/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 58.0
+offset_top = 40.0
+offset_right = -58.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Score/PauseMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 56
+text = "Volume"
+
+[node name="Volume" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+value = 100.0
+
+[node name="CheckBox" type="CheckBox" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 41
+text = "Mute"
+
+[node name="FlipControlsCheckbox" type="CheckBox" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 41
+text = "Flip Controls
+(Move with Left, Shoot with Right)"
+
+[node name="Vibration_toggle" type="CheckBox" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+text = "Vibration Enabled"
+
+[node name="HSlider-vib-duration" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSlider-vib-amplitude" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSlider-vib-cooldown" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_icons/icon = SubResource("AtlasTexture_1k36j")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1k36j")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_qf1q8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nr864")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_fya7d")
+flat = true
+expand_icon = true
+
+[node name="ColorRect" type="ColorRect" parent="Score/PauseMenu"]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0862745, 0.352941, 0.298039, 1)
+
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
 position = Vector2(963, 547)
 
@@ -1066,6 +1215,7 @@ process_mode = 3
 stream = ExtResource("12_t3ofs")
 volume_db = -3.0
 autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
@@ -1075,6 +1225,15 @@ autoplay = true
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/add_xp" to="Score/DebugUI" method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/+5minutes" to="Score/DebugUI" method="_on_minutes_pressed"]
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/reset_health" to="Score/DebugUI" method="_on_reset_health_pressed"]
+[connection signal="pressed" from="Score/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/Volume" to="Score/PauseMenu" method="_on_volume_value_changed"]
+[connection signal="toggled" from="Score/PauseMenu/MarginContainer/VBoxContainer/CheckBox" to="Score/PauseMenu" method="_on_check_box_toggled"]
+[connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/FlipControlsCheckbox" to="Score/PauseMenu" method="_on_flip_controls_checkbox_pressed"]
+[connection signal="toggled" from="Score/PauseMenu/MarginContainer/VBoxContainer/Vibration_toggle" to="Score/PauseMenu" method="_on_VibrationToggle_toggled"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-duration" to="Score/PauseMenu" method="_on_DurationSlider_value_changed"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-amplitude" to="Score/PauseMenu" method="_on_AmplitudeSlider_value_changed"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-cooldown" to="Score/PauseMenu" method="_on_CooldownSlider_value_changed"]
+[connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timer_timeout"]
 [connection signal="pressed" from="GameOver/Button" to="." method="_on_button_pressed"]
