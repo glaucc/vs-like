@@ -56,6 +56,12 @@ func _physics_process(delta: float) -> void:
 	velocity = direction * speed
 	if !touching and velocity.length() > 0.1:
 		velocity = velocity.move_toward(Vector2.ZERO, 200 * delta)
+	
+	if velocity.x < 0:
+		%PixelBall.flip_h = true
+	elif velocity.x > 0:
+		%PixelBall.flip_h = false
+	
 	move_and_slide()
 
 

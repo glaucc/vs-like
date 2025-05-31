@@ -29,7 +29,8 @@ scale = Vector2(0.432079, 0.432079)
 collision_mask = 2
 script = ExtResource("1_4flbx")
 
-[node name="Pixel-ball" type="Sprite2D" parent="."]
+[node name="PixelBall" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(0, 1)
 scale = Vector2(0.233846, 0.233846)
 texture = ExtResource("2_onrkg")

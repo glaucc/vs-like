@@ -18,11 +18,13 @@ animations = [{
 }]
 
 [node name="gem" type="Area2D" groups=["drops"]]
+physics_interpolation_mode = 2
 scale = Vector2(0.2, 0.2)
 collision_layer = 0
 script = ExtResource("1_edvqy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="gem_collision" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_whk3i")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

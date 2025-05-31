@@ -1,0 +1,171 @@
+[gd_scene load_steps=12 format=3 uid="uid://dohgujbms71cr"]
+
+[ext_resource type="Script" uid="uid://blg3vgoglo485" path="res://pause_menu2.gd" id="1_05uyy"]
+[ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_p81d2"]
+[ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="3_2nc7s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3xb4"]
+atlas = ExtResource("3_2nc7s")
+region = Rect2(385, 129, 94, 30)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mxa3g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nr864"]
+atlas = ExtResource("3_2nc7s")
+region = Rect2(577, 129, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e8sti"]
+texture = SubResource("AtlasTexture_nr864")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e37sb"]
+atlas = ExtResource("3_2nc7s")
+region = Rect2(481, 129, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q2yj1"]
+texture = SubResource("AtlasTexture_e37sb")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf1q8"]
+atlas = ExtResource("3_2nc7s")
+region = Rect2(577, 129, 94, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a32ks"]
+texture = SubResource("AtlasTexture_qf1q8")
+
+[node name="PauseMenu" type="Control"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 151.0
+offset_top = 153.0
+offset_right = -151.0
+offset_bottom = -153.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_05uyy")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 58.0
+offset_top = 40.0
+offset_right = -58.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="volume" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 45.245)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Volume"
+
+[node name="Volume" type="HSlider" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 45.245)
+layout_mode = 2
+value = 100.0
+
+[node name="CheckBox1" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(7.515, 105.98)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Mute"
+flat = true
+expand_icon = true
+
+[node name="FlipControlsCheckbox" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Flip Controls
+(Move with Left, Shoot with Right)"
+
+[node name="Vibration_toggle" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80.81)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Vibration Enabled"
+flat = true
+
+[node name="vib-duration" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 68.685)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Vibration Duration"
+vertical_alignment = 1
+
+[node name="HSlider-vib-duration" type="HSlider" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68.685)
+layout_mode = 2
+
+[node name="vib-duration3" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 72.47)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Vibration Amplitude (Strength)"
+vertical_alignment = 1
+
+[node name="HSlider-vib-amplitude" type="HSlider" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72.47)
+layout_mode = 2
+
+[node name="vib-duration2" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64.89)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p81d2")
+theme_override_font_sizes/font_size = 36
+text = "Vibration Cooldown"
+vertical_alignment = 1
+
+[node name="HSlider-vib-cooldown" type="HSlider" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64.89)
+layout_mode = 2
+
+[node name="ResumeButton1" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_icons/icon = SubResource("AtlasTexture_d3xb4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mxa3g")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_e8sti")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q2yj1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_a32ks")
+flat = true
+expand_icon = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0862745, 0.352941, 0.298039, 1)
+
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/FlipControlsCheckbox" to="." method="_on_flip_controls_checkbox_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/Vibration_toggle" to="." method="_on_VibrationToggle_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HSlider-vib-duration" to="." method="_on_DurationSlider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HSlider-vib-amplitude" to="." method="_on_AmplitudeSlider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HSlider-vib-cooldown" to="." method="_on_CooldownSlider_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ResumeButton1" to="." method="_on_resume_button_pressed"]

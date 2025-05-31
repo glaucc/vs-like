@@ -95,3 +95,4 @@ func _on_gem() -> void:
 	var gem = preload("res://gem.tscn").instantiate()
 	get_parent().add_child(gem)
 	gem.global_position = global_position
+	

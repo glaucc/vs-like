@@ -2,7 +2,6 @@ extends Control
 
 var game_paused:bool = false
 
-
 func _ready():
 	# Load saved settings (if any)
 	%FlipControlsCheckbox.button_pressed = Autoload.controls_flipped
@@ -18,13 +17,11 @@ func _ready():
 
 
 func _on_volume_value_changed(value: float) -> void:
-	var db = linear_to_db(value / 100.0)
-	AudioServer.set_bus_volume_db(0, db)
+	AudioServer.set_bus_volume_db(0, value)
 
 
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(0,toggled_on)
-	print("Bus 0 name:", AudioServer.get_bus_name(0))
 
 
 func _on_flip_controls_checkbox_pressed() -> void:
@@ -64,3 +61,9 @@ func _physics_process(delta: float) -> void:
 		get_tree().paused = false
 		%PauseMenu.hide()
 		game_paused = false
+
+
+func _on_resume_button_pressed() -> void:
+	var pause_scene = load("res://menu.tscn")
+	print("Loaded scene path:", pause_scene.resource_path)
+	get_tree().change_scene_to_packed(pause_scene)

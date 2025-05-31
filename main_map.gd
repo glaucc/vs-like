@@ -8,6 +8,11 @@ const MENU = preload("res://menu.tscn")
 
 var shake_strength:float = 0.0
 
+##--------Shader--------
+@onready var level_progress_bar: ProgressBar = %LevelProgressBar
+var shader_material: ShaderMaterial
+
+
 
 var level:int = Autoload.level
 var required_xp = [
@@ -179,7 +184,7 @@ func _ready() -> void:
 	randomize()
 	for skill in all_upgrades.keys():
 		upgrade_levels[skill] = 0
-	
+
 	%UpgradeMenu.hide()
 	$Score/DebugUI.hide()
 	%GameOver.hide()
@@ -189,6 +194,43 @@ func _ready() -> void:
 		if gun.name == "gun":
 			gun.set_process_mode(Node.PROCESS_MODE_DISABLED);
 			gun.hide()
+
+	setup_rainbow_fill()
+
+func setup_rainbow_fill():
+	 # Create or get the fill StyleBoxTexture
+	var fill_style := StyleBoxTexture.new()
+	
+	# Create a small white texture (required)
+	var img := Image.create(4, 4, false, Image.FORMAT_RGBA8)
+	img.fill(Color.WHITE)
+	var tex := ImageTexture.create_from_image(img)
+	fill_style.texture = tex
+	
+	# Create and assign shader material
+	shader_material = ShaderMaterial.new()
+	shader_material.shader = preload("res://main_map.gdshader")
+	fill_style.set("material", shader_material)
+	
+	# Apply to progress bar
+	level_progress_bar.add_theme_stylebox_override("fill", fill_style)
+
+func _process(delta):
+	if not shader_material:
+		return
+	
+	# Calculate progress (0-1 range)
+	var current_progress = level_progress_bar.value / level_progress_bar.max_value
+	shader_material.set_shader_parameter("progress", current_progress)
+	
+	# Check if ready to level up
+	var is_ready_to_level = Autoload.score >= required_xp[level]
+	shader_material.set_shader_parameter("rainbow_mode", is_ready_to_level)
+	
+	# Only animate when in rainbow mode
+	if is_ready_to_level:
+		shader_material.set_shader_parameter("rainbow_speed", 0.5) # Adjust speed as needed
+
 
 func gun1_activate():
 	for gun in get_tree().get_nodes_in_group("guns"):
@@ -283,7 +325,8 @@ func _physics_process(delta: float) -> void:
 	var score = Autoload.score
 	%LevelProgressBar.value = score - required_xp[level - 1]
 	%LevelProgressBar.max_value = required_xp[level] - required_xp[level - 1]
-	%Score.text = "Level " + str(level) + " " + str(score) + "/" + str(required_xp[level])
+	#%Score.text = "Level " + str(level) + " " + str(score) + "/" + str(required_xp[level])
+	%Score.text = "Level " + str(level)
 	
 	if score >= required_xp[level]:
 		#open level up pop up - PAUSE MENU
@@ -543,3 +586,4 @@ func _on_pause_button_pressed() -> void:
 func _on_resume_button_pressed() -> void:
 	get_tree().paused = false
 	%PauseMenu.hide()
+	

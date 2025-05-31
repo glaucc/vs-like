@@ -71,6 +71,7 @@ animations = [{
 radius = 24.0208
 
 [node name="CoinBig" type="Area2D" groups=["drops"]]
+physics_interpolation_mode = 2
 collision_layer = 0
 script = ExtResource("1_jkis2")
 
