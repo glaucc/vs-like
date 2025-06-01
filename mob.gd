@@ -3,6 +3,7 @@ extends CharacterBody2D
 signal gem
 
 var health = 40
+var max_health = 40
 
 @onready var player = get_node("/root/MainMap/player")
 
@@ -33,7 +34,12 @@ func take_damage(damage: float, is_crit: bool = false):
 	# Enemy Death
 	if health <= 0:
 		reset_physics_interpolation()
-		queue_free()
+		#queue_free()
+		
+		#
+		#PoolManager.return_to_pool("mob", self)
+		#set_process(false)
+		#visible = false
 		gem.emit()
 		#Autoload.add_coins(1)
 		#print(Autoload.player_coins)
@@ -58,6 +64,13 @@ func take_damage(damage: float, is_crit: bool = false):
 			coin.global_position = global_position
 			coin.global_position.x += 30
 		# else: no drop (50%)
+			
+		# ✅ RETURN TO POOL LAST
+		PoolManager.return_to_pool("mob", self)
+		set_process(false)
+		visible = false
+			
+			
 	else:
 		#play hurt animation
 		self.modulate = Color(1, 0.3, 0.3) # Flash red
@@ -95,4 +108,10 @@ func _on_gem() -> void:
 	var gem = preload("res://gem.tscn").instantiate()
 	get_parent().add_child(gem)
 	gem.global_position = global_position
-	
+
+
+func reset():
+	health = max_health
+	# Reset any internal state like animation or timers
+	visible = true
+	set_process(true)

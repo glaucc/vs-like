@@ -397,36 +397,42 @@ func _physics_process(delta: float) -> void:
 		spawn_boss3()
 
 
-func spawn_mob(mob_scene: PackedScene) -> void:
-	var new_mob = mob_scene.instantiate()
+func spawn_mob(group_name: String) -> void:
+	#var new_mob = mob_scene.instantiate()
+	var new_mob = PoolManager.get_from_pool(group_name)
+	if not new_mob: return
+	
 	%PathFollow2D.progress_ratio = randf()
 	new_mob.global_position = %PathFollow2D.global_position
 	add_child(new_mob)
+	
+	if new_mob.has_method("reset"):
+		new_mob.reset()
 
 
 # Spawning logic
 func spawn_easy_wave():
-	spawn_mob(MOB_EASY)
+	spawn_mob("mob")
 	easy_wave_spawned = true
 
 func spawn_medium_wave():
-	spawn_mob(MOB_MEDIUM)
+	spawn_mob("python")
 	medium_wave_spawned = true
 
 func spawn_hard_wave():
-	spawn_mob(MOB_HARD)
+	spawn_mob("psycho")
 	hard_wave_spawned = true
 
 func spawn_boss1():
-	spawn_mob(BOSS_1)
+	spawn_mob("bull_boss")
 	boss1_spawned = true
 
 func spawn_boss2():
-	spawn_mob(BOSS_2)
+	spawn_mob("giant_boss")
 	boss2_spawned = true
 
 func spawn_boss3():
-	spawn_mob(BOSS_3)
+	spawn_mob("boss1")
 	boss3_spawned = true
 
 
