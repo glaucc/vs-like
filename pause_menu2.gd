@@ -17,7 +17,8 @@ func _ready():
 
 
 func _on_volume_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(0, value)
+	var db = linear_to_db(value / 100.0)
+	AudioServer.set_bus_volume_db(0, db)
 
 
 func _on_check_box_toggled(toggled_on: bool) -> void:

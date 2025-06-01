@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=42 format=3 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cc12rdodeg0oa" path="res://guns/shotgun.tscn" id="9_dt6kx"]
 [ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
 [ext_resource type="AudioStream" uid="uid://cg4cdjqncvodt" path="res://assets/music/LeftRightExcluded.mp3" id="12_t3ofs"]
+[ext_resource type="Texture2D" uid="uid://d2x3y4qxpgv76" path="res://assets/bg/map-tileset.png" id="17_e37sb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e37sb"]
 shader = ExtResource("2_np7p1")
@@ -841,6 +842,14 @@ volume_db = -3.0
 autoplay = true
 parameters/looping = true
 
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(1920, 1080)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+z_index = -2
+texture = ExtResource("17_e37sb")
+
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade3/UpgradeButton3" to="." method="_on_upgrade_button_3_pressed"]
@@ -853,6 +862,10 @@ parameters/looping = true
 [connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/Volume" to="Score/PauseMenu" method="_on_volume_value_changed"]
 [connection signal="toggled" from="Score/PauseMenu/MarginContainer/VBoxContainer/CheckBox" to="Score/PauseMenu" method="_on_check_box_toggled"]
 [connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/FlipControlsCheckbox" to="Score/PauseMenu" method="_on_flip_controls_checkbox_pressed"]
+[connection signal="toggled" from="Score/PauseMenu/MarginContainer/VBoxContainer/Vibration_toggle" to="Score/PauseMenu" method="_on_VibrationToggle_toggled"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-duration" to="Score/PauseMenu" method="_on_DurationSlider_value_changed"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-amplitude" to="Score/PauseMenu" method="_on_AmplitudeSlider_value_changed"]
+[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-cooldown" to="Score/PauseMenu" method="_on_CooldownSlider_value_changed"]
 [connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timer_timeout"]

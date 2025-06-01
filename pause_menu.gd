@@ -24,7 +24,6 @@ func _on_volume_value_changed(value: float) -> void:
 
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(0,toggled_on)
-	print("Bus 0 name:", AudioServer.get_bus_name(0))
 
 
 func _on_flip_controls_checkbox_pressed() -> void:
