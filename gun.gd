@@ -26,6 +26,10 @@ func shoot():
 
 	
 	%ShootingPoint.add_child(new_bullet)
+	print(self.name) 
+	if self.name == "gun" and Autoload.gun1_bullets > 1:
+		for i in range(Autoload.gun1_bullets - 1):
+			%ShootingPoint.add_child(new_bullet)
 
 
 func _on_timer_timeout() -> void:

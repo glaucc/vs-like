@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 signal health_depleted
 
-var health = 100.0 * Autoload.player_health_percent
-var max_health = 100.0 * Autoload.player_health_percent
+var health = 200.0 * Autoload.player_health_percent
+var max_health = 200.0 * Autoload.player_health_percent
 var speed = 150 * Autoload.player_speed_percent
 var DAMAGE_RATE = 100.0 * Autoload.player_armor_percent
 

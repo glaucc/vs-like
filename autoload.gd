@@ -1,6 +1,7 @@
 extends Node
 
 var player_coins:int = 0
+#var player_coins:int = 0
 var save_path: String = "user://save_data.dat"
 
 var score: int = 0
@@ -94,3 +95,40 @@ func load_settings():
 		vibration_duration_ms = config.get_value("vibration", "duration_ms", 200)
 		vibration_amplitude = config.get_value("vibration", "amplitude", 0.5)
 		vibration_cooldown_sec = config.get_value("vibration", "cooldown_sec", 0.3)
+
+
+#-------------------
+# Declare the custom signal here with its parameters
+# This signal will be emitted when an item is successfully added to the inventory.
+signal item_added(item_path: String, rarity: String, new_count: int)
+
+# A dictionary to store your items.
+# Key: item_path (String) - e.g., "res://assets/drop-assets/common/sword_common.png"
+# Value: a dictionary containing "rarity" (String) and "count" (int)
+var items: Dictionary = {}
+
+func add_item(path: String, rarity: String) -> void:
+	if items.has(path):
+		items[path]["count"] += 1
+	else:
+		items[path] = { "rarity": rarity, "count": 1 }
+	print("Inventory updated for: ", path, " Total: ", items[path]["count"])
+
+	# Emit the signal using the Godot 4.x '.emit()' syntax
+	item_added.emit(path, rarity, items[path]["count"])
+
+# You can add other inventory management functions here, such as:
+# func remove_item(path: String, amount: int = 1) -> void:
+#     if items.has(path):
+#         items[path]["count"] = max(0, items[path]["count"] - amount)
+#         if items[path]["count"] == 0:
+#             items.erase(path)
+#         # You might emit a 'item_removed' signal here as well
+
+# func get_item_count(path: String) -> int:
+#     if items.has(path):
+#         return items[path]["count"]
+#     return 0
+
+# func get_all_items() -> Dictionary:
+#     return items.duplicate() # Return a copy to prevent external modification

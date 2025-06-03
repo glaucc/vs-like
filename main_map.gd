@@ -8,11 +8,6 @@ const MENU = preload("res://menu.tscn")
 
 var shake_strength:float = 0.0
 
-##--------Shader--------
-@onready var level_progress_bar: ProgressBar = %LevelProgressBar
-var shader_material: ShaderMaterial
-
-
 
 var level:int = Autoload.level
 var required_xp = [
@@ -108,28 +103,28 @@ var all_upgrades = {
 		{ "desc": "Regenerate 2 HP per second", "apply": func(): Autoload.health_regen += 1},
 	],
 	"Gun 1": [
-		{"desc": "Unlock Gun 2", "apply": func(): gun1_activate()},
+		{"desc": "Gun (New)", "apply": func(): gun1_activate()},
 		{"desc": "+1 Bullet", "apply": func(): Autoload.gun1_bullets += 1},
 		{"desc": "+20% Fire Rate", "apply": func(): Autoload.gun1_attack_speed += 0.2},
 	],
 	"Gun 2": [
-		{"desc": "Unlock Gun 2", "apply": func(): gun2_activate()},
+		{"desc": "Gun (New)", "apply": func(): gun2_activate()},
 		{"desc": "+1 Bullet (Gun 2)", "apply": func(): Autoload.gun2_bullets += 1},
 	],
 	"Gun 3": [
-		{"desc": "Unlock Gun 3", "apply": func(): gun3_activate()},
+		{"desc": "Gun (New)", "apply": func(): gun3_activate()},
 		{"desc": "+1 Bullet (Gun 3)", "apply": func(): Autoload.gun3_bullets += 1},
 	],
 	"Gun 4": [
-		{"desc": "Unlock Gun 4", "apply": func(): gun4_activate()},
+		{"desc": "Gun (New)", "apply": func(): gun4_activate()},
 		{"desc": "+1 Bullet (Gun 4)", "apply": func(): Autoload.gun4_bullets += 1},
 	],
 	"Gun 5": [
-		{"desc": "Unlock Gun 5", "apply": func(): gun5_activate()},
+		{"desc": "Gun (New)", "apply": func(): gun5_activate()},
 		{"desc": "+1 Bullet (Gun 5)", "apply": func(): Autoload.gun5_bullets += 1},
 	],
 	"Gun 6": [
-		{"desc": "Unlock Gun 6", "apply": func(): gun6_activate()},
+		{"desc": "Gun (New)", "apply": func(): gun6_activate()},
 		{"desc": "+1 Bullet (Gun 6)", "apply": func(): Autoload.gun6_bullets += 1},
 	],
 	"Shotgun": [
@@ -195,41 +190,13 @@ func _ready() -> void:
 			gun.set_process_mode(Node.PROCESS_MODE_DISABLED);
 			gun.hide()
 
-	setup_rainbow_fill()
-
-func setup_rainbow_fill():
-	 # Create or get the fill StyleBoxTexture
-	var fill_style := StyleBoxTexture.new()
-	
-	# Create a small white texture (required)
-	var img := Image.create(4, 4, false, Image.FORMAT_RGBA8)
-	img.fill(Color.WHITE)
-	var tex := ImageTexture.create_from_image(img)
-	fill_style.texture = tex
-	
-	# Create and assign shader material
-	shader_material = ShaderMaterial.new()
-	shader_material.shader = preload("res://main_map.gdshader")
-	fill_style.set("material", shader_material)
-	
-	# Apply to progress bar
-	level_progress_bar.add_theme_stylebox_override("fill", fill_style)
 
 func _process(delta):
-	if not shader_material:
-		return
-	
-	# Calculate progress (0-1 range)
-	var current_progress = level_progress_bar.value / level_progress_bar.max_value
-	shader_material.set_shader_parameter("progress", current_progress)
-	
+
+
 	# Check if ready to level up
 	var is_ready_to_level = Autoload.score >= required_xp[level]
-	shader_material.set_shader_parameter("rainbow_mode", is_ready_to_level)
-	
-	# Only animate when in rainbow mode
-	if is_ready_to_level:
-		shader_material.set_shader_parameter("rainbow_speed", 0.5) # Adjust speed as needed
+
 
 
 func gun1_activate():
@@ -380,10 +347,10 @@ func _physics_process(delta: float) -> void:
 	if not boss1_spawned and time_passed >= 300:
 		spawn_boss1()
 	elif time_passed >= 60 and not first_wave_speed:
-		%MobSpawnTimer.wait_time = 0.9
+		%MobSpawnTimer.wait_time = 0.2
 		first_wave_speed = true
 	elif time_passed >= 120 and not second_wave_speed:
-		%MobSpawnTimer.wait_time = 2.0
+		%MobSpawnTimer.wait_time = 1.5
 		second_wave_speed = true
 	elif time_passed >= 240 and not third_wave_speed:
 		%MobSpawnTimer.wait_time = 0.6

@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://b102sdydcdblj"]
+[gd_scene load_steps=25 format=3 uid="uid://b102sdydcdblj"]
 
 [ext_resource type="Script" uid="uid://cascbrm6084tw" path="res://game_menu.gd" id="1_5rxej"]
 [ext_resource type="Texture2D" uid="uid://dhfqj7r6fcv7x" path="res://assets/UI books & more.png" id="1_jowre"]
 [ext_resource type="Texture2D" uid="uid://dafbal3p60kov" path="res://pixel-ball.png" id="2_rjxss"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="3_jprcw"]
+[ext_resource type="Texture2D" uid="uid://b4tj2mc674xlk" path="res://assets/Extra or Unfinished.png" id="5_qus6b"]
+[ext_resource type="Texture2D" uid="uid://cuum1miyepyxw" path="res://assets/Orange Button Icons.png" id="5_xxfb2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icggr"]
 bg_color = Color(0.0862745, 0.352941, 0.298039, 1)
@@ -148,6 +150,26 @@ _data = {
 &"soon-text": SubResource("Animation_qus6b")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxfb2"]
+atlas = ExtResource("5_xxfb2")
+region = Rect2(1, 289, 30, 30)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qus6b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr0q8"]
+atlas = ExtResource("5_xxfb2")
+region = Rect2(33, 289, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rcmp"]
+texture = SubResource("AtlasTexture_wr0q8")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbvm6"]
+atlas = ExtResource("5_xxfb2")
+region = Rect2(1, 289, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yd342"]
+texture = SubResource("AtlasTexture_pbvm6")
+
 [node name="GameMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -199,29 +221,29 @@ texture = SubResource("AtlasTexture_rjxss")
 [node name="SubUpgradeStat6" type="Sprite2D" parent="PanelContainer"]
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(141, 429)
-scale = Vector2(4, 4)
+position = Vector2(141, 363)
+scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat9" type="Sprite2D" parent="PanelContainer"]
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(141, 709)
-scale = Vector2(4, 4)
+position = Vector2(141, 536)
+scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat10" type="Sprite2D" parent="PanelContainer"]
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(1677, 410)
-scale = Vector2(4, 4)
+position = Vector2(1677, 344)
+scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat11" type="Sprite2D" parent="PanelContainer"]
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(1682, 703)
-scale = Vector2(4, 4)
+position = Vector2(1682, 530)
+scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="Character" type="Sprite2D" parent="PanelContainer"]
@@ -244,20 +266,10 @@ theme_override_font_sizes/font_size = 32
 text = "Level 1"
 horizontal_alignment = 1
 
-[node name="AttackDamageLabel" type="Label" parent="Labels"]
-self_modulate = Color(1, 1, 1, 0.933333)
-offset_left = 393.0
-offset_top = 359.0
-offset_right = 817.0
-offset_bottom = 415.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_jprcw")
-theme_override_font_sizes/font_size = 42
-text = "Attack"
-horizontal_alignment = 1
+[node name="defense" type="Node2D" parent="Labels"]
+position = Vector2(-213, 0)
 
-[node name="DefenseLabel" type="Label" parent="Labels"]
+[node name="DefenseLabel" type="Label" parent="Labels/defense"]
 self_modulate = Color(1, 1, 1, 0.933333)
 offset_left = 1067.0
 offset_top = 359.0
@@ -267,7 +279,37 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_jprcw")
 theme_override_font_sizes/font_size = 42
-text = "Defense"
+text = "0"
+horizontal_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Labels/defense"]
+position = Vector2(1213, 379)
+scale = Vector2(4, 4)
+texture = ExtResource("5_qus6b")
+region_enabled = true
+region_rect = Rect2(218, 24, 16, 16)
+
+[node name="attack" type="Node2D" parent="Labels"]
+position = Vector2(236, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Labels/attack"]
+position = Vector2(533, 380)
+scale = Vector2(4, 4)
+texture = ExtResource("5_qus6b")
+region_enabled = true
+region_rect = Rect2(182, 98, 15, 14)
+
+[node name="AttackDamageLabel" type="Label" parent="Labels/attack"]
+self_modulate = Color(1, 1, 1, 0.933333)
+offset_left = 393.0
+offset_top = 359.0
+offset_right = 817.0
+offset_bottom = 415.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_jprcw")
+theme_override_font_sizes/font_size = 42
+text = "0"
 horizontal_alignment = 1
 
 [node name="UI" type="Node2D" parent="Labels"]
@@ -324,6 +366,19 @@ vertical_alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_wr0q8")
 }
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 752.0
+offset_right = 366.0
+offset_bottom = 1067.0
+theme_override_icons/icon = SubResource("AtlasTexture_xxfb2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qus6b")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3rcmp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yd342")
+flat = true
+expand_icon = true
 
 [connection signal="pressed" from="Labels/UI/Sprite2D/LeftButton" to="." method="_on_left_button_pressed"]
 [connection signal="pressed" from="Labels/UI/Sprite2D2/RightButton" to="." method="_on_right_button_pressed"]
