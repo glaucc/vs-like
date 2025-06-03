@@ -387,7 +387,8 @@ func drop_random_image(chest_type: String):
 
 			var sprite = Sprite2D.new()
 			sprite.texture = texture
-			sprite.position = Vector2(960, 500)
+			sprite.position = Vector2(960, 400)
+			sprite.scale = Vector2(3,3)
 			sprite.set_z_index(5)
 			add_child(sprite)
 			print("DEBUG: Sprite created and added to scene tree. Node name:", sprite.name, " ID:", sprite.get_instance_id())
@@ -416,24 +417,41 @@ func _animate_item_drop(sprite: Sprite2D) -> void:
 	var initial_y_position = final_y_position - 150 # Start higher for drop effect
 
 	sprite.position = Vector2(sprite.position.x, initial_y_position)
-	sprite.scale = Vector2(0.1, 0.1)
+	sprite.scale = Vector2(0.1, 0.1) # Start invisible/very small for animation
 	sprite.modulate = Color(1, 1, 1, 0) # Start invisible
 	print("DEBUG: _animate_item_drop: Sprite initial properties set: Position:", sprite.position, " Scale:", sprite.scale, " Modulate:", sprite.modulate)
 
+	# --- NEW LOGIC: Determine target scale based on texture size ---
+	var texture_size = sprite.texture.get_size()
+	var target_scale_vector: Vector2
+
+	if texture_size == Vector2(16, 16):
+		target_scale_vector = Vector2(12, 12)
+		print("DEBUG: Texture size is 16x16, setting target scale to 6x6.")
+	elif texture_size == Vector2(32, 32):
+		target_scale_vector = Vector2(6, 6) # This is the "normal" scale you mentioned
+		print("DEBUG: Texture size is 32x32, setting target scale to 3x3.")
+	else:
+		# Default scale for other sizes, adjust as needed
+		target_scale_vector = Vector2(6, 6) 
+		print("DEBUG: Texture size is " + str(texture_size) + ", setting target scale to default 4x4.")
+	# --- END NEW LOGIC ---
 
 	_item_drop_tween = create_tween()
 	_item_drop_tween.set_parallel(true)
 
-
 	# Initial drop animation
 	_item_drop_tween.tween_property(sprite, "position:y", final_y_position, 0.6) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
-	_item_drop_tween.tween_property(sprite, "scale", Vector2(6, 6), 0.4) \
+	
+	# Use the dynamically determined target_scale_vector here
+	_item_drop_tween.tween_property(sprite, "scale", target_scale_vector, 0.4) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+		
 	_item_drop_tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.3) \
 		.set_ease(Tween.EASE_OUT)
 	
-	print("DEBUG: _animate_item_drop: Initial parallel tweens added.")
+	print("DEBUG: _animate_item_drop: Initial parallel tweens added with target scale:", target_scale_vector)
 
 	# Await the completion of the initial drop animation
 	await _item_drop_tween.finished
@@ -447,7 +465,7 @@ func _animate_item_drop(sprite: Sprite2D) -> void:
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	hover_subtween.set_loops()
 	# No need to chain to _item_drop_tween directly here, as it's already finished.
-	# Just start the hover_subtween.
+	# Just start the hover_subtween independently.
 	hover_subtween.play() 
 	print("DEBUG: _animate_item_drop: Hover subtween started.")
 
