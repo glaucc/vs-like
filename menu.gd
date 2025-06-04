@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var MAIN_MAP = preload("res://main_map.tscn")
-@onready var PAUSE_MENU = preload("res://pause_menu.tscn")
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_packed(MAIN_MAP);
+	var main_map = load("res://main_map.tscn")
+	print("Loaded scene path:", main_map.resource_path)
+	get_tree().change_scene_to_packed(main_map)
 
 
 func _on_achievements_button_pressed() -> void:

@@ -4,7 +4,7 @@ var time_passed: float = 0.0
 var game_over:bool = false
 var end_time:float = 0.0
 
-const MENU = preload("res://menu.tscn")
+#const MENU = preload("res://menu.tscn")
 
 var shake_strength:float = 0.0
 
@@ -13,13 +13,14 @@ var level:int = Autoload.level
 var required_xp = [
 	0,
 	40,
-	102,
-	197,
-	338,
-	540,
-	824,
-	1217,
-	1748,
+	82,
+	157,
+	238,
+	410,
+	724,
+	1017,
+	1548,
+	2048,
 	2434,
 	3312,
 	4428,
@@ -425,7 +426,9 @@ func _on_button_pressed() -> void:
 	Autoload.reset_variables()
 	reset_game()
 	%GameOver.hide()
-	get_tree().change_scene_to_packed(MENU)
+	var main_menu = load("res://menu.tscn")
+	print("Loaded scene path:", main_menu.resource_path)
+	get_tree().change_scene_to_packed(main_menu)
 	
 	# Load main menu
 

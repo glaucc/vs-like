@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7brpgmt23dny"
-path="res://.godot/imported/leg-Icon12.png-8caf83b7354f212f9155b5c956f85695.ctex"
+uid="uid://cti3w8smywsba"
+path="res://.godot/imported/legendary-Icon5.png-5b90bf75f8a6f4bc62617494d322c94c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/shields/leg-Icon12.png"
-dest_files=["res://.godot/imported/leg-Icon12.png-8caf83b7354f212f9155b5c956f85695.ctex"]
+source_file="res://assets/drop-assets/shields/legendary-Icon5.png"
+dest_files=["res://.godot/imported/legendary-Icon5.png-5b90bf75f8a6f4bc62617494d322c94c.ctex"]
 
 [params]
 

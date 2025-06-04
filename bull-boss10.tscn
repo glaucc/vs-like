@@ -18,6 +18,7 @@ animations = [{
 }]
 
 [node name="bull" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(3.5, 3.5)
 collision_layer = 2
 script = ExtResource("1_v3paf")
 

@@ -25,6 +25,7 @@ driver/emulate_touch_from_mouse=true
 
 Autoload="*res://autoload.gd"
 PoolManager="*res://pool_manager.gd"
+ItemData="*res://item_data.gd"
 
 [display]
 

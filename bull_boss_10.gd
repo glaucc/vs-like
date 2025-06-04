@@ -2,16 +2,17 @@ extends CharacterBody2D
 
 signal gem
 
-var health = 800
+var health = 1800
+var knockback:int = -10
 
 @onready var player = get_node("/root/MainMap/player")
 
 @export var coin: PackedScene = preload("res://coin.tscn")
 @export var coin_big: PackedScene = preload("res://coin_big.tscn")
 
-func _ready() -> void:
-	pass #play walk animation
-	
+#func _ready() -> void:
+	#pass
+	#
 
 
 func _physics_process(delta: float) -> void:
@@ -64,7 +65,7 @@ func take_damage(damage: float, is_crit: bool = false):
 		self.modulate = Color(1, 1, 1, 1) # Reset
 		
 		# Knockback
-		var knockback = global_position.direction_to(player.global_position) * -100
+		var knockback = global_position.direction_to(player.global_position) * knockback
 		global_position += knockback
 
 

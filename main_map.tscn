@@ -1,11 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=39 format=3 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
 [ext_resource type="Texture2D" uid="uid://dafbal3p60kov" path="res://pixel-ball.png" id="2_km2bi"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v4mvp"]
 [ext_resource type="PackedScene" uid="uid://cu74gysmdrlfo" path="res://gun.tscn" id="3_1ns3a"]
-[ext_resource type="Texture2D" uid="uid://bhnmop6nxvjtj" path="res://assets/gem.png" id="3_e37sb"]
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
@@ -17,17 +16,11 @@
 [ext_resource type="AudioStream" uid="uid://cg4cdjqncvodt" path="res://assets/music/LeftRightExcluded.mp3" id="12_t3ofs"]
 [ext_resource type="Texture2D" uid="uid://d2x3y4qxpgv76" path="res://assets/bg/map-tileset.png" id="17_e37sb"]
 
-[sub_resource type="Shader" id="Shader_np7p1"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e37sb"]
-render_priority = 0
-shader = SubResource("Shader_np7p1")
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_en5d1"]
-texture = ExtResource("3_e37sb")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1k36j"]
+bg_color = Color(0.117647, 0.737255, 0.45098, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_286o7"]
 atlas = ExtResource("5_fnffn")
@@ -163,13 +156,12 @@ script = ExtResource("1_ob7o4")
 
 [node name="LevelProgressBar" type="ProgressBar" parent="Score"]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_e37sb")
 offset_top = 15.0
 offset_right = 416.0
 offset_bottom = 22.0
 scale = Vector2(4.62278, 4.62278)
 theme_override_styles/background = SubResource("StyleBoxFlat_1ns3a")
-theme_override_styles/fill = SubResource("StyleBoxTexture_en5d1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1k36j")
 show_percentage = false
 
 [node name="Score" type="Label" parent="Score"]
@@ -711,6 +703,7 @@ mouse_filter = 2
 color = Color(0.0862745, 0.352941, 0.298039, 1)
 
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
+physics_interpolation_mode = 1
 position = Vector2(963, 547)
 
 [node name="Path2D" type="Path2D" parent="player"]

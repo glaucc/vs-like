@@ -94,3 +94,28 @@ func _physics_process(delta: float) -> void:
 		%ProgressBar.max_value = max_health
 		if health <= 0.0:
 			health_depleted.emit()
+	
+	#---
+	### Health Regeneration
+	#
+	#To implement health regeneration, we'll add a condition to check if `Autoload.health_regen` is greater than `0.0`. If it is, we'll increase the player's health by `Autoload.health_regen` multiplied by `delta` (to ensure it's frame-rate independent). We'll also make sure that health doesn't exceed `max_health`.
+	#
+	#```
+
+	if Autoload.health_regen > 0.0:
+		health += Autoload.health_regen * delta
+		health = min(health, max_health) # Ensure health doesn't go above max_health
+	
+	# Update the progress bar after potential health regeneration
+	%ProgressBar.value = health
+	%ProgressBar.max_value = max_health
+	#```
+#
+#Here's an explanation of the added code:
+#
+#* **`if Autoload.health_regen > 0.0:`**: This line checks if regeneration is enabled. If `Autoload.health_regen` is `0.0` or less, no regeneration will occur.
+#* **`health += Autoload.health_regen * delta`**: If regeneration is active, this line adds the regeneration amount to the player's `health`. Multiplying by `delta` ensures that the regeneration rate is consistent regardless of the frame rate.
+#* **`health = min(health, max_health)`**: This is crucial to prevent the player's health from exceeding their `max_health`. The `min()` function returns the smaller of the two values, effectively capping the health at `max_health`.
+#* **`%ProgressBar.value = health`**: This line updates the health bar to reflect the regenerated health. It's placed after the regeneration logic so the bar always shows the current health.
+#
+#With these changes, your player will now regenerate health if `Autoload.health_regen` is set to a value greater than `0.0`.

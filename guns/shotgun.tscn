@@ -50,7 +50,7 @@ animation = &"idle"
 
 [node name="ShootingPoint" type="Marker2D" parent="WeaponPivot/Shotgun"]
 unique_name_in_owner = true
-position = Vector2(12, -0.5)
+position = Vector2(11.5, -0.5)
 
 [node name="CooldownTimer" type="Timer" parent="WeaponPivot"]
 unique_name_in_owner = true

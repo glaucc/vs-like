@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://1we6f7frfr68"]
+
+[ext_resource type="Script" uid="uid://v6kc6uqfonq4" path="res://resources/item.gd" id="1_y8hiv"]
+
+[resource]
+script = ExtResource("1_y8hiv")
+id = "common_sword"
+item_name = "Common Sword"
+texture_path = "uid://cmjli7t1c4263"
+rarity = "common"
+attack_bonus = 5
+defense_bonus = 0
+metadata/_custom_type_script = "uid://v6kc6uqfonq4"

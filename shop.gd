@@ -1,8 +1,37 @@
-extends Control
+extends Control # Assuming this is your base class
 
 const CHEST_COOLDOWN := 0.2 # seconds (for individual button cooldown)
 const MIN_ITEM_DISPLAY_DURATION := 0.4 # seconds (how long item must be visible)
 const POST_CLEANUP_COOLDOWN_TIME := 0.3 # seconds (dead zone after chest closes)
+
+# NEW: Define drop chances for each chest type and rarity
+# Probabilities for each rarity should sum to 1.0 for each chest type.
+const CHEST_DROP_CHANCES = {
+	"normal": {
+		"common": 1.0,   # 100% common
+		"rare": 0.0,
+		"epic": 0.0,
+		"legendary": 0.0
+	},
+	"bloody": {
+		"common": 0.7,   # 70% common, 30% rare
+		"rare": 0.3,
+		"epic": 0.0,
+		"legendary": 0.0
+	},
+	"gold": {
+		"common": 0.0,
+		"rare": 0.6,   # 60% rare, 40% epic
+		"epic": 0.4,
+		"legendary": 0.0
+	},
+	"legendary": {
+		"common": 0.05,  # 5% common
+		"rare": 0.15,   # 15% rare
+		"epic": 0.3,    # 30% epic
+		"legendary": 0.5 # 50% legendary
+	}
+}
 
 enum ChestState {
 	IDLE,
@@ -16,7 +45,6 @@ enum ChestState {
 var current_chest_state: ChestState = ChestState.IDLE # Initialize to IDLE
 var _item_drop_start_time: float = 0.0 # To store the time when the item drop animation started
 
-
 var waiting_for_tap := false
 var tapped_early := false
 
@@ -25,8 +53,20 @@ var _current_dropped_item_path: String = ""
 var _current_dropped_item_rarity: String = ""
 var _item_drop_tween: Tween = null
 
+# NEW: Variable to hold the ID of the dropped item for inventory
+var _current_dropped_item_id_for_inventory: String = ""
+
+# IMPORTANT: This dictionary should contain your item image paths,
+# grouped by rarity. You should ideally populate this from a dedicated
+# item database (like your ItemData autoload).
+# For now, here's a small example. You MUST expand this with ALL your item paths.
+
+var items_by_rarity_dict: Dictionary = {}
+
 
 func _ready() -> void:
+	# Ensure Autoload is ready before accessing its data
+	await get_tree().create_timer(0.01).timeout # Small delay to ensure Autoload is initialized
 	%coin_count.text = str(Autoload.player_coins)
 	%TextureRect.hide()
 	%"chest-normal2".hide()
@@ -34,10 +74,64 @@ func _ready() -> void:
 	%"chest-gold2".hide()
 	%"chest-legendary2".hide()
 	
+	# NEW: Populate the items_by_rarity_dict dynamically
+	_populate_items_by_rarity()
+
 	# Initialize state and enable buttons
 	current_chest_state = ChestState.IDLE
 	_set_chest_buttons_enabled(true)
 	print("DEBUG: Game initialized. State: IDLE")
+
+
+## --- NEW FUNCTION: Dynamically Populates items_by_rarity_dict ---
+func _populate_items_by_rarity() -> void:
+	print("DEBUG: Populating items_by_rarity_dict dynamically...")
+	items_by_rarity_dict.clear() # Clear any previous data
+
+	var base_dir = "res://assets/drop-assets/"
+	var dir = DirAccess.open(base_dir)
+
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				var sub_dir_path = base_dir + file_name + "/"
+				_scan_directory_for_items(sub_dir_path) # Recursively scan subdirectories
+			elif file_name.ends_with(".png") or file_name.ends_with(".jpg"): # Add other image formats if needed
+				var full_path = base_dir + file_name
+				_add_item_path_to_rarity_dict(full_path)
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		print("ERROR: Could not open directory for item scanning: ", base_dir)
+
+	print("DEBUG: Finished populating items_by_rarity_dict:", items_by_rarity_dict)
+
+
+## --- NEW HELPER FUNCTION: Scans subdirectories ---
+func _scan_directory_for_items(path: String) -> void:
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				_scan_directory_for_items(path + file_name + "/") # Recursive call for nested folders
+			elif file_name.ends_with(".png") or file_name.ends_with(".jpg"): # Add other image formats
+				var full_path = path + file_name
+				_add_item_path_to_rarity_dict(full_path)
+			file_name = dir.get_next()
+		dir.list_dir_end()
+
+
+## --- NEW HELPER FUNCTION: Adds item path to the dictionary based on rarity ---
+func _add_item_path_to_rarity_dict(path: String) -> void:
+	var rarity = get_rarity_from_filename(path.get_file()) # Use get_file() to get just the filename for rarity detection
+	if not items_by_rarity_dict.has(rarity):
+		items_by_rarity_dict[rarity] = []
+	items_by_rarity_dict[rarity].append(path)
+	print("DEBUG: Added item '{path}' to rarity '{rarity}'.".format({"path": path, "rarity": rarity}))
 
 
 func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
@@ -49,7 +143,7 @@ func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
 
 	if Autoload.player_coins >= cost:
 		Autoload.player_coins -= cost
-		Autoload.save_coins()
+		Autoload.save_all_player_data() # Use the unified save function
 		%coin_count.text = str(Autoload.player_coins)
 
 		# Disable the specific button pressed immediately for its own cooldown
@@ -75,9 +169,9 @@ func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
 		print("DEBUG: Chest animation finished. State transition to ITEM_DROPPING.")
 		current_chest_state = ChestState.ITEM_DROPPING
 
-
 		# Drop the item and start its animation
 		var chest_name = chest.name.to_lower()
+		# Pass the chest_type to drop_random_image
 		if "normal" in chest_name:
 			drop_random_image("normal")
 		elif "bloody" in chest_name:
@@ -157,7 +251,6 @@ func _on_button_4_pressed() -> void:
 		%text_anim.play("tap_continue")
 
 
-
 func _unhandled_input(event: InputEvent) -> void:
 	# Primary guard: only handle taps if waiting_for_tap is true (from button press)
 	if not waiting_for_tap: 
@@ -194,16 +287,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		_cleanup_chest_display()
 
 
-
-
-# NEW FUNCTION: Handles adding the item to inventory
+# CORRECTED FUNCTION: Handles adding the item to inventory
 func _add_item_to_inventory() -> void:
-	if Autoload.has_node("Inventory"):
-		Autoload.Inventory.add_item(_current_dropped_item_path, _current_dropped_item_rarity)
-		print("Item added to inventory: ", _current_dropped_item_path)
+	# Ensure your Autoload script's node name is "Autoload" in Project Settings -> Autoload.
+	# We access its functions directly from the global Autoload instance.
+	if get_node_or_null("/root/Autoload"):
+		# We pass the _current_dropped_item_id_for_inventory (e.g., "common_sword")
+		# And a quantity of 1, as one item drops at a time.
+		Autoload.add_item_to_inventory(_current_dropped_item_id_for_inventory, 1)
+		print("CHEST: Item ", _current_dropped_item_id_for_inventory, " added to inventory.")
 	else:
-		print("WARNING: Autoload 'Inventory' not found. Item was not added to inventory.")
-
+		print("CHEST WARNING: Autoload 'Autoload' not found. Item was not added to inventory.")
+	
+	# It's good practice to clear the stored ID after using it
+	_current_dropped_item_id_for_inventory = ""
 
 
 # NEW FUNCTION: Centralized cleanup for chest display and dropped item
@@ -274,11 +371,6 @@ func _cleanup_chest_display() -> void:
 	print("DEBUG: --- Exiting _cleanup_chest_display ---")
 
 
-
-# The old _collect_item and _hide_all_chests functions are now replaced/removed
-# Their logic is integrated into _add_item_to_inventory and _cleanup_chest_display
-
-
 # NEW HELPER FUNCTION: To enable or disable all chest buttons
 func _set_chest_buttons_enabled(enabled: bool) -> void:
 	%Button1.disabled = not enabled
@@ -287,7 +379,7 @@ func _set_chest_buttons_enabled(enabled: bool) -> void:
 	%Button4.disabled = not enabled
 
 
-
+# Mouse Enter/Exit functions (from your script)
 func _on_button_1_mouse_entered() -> void:
 	var label = %Label
 	label.add_theme_font_size_override("font_size", 32)
@@ -327,14 +419,17 @@ func _on_button_4_mouse_exited() -> void:
 
 ## --- RARITY DROP SYSTEM ---
 func get_rarity_from_filename(filename: String) -> String:
+	# This function extracts rarity based on convention in filename (e.g., "_common", "_rare")
 	filename = filename.to_lower()
 	if "_legendary" in filename: return "legendary"
 	elif "_epic" in filename: return "epic"
 	elif "_rare" in filename: return "rare"
 	elif "_common" in filename: return "common"
-	return "common"
+	return "common" # Default if no rarity keyword found
 
 func is_valid_rarity_for_chest(chest_type: String, rarity: String) -> bool:
+	# This seems like a sanity check, but the get_random_rarity already handles probabilities
+	# You can keep this for debugging or if you want to explicitly restrict what can be dropped
 	match chest_type:
 		"normal": return rarity == "common"
 		"bloody": return rarity in ["common", "rare"]
@@ -342,67 +437,47 @@ func is_valid_rarity_for_chest(chest_type: String, rarity: String) -> bool:
 		"legendary": return rarity in ["common", "rare", "epic", "legendary"]
 	return false
 
-func drop_random_image(chest_type: String):
-	print("DEBUG: --- Starting drop_random_image for chest_type:", chest_type, " ---")
-	var valid_paths = []
-	var root = "res://assets/drop-assets"
-	var stack = [root]
-	print("DEBUG: Starting directory scan from:", root)
+# CORRECTED FUNCTION: This function now accepts 'chest_type'
+func drop_random_image(chest_type: String = "normal") -> void:
+	# Ensure items_by_rarity_dict is populated. If you load it from ItemData, do so in _ready().
+	if items_by_rarity_dict.is_empty():
+		print("ERROR: items_by_rarity_dict is empty. Cannot drop item. Populate it from your assets.")
+		return
 
-	while not stack.is_empty():
-		var current_path = stack.pop_back()
-		var dir = DirAccess.open(current_path)
-		if dir:
-			dir.list_dir_begin()
-			var file_name = dir.get_next()
-			while file_name != "":
-				if dir.current_is_dir() and not file_name.begins_with("."):
-					stack.append(current_path + "/" + file_name)
-				elif file_name.ends_with(".png"):
-					var rarity = get_rarity_from_filename(file_name)
-					if is_valid_rarity_for_chest(chest_type, rarity):
-						valid_paths.append(current_path + "/" + file_name)
-						print("DEBUG: Valid item found and added:", current_path + "/" + file_name, " (Rarity:", rarity, ")")
-				file_name = dir.get_next()
-			dir.list_dir_end()
-		else:
-			print("ERROR: Could not open directory:", current_path, ". Check path and permissions.")
+	var chosen_rarity = get_random_rarity(chest_type) # Pass chest_type to get_random_rarity
+	var items_in_chosen_rarity = items_by_rarity_dict.get(chosen_rarity)
 
-	print("DEBUG: Finished directory scan. Total valid paths found:", valid_paths.size())
+	if not items_in_chosen_rarity or items_in_chosen_rarity.is_empty():
+		print("WARNING: No items found for rarity:", chosen_rarity, " for chest type:", chest_type)
+		return
 
-	if valid_paths.size() > 0:
-		var image_path = valid_paths[randi() % valid_paths.size()]
-		print("DEBUG: Selected image path for drop:", image_path)
-		var texture = load(image_path)
-		if texture and texture is Texture2D:
-			print("DEBUG: Texture loaded successfully for:", image_path)
-			
-			# Clean up any previous item and its tween before creating a new one
-			if _current_dropped_item_sprite and is_instance_valid(_current_dropped_item_sprite):
-				_current_dropped_item_sprite.queue_free()
-				_current_dropped_item_sprite = null
-			if _item_drop_tween and _item_drop_tween.is_valid() and _item_drop_tween.is_running():
-				_item_drop_tween.kill()
-				_item_drop_tween = null
+	var image_path = items_in_chosen_rarity[randi() % items_in_chosen_rarity.size()]
+	print("CHEST: Selected image path for drop:", image_path)
 
-			var sprite = Sprite2D.new()
-			sprite.texture = texture
-			sprite.position = Vector2(960, 400)
-			sprite.scale = Vector2(3,3)
-			sprite.set_z_index(5)
-			add_child(sprite)
-			print("DEBUG: Sprite created and added to scene tree. Node name:", sprite.name, " ID:", sprite.get_instance_id())
-			print("DEBUG: Initial sprite properties BEFORE _animate_item_drop call: Position:", sprite.position, " Scale:", sprite.scale, " Modulate:", sprite.modulate)
+	# This line correctly derives the Item.id from the image path's base filename.
+	# Example: "res://assets/drop-assets/common/common_sword.png" becomes "common_sword"
+	var dropped_item_id = image_path.get_file().get_basename() 
 
-			_current_dropped_item_sprite = sprite
-			_current_dropped_item_path = image_path
-			_current_dropped_item_rarity = get_rarity_from_filename(image_path)
+	var texture = load(image_path)
+	if texture and texture is Texture2D:
+		var sprite = Sprite2D.new()
+		sprite.texture = texture
+		sprite.position = Vector2(960, 400)
+		sprite.set_z_index(5)
+		sprite.scale = Vector2(3,3)
+		#sprite.position = Vector2.ZERO # Position it at the chest's origin
+		sprite.scale = Vector2(0.1, 0.1) # Start small for animation
+		add_child(sprite)
 
-			_animate_item_drop(sprite)
-		else:
-			print("ERROR: Failed to load texture from path:", image_path)
+		# Store the dropped item details (now including the Item ID for inventory)
+		_current_dropped_item_sprite = sprite
+		_current_dropped_item_path = image_path # Still keeps image path for sprite texture
+		_current_dropped_item_rarity = get_rarity_from_filename(image_path)
+		_current_dropped_item_id_for_inventory = dropped_item_id # THIS IS THE ID USED BY AUTOLOAD!
+
+		_animate_item_drop(sprite)
 	else:
-		print("INFO: No valid drops for chest:", chest_type, ". Check file paths and rarity names.")
+		print("ERROR: Failed to load texture from path:", image_path)
 
 
 func _animate_item_drop(sprite: Sprite2D) -> void:
@@ -427,13 +502,13 @@ func _animate_item_drop(sprite: Sprite2D) -> void:
 
 	if texture_size == Vector2(16, 16):
 		target_scale_vector = Vector2(12, 12)
-		print("DEBUG: Texture size is 16x16, setting target scale to 6x6.")
+		print("DEBUG: Texture size is 16x16, setting target scale to 12x12.")
 	elif texture_size == Vector2(32, 32):
 		target_scale_vector = Vector2(6, 6) # This is the "normal" scale you mentioned
-		print("DEBUG: Texture size is 32x32, setting target scale to 3x3.")
+		print("DEBUG: Texture size is 32x32, setting target scale to 6x6.")
 	else:
 		# Default scale for other sizes, adjust as needed
-		target_scale_vector = Vector2(6, 6) 
+		target_scale_vector = Vector2(4, 4) # Default to 4x4 if not 16x16 or 32x32
 		print("DEBUG: Texture size is " + str(texture_size) + ", setting target scale to default 4x4.")
 	# --- END NEW LOGIC ---
 
@@ -466,7 +541,7 @@ func _animate_item_drop(sprite: Sprite2D) -> void:
 	hover_subtween.set_loops()
 	# No need to chain to _item_drop_tween directly here, as it's already finished.
 	# Just start the hover_subtween independently.
-	hover_subtween.play() 
+	hover_subtween.play()  
 	print("DEBUG: _animate_item_drop: Hover subtween started.")
 
 	# Record the time the item is fully displayed and visible for collection
@@ -482,3 +557,22 @@ func _animate_item_drop(sprite: Sprite2D) -> void:
 	print("DEBUG: _animate_item_drop: Item fully displayed. State: ITEM_DISPLAYED_WAITING_FOR_TAP. Prompting user.")
 
 	print("DEBUG: --- Exiting _animate_item_drop ---")
+
+
+# NEW: Function to get a random rarity based on chest type's drop chances
+func get_random_rarity(chest_type: String) -> String:
+	if not CHEST_DROP_CHANCES.has(chest_type):
+		print("WARNING: Unknown chest type: ", chest_type, ". Defaulting to normal chest drops.")
+		chest_type = "normal" # Fallback to normal if type is invalid
+
+	var chances_for_chest = CHEST_DROP_CHANCES[chest_type]
+	var random_value = randf() # Returns a random float between 0.0 and 1.0
+
+	var cumulative_probability = 0.0
+	for rarity_name in ["common", "rare", "epic", "legendary"]: # Iterate in specific order
+		cumulative_probability += chances_for_chest.get(rarity_name, 0.0)
+		if random_value <= cumulative_probability:
+			return rarity_name
+	
+	# Fallback in case of rounding errors or if probabilities don't sum to 1.0
+	return "common"
