@@ -4,6 +4,8 @@
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="1_nsk0a"]
 
 [node name="InventorySlot" type="Control"]
+z_index = 6
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,18 +14,24 @@ offset_right = -1820.0
 offset_bottom = -980.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_7wnod")
 
 [node name="ItemIcon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+mouse_default_cursor_shape = 4
 stretch_mode = 5
 
 [node name="QuantityLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -42,22 +50,30 @@ horizontal_alignment = 2
 vertical_alignment = 2
 
 [node name="ClickableArea" type="Button" parent="."]
+unique_name_in_owner = true
+z_index = 6
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_default_cursor_shape = 2
 flat = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="HighlightBackground" type="ColorRect" parent="."]
+unique_name_in_owner = true
 z_index = -10
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.804245, 0.804245, 1.15514e-06, 1)
 
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_mouse_exited"]
 [connection signal="pressed" from="ClickableArea" to="." method="_on_clickable_area_pressed"]

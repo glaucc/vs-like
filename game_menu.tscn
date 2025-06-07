@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b102sdydcdblj"]
+[gd_scene load_steps=32 format=3 uid="uid://b102sdydcdblj"]
 
 [ext_resource type="Script" uid="uid://cascbrm6084tw" path="res://game_menu.gd" id="1_5rxej"]
 [ext_resource type="Texture2D" uid="uid://dhfqj7r6fcv7x" path="res://assets/UI books & more.png" id="1_jowre"]
@@ -10,6 +10,10 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icggr"]
 bg_color = Color(0.0862745, 0.352941, 0.298039, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjxss"]
+atlas = ExtResource("1_jowre")
+region = Rect2(768, 64, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jprcw"]
 atlas = ExtResource("1_jowre")
@@ -160,16 +164,31 @@ region = Rect2(33, 289, 30, 30)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rcmp"]
 texture = SubResource("AtlasTexture_wr0q8")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rcmp"]
+atlas = ExtResource("5_xxfb2")
+region = Rect2(97, 97, 30, 30)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pbvm6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd342"]
+atlas = ExtResource("5_xxfb2")
+region = Rect2(129, 97, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tklej"]
+texture = SubResource("AtlasTexture_yd342")
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbvm6"]
 atlas = ExtResource("5_xxfb2")
-region = Rect2(1, 289, 30, 30)
+region = Rect2(289, 161, 30, 30)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yd342"]
-texture = SubResource("AtlasTexture_pbvm6")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wr0q8"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rjxss"]
-atlas = ExtResource("1_jowre")
-region = Rect2(768, 64, 48, 48)
+[sub_resource type="AtlasTexture" id="AtlasTexture_tklej"]
+atlas = ExtResource("5_xxfb2")
+region = Rect2(321, 161, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_scae6"]
+texture = SubResource("AtlasTexture_tklej")
 
 [node name="GameMenu" type="Control"]
 layout_mode = 3
@@ -178,56 +197,95 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_5rxej")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.0328125
-anchor_top = 0.0148148
-anchor_right = 0.374479
-anchor_bottom = 0.489815
-offset_left = 34.0
-offset_top = 32.0
-offset_right = 34.0
-offset_bottom = 32.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_icggr")
 
 [node name="InventoryGrid" type="GridContainer" parent="PanelContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(800, 200)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/v_separation = 40
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 50
 
 [node name="EquipPanel" type="GridContainer" parent="PanelContainer/InventoryGrid"]
 layout_mode = 2
-theme_override_constants/h_separation = 50
+size_flags_horizontal = 6
+mouse_filter = 2
+theme_override_constants/h_separation = 100
 theme_override_constants/v_separation = 100
-columns = 2
+columns = 4
+
+[node name="UpgradeStat" type="Sprite2D" parent="PanelContainer/InventoryGrid/EquipPanel"]
+self_modulate = Color(1, 1, 1, 0.682353)
+z_index = 2
+position = Vector2(49, 49)
+scale = Vector2(2.66667, 2.8125)
+texture = SubResource("AtlasTexture_rjxss")
+
+[node name="UpgradeStat2" type="Sprite2D" parent="PanelContainer/InventoryGrid/EquipPanel"]
+self_modulate = Color(1, 1, 1, 0.682353)
+z_index = 2
+position = Vector2(250, 48)
+scale = Vector2(2.85417, 2.85417)
+texture = SubResource("AtlasTexture_rjxss")
+
+[node name="UpgradeStat3" type="Sprite2D" parent="PanelContainer/InventoryGrid/EquipPanel"]
+self_modulate = Color(1, 1, 1, 0.682353)
+z_index = 2
+position = Vector2(447, 48)
+scale = Vector2(2.79167, 2.79167)
+texture = SubResource("AtlasTexture_rjxss")
+
+[node name="UpgradeStat4" type="Sprite2D" parent="PanelContainer/InventoryGrid/EquipPanel"]
+self_modulate = Color(1, 1, 1, 0.682353)
+z_index = 2
+position = Vector2(650.5, 45.5)
+scale = Vector2(2.8125, 2.8125)
+texture = SubResource("AtlasTexture_rjxss")
 
 [node name="WeaponEquipSlot" parent="PanelContainer/InventoryGrid/EquipPanel" instance=ExtResource("2_wr0q8")]
 unique_name_in_owner = true
+z_index = 5
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 
 [node name="ArmorEquipSlot" parent="PanelContainer/InventoryGrid/EquipPanel" instance=ExtResource("2_wr0q8")]
 unique_name_in_owner = true
+z_index = 5
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 
 [node name="AccessoryEquipSlot1" parent="PanelContainer/InventoryGrid/EquipPanel" instance=ExtResource("2_wr0q8")]
 unique_name_in_owner = true
+z_index = 5
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 
 [node name="AccessoryEquipSlot2" parent="PanelContainer/InventoryGrid/EquipPanel" instance=ExtResource("2_wr0q8")]
 unique_name_in_owner = true
+z_index = 5
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="PanelContainer/InventoryGrid"]
 unique_name_in_owner = true
@@ -236,15 +294,16 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_jprcw")
 theme_override_font_sizes/normal_font_size = 16
 text = "Description"
+horizontal_alignment = 1
 
 [node name="Labels" type="CanvasLayer" parent="."]
 
 [node name="PlayerLevelLabel" type="Label" parent="Labels"]
 unique_name_in_owner = true
-offset_left = 23.0
-offset_top = 11.0
-offset_right = 447.0
-offset_bottom = 67.0
+offset_left = 96.0
+offset_top = 31.0
+offset_right = 520.0
+offset_bottom = 87.0
 theme_override_colors/font_color = Color(0, 0.627451, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -259,34 +318,33 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="defense" type="Node2D" parent="Labels"]
-position = Vector2(-213, 0)
+position = Vector2(-164, -204)
 
 [node name="DefenseLabel" type="Label" parent="Labels/defense"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.933333)
-offset_left = 1067.0
+offset_left = 1322.0
 offset_top = 359.0
-offset_right = 1491.0
+offset_right = 1746.0
 offset_bottom = 415.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_jprcw")
 theme_override_font_sizes/font_size = 42
 text = "0"
-horizontal_alignment = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="Labels/defense"]
-position = Vector2(1213, 379)
+position = Vector2(1270, 379)
 scale = Vector2(4, 4)
 texture = ExtResource("5_qus6b")
 region_enabled = true
 region_rect = Rect2(218, 24, 16, 16)
 
 [node name="attack" type="Node2D" parent="Labels"]
-position = Vector2(236, 0)
+position = Vector2(285, -204)
 
 [node name="Sprite2D" type="Sprite2D" parent="Labels/attack"]
-position = Vector2(533, 380)
+position = Vector2(499, 380)
 scale = Vector2(4, 4)
 texture = ExtResource("5_qus6b")
 region_enabled = true
@@ -295,18 +353,18 @@ region_rect = Rect2(182, 98, 15, 14)
 [node name="AttackDamageLabel" type="Label" parent="Labels/attack"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.933333)
-offset_left = 393.0
+offset_left = 548.0
 offset_top = 359.0
-offset_right = 817.0
+offset_right = 972.0
 offset_bottom = 415.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_jprcw")
 theme_override_font_sizes/font_size = 42
 text = "0"
-horizontal_alignment = 1
 
 [node name="UI" type="Node2D" parent="Labels"]
+z_index = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="Labels/UI"]
 position = Vector2(1348, 707)
@@ -318,6 +376,7 @@ offset_left = -10.0
 offset_top = -10.0
 offset_right = 8.0
 offset_bottom = 10.0
+mouse_default_cursor_shape = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_5rxej")
 flat = true
 
@@ -332,6 +391,7 @@ offset_left = -11.0
 offset_top = -10.0
 offset_right = 10.0
 offset_bottom = 10.0
+mouse_default_cursor_shape = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_xxfb2")
 flat = true
 
@@ -344,10 +404,10 @@ autoplay = "menu-idle"
 
 [node name="soon-text" type="Label" parent="Labels/UI"]
 self_modulate = Color(1, 1, 1, 0)
-offset_left = 647.0
-offset_top = 965.0
-offset_right = 1221.0
-offset_bottom = 1042.0
+offset_left = 659.0
+offset_top = 925.0
+offset_right = 1233.0
+offset_bottom = 1002.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_jprcw")
@@ -357,58 +417,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Labels/UI"]
+unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_wr0q8")
 }
 
-[node name="ShopButton" type="Button" parent="."]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 27.0
-offset_top = 752.0
-offset_right = 366.0
-offset_bottom = 1067.0
-theme_override_icons/icon = SubResource("AtlasTexture_xxfb2")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_qus6b")
-theme_override_styles/hover = SubResource("StyleBoxTexture_3rcmp")
-theme_override_styles/normal = SubResource("StyleBoxTexture_yd342")
-flat = true
-expand_icon = true
-
 [node name="Node2D" type="Node2D" parent="."]
-visible = false
-
-[node name="UpgradeStat" type="Sprite2D" parent="Node2D"]
-self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(141, 157)
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_rjxss")
-
-[node name="UpgradeStat2" type="Sprite2D" parent="Node2D"]
-self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(530, 157)
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_rjxss")
-
-[node name="UpgradeStat3" type="Sprite2D" parent="Node2D"]
-self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(928, 157)
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_rjxss")
-
-[node name="UpgradeStat4" type="Sprite2D" parent="Node2D"]
-self_modulate = Color(1, 1, 1, 0.682353)
-position = Vector2(1292, 157)
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_rjxss")
 
 [node name="UpgradeStat5" type="Sprite2D" parent="Node2D"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.682353)
 position = Vector2(1678, 157)
 scale = Vector2(4, 4)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat6" type="Sprite2D" parent="Node2D"]
+visible = false
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
 position = Vector2(141, 363)
@@ -416,6 +440,7 @@ scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat9" type="Sprite2D" parent="Node2D"]
+visible = false
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
 position = Vector2(141, 536)
@@ -423,6 +448,7 @@ scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat10" type="Sprite2D" parent="Node2D"]
+visible = false
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
 position = Vector2(1677, 344)
@@ -430,6 +456,7 @@ scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="SubUpgradeStat11" type="Sprite2D" parent="Node2D"]
+visible = false
 modulate = Color(0, 0.529412, 0, 1)
 self_modulate = Color(1, 1, 1, 0.682353)
 position = Vector2(1682, 530)
@@ -437,11 +464,63 @@ scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_rjxss")
 
 [node name="Character" type="Sprite2D" parent="Node2D"]
-position = Vector2(926, 713)
-scale = Vector2(0.648462, 0.648462)
+position = Vector2(954, 759)
+scale = Vector2(0.304615, 0.304615)
 texture = ExtResource("2_rjxss")
 
+[node name="ShopButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 52.0
+offset_top = 768.0
+offset_right = 302.0
+offset_bottom = 1018.0
+mouse_default_cursor_shape = 2
+theme_override_icons/icon = SubResource("AtlasTexture_xxfb2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qus6b")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3rcmp")
+flat = true
+expand_icon = true
+
+[node name="PlayButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1607.0
+offset_top = 768.0
+offset_right = 1857.0
+offset_bottom = 1018.0
+mouse_default_cursor_shape = 2
+theme_override_icons/icon = SubResource("AtlasTexture_3rcmp")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pbvm6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tklej")
+flat = true
+expand_icon = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 138.0
+offset_right = 252.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_jprcw")
+theme_override_font_sizes/font_size = 32
+theme_override_icons/icon = SubResource("AtlasTexture_pbvm6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wr0q8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_scae6")
+text = "Daily
+Reward"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[connection signal="clicked" from="PanelContainer/InventoryGrid/EquipPanel/WeaponEquipSlot" to="." method="_on_equip_slot_clicked"]
+[connection signal="clicked" from="PanelContainer/InventoryGrid/EquipPanel/ArmorEquipSlot" to="." method="_on_equip_slot_clicked"]
+[connection signal="clicked" from="PanelContainer/InventoryGrid/EquipPanel/AccessoryEquipSlot1" to="." method="_on_equip_slot_clicked"]
+[connection signal="clicked" from="PanelContainer/InventoryGrid/EquipPanel/AccessoryEquipSlot2" to="." method="_on_equip_slot_clicked"]
 [connection signal="pressed" from="Labels/UI/Sprite2D/LeftButton" to="." method="_on_left_button_pressed"]
 [connection signal="pressed" from="Labels/UI/Sprite2D2/RightButton" to="." method="_on_right_button_pressed"]
 [connection signal="animation_finished" from="Labels/UI/ui_anims" to="." method="_on_ui_anims_animation_finished"]
 [connection signal="pressed" from="ShopButton" to="." method="_on_shop_button_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

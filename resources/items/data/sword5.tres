@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://bn18str74kden"]
+
+[ext_resource type="Script" uid="uid://v6kc6uqfonq4" path="res://resources/item.gd" id="1_ceq5y"]
+
+[resource]
+script = ExtResource("1_ceq5y")
+id = "fire_soul"
+item_name = "Fire Soul"
+texture_path = "uid://bmymnxe58w630"
+rarity = "epic"
+slot_type = ""
+description = "A simple item."
+attack_bonus = 35
+defense_bonus = 0
+metadata/_custom_type_script = "uid://v6kc6uqfonq4"

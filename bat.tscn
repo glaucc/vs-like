@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://b1o0qebaugyrd"]
+
+[ext_resource type="Texture2D" uid="uid://sqev8l1oniab" path="res://assets/monsters/bat.png" id="1_pb2o4"]
+[ext_resource type="Script" uid="uid://cbwpsyvtkbsnv" path="res://bat.gd" id="1_tofr1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tofr1"]
+atlas = ExtResource("1_pb2o4")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vobq3"]
+atlas = ExtResource("1_pb2o4")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1tubu"]
+atlas = ExtResource("1_pb2o4")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3tecl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tofr1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vobq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1tubu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vobq3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pb2o4"]
+radius = 65.3758
+
+[node name="bat" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_tofr1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_3tecl")
+frame = 3
+frame_progress = 0.48647
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_pb2o4")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckn4hspchx02m"]
+
+[ext_resource type="Texture2D" uid="uid://dhfqj7r6fcv7x" path="res://assets/UI books & more.png" id="1_vtacy"]
+
+[node name="Sprite2D" type="Sprite2D"]
+scale = Vector2(6, 6)
+texture = ExtResource("1_vtacy")
+region_enabled = true
+region_rect = Rect2(786, 211, 12, 11)

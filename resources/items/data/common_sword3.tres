@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://mp0tuqmets10"]
+
+[ext_resource type="Script" uid="uid://v6kc6uqfonq4" path="res://resources/item.gd" id="1_65jqc"]
+
+[resource]
+script = ExtResource("1_65jqc")
+id = "common_sword3"
+item_name = "Light Shine"
+texture_path = "uid://bbmmg4wwgtu50"
+rarity = "common"
+slot_type = ""
+description = "A simple item."
+attack_bonus = 3
+defense_bonus = 0
+metadata/_custom_type_script = "uid://v6kc6uqfonq4"

@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://brfa2h0lsj63i"]
+
+[ext_resource type="Script" uid="uid://dmmnhytpepo67" path="res://resources/items/data/item_selection_popup.gd" id="1_ll607"]
+[ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v3dcb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ll607"]
+bg_color = Color(0.137255, 0.564706, 0.388235, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3dcb"]
+
+[node name="ItemSelectionPopup" type="PanelContainer"]
+z_index = 20
+custom_minimum_size = Vector2(500, 450)
+offset_top = 37.0
+offset_right = 500.0
+offset_bottom = 594.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ll607")
+script = ExtResource("1_ll607")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CloseButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58.86)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_v3dcb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_v3dcb")
+text = "Close"
+
+[node name="SelectItemLabel" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 41.855)
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_v3dcb")
+theme_override_font_sizes/font_size = 16
+text = "Select an Item"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(500, 450)
+layout_mode = 2
+mouse_default_cursor_shape = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(480, 450)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+
+[node name="ItemsGrid" type="GridContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 4
+
+[connection signal="pressed" from="VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]

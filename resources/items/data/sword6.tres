@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://dlyux66wsgg8p"]
+
+[ext_resource type="Script" uid="uid://v6kc6uqfonq4" path="res://resources/item.gd" id="1_m5om2"]
+
+[resource]
+script = ExtResource("1_m5om2")
+id = "fire_seek"
+item_name = "Fire Seek"
+texture_path = "uid://drdhmv3bpnwkh"
+rarity = "epic"
+slot_type = ""
+description = "A simple item."
+attack_bonus = 38
+defense_bonus = 0
+metadata/_custom_type_script = "uid://v6kc6uqfonq4"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://drxgvhhrrm64f"]
+
+[ext_resource type="Script" uid="uid://v6kc6uqfonq4" path="res://resources/item.gd" id="1_rxf4u"]
+
+[resource]
+script = ExtResource("1_rxf4u")
+id = "kingdown_sight"
+item_name = "Kingdown Sight"
+texture_path = "uid://5bcv8tjqu36j"
+rarity = "common"
+slot_type = ""
+description = "A simple item."
+attack_bonus = 7
+defense_bonus = 0
+metadata/_custom_type_script = "uid://v6kc6uqfonq4"

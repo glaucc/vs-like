@@ -15,6 +15,7 @@ run/main_scene="uid://b77u2sg5kdopd"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
+boot_splash/use_filter=false
 config/icon="uid://cyb6x7h8or0og"
 
 [audio]
@@ -31,8 +32,11 @@ ItemData="*res://item_data.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=2
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AdmobPlugin/plugin.cfg")
 
 [global_group]
 

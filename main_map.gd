@@ -426,7 +426,7 @@ func _on_button_pressed() -> void:
 	Autoload.reset_variables()
 	reset_game()
 	%GameOver.hide()
-	var main_menu = load("res://menu.tscn")
+	var main_menu = load("res://shop.tscn")
 	print("Loaded scene path:", main_menu.resource_path)
 	get_tree().change_scene_to_packed(main_menu)
 	
