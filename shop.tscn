@@ -1,13 +1,15 @@
-[gd_scene load_steps=76 format=3 uid="uid://bjxvd45txvxxv"]
+[gd_scene load_steps=81 format=3 uid="uid://bjxvd45txvxxv"]
 
 [ext_resource type="Script" uid="uid://dinq422e63jx0" path="res://shop.gd" id="1_6lah5"]
 [ext_resource type="Texture2D" uid="uid://e16e8gqwlk7c" path="res://assets/Chests.png" id="1_viryw"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_e7rdd"]
 [ext_resource type="Texture2D" uid="uid://c55onf4r1pb7s" path="res://assets/All.png" id="3_blqjs"]
 [ext_resource type="Texture2D" uid="uid://dyx62rxdmr4q8" path="res://assets/are-these-buttons-okay-or-should-i-just-use-pixel-art-from-v0-pvsfngfcvb4f1.jpg" id="3_gmb2m"]
-[ext_resource type="PackedScene" uid="uid://cmntp4fqdkg0k" path="res://coin.tscn" id="4_fgaav"]
 [ext_resource type="Texture2D" uid="uid://cuum1miyepyxw" path="res://assets/Orange Button Icons.png" id="7_8kdgp"]
 [ext_resource type="Script" uid="uid://ci1l8jm70jtp6" path="res://addons/AdmobPlugin/Admob.gd" id="8_myf4l"]
+[ext_resource type="PackedScene" uid="uid://cmkon3srsu28n" path="res://coin_big.tscn" id="9_p5a0g"]
+[ext_resource type="Texture2D" uid="uid://b0njqc374rwa4" path="res://assets/bg/bg-shop.jpg" id="9_xqmyw"]
+[ext_resource type="PackedScene" uid="uid://duotfllnrd0t2" path="res://gem_currency.tscn" id="10_xqmyw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gmb2m"]
 
@@ -496,6 +498,42 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node2D/CoinBig6:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node2D/GemAdAmountLabel:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.07629, 1.07629)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("gem_currency2:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.06, 0.06)]
+}
 
 [sub_resource type="Animation" id="Animation_myf4l"]
 resource_name = "ad_buttons"
@@ -511,7 +549,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+"values": [Vector2(1, 1), Vector2(1.2, 1.2)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -524,6 +562,42 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.2, 1.2)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node2D/CoinBig6:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.35, 1.35)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node2D/GemAdAmountLabel:scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.07629, 1.07629), Vector2(1.3, 1.3)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("gem_currency2:scale")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.06, 0.06), Vector2(0.08, 0.08)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p5a0g"]
@@ -556,6 +630,44 @@ region = Rect2(33, 65, 30, 30)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6qct6"]
 texture = SubResource("AtlasTexture_511ah")
 
+[sub_resource type="Animation" id="Animation_msgp6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bg-shop:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1000, 350.75)]
+}
+
+[sub_resource type="Animation" id="Animation_sw5c6"]
+resource_name = "bg-moving"
+length = 12.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bg-shop:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.66667, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1000, 350.75), Vector2(933, 350.75), Vector2(946, 712)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_msgp6"]
+_data = {
+&"RESET": SubResource("Animation_msgp6"),
+&"bg-moving": SubResource("Animation_sw5c6")
+}
+
 [node name="Shop" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -569,6 +681,9 @@ script = ExtResource("1_6lah5")
 [node name="Admob" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("8_myf4l")
+child_directed = 1
+under_age_of_consent = 1
+personalization_state = 2
 debug_application_id = "ca-app-pub-3940256099942544~3347511713"
 debug_rewarded_id = "ca-app-pub-3940256099942544/5224354917"
 metadata/_custom_type_script = "uid://ci1l8jm70jtp6"
@@ -741,7 +856,7 @@ scale = Vector2(12, 12)
 sprite_frames = SubResource("SpriteFrames_ugyvi")
 
 [node name="chest-legendary" type="AnimatedSprite2D" parent="."]
-position = Vector2(1416, 645)
+position = Vector2(1416, 656)
 scale = Vector2(12, 12)
 sprite_frames = SubResource("SpriteFrames_a54l6")
 
@@ -778,11 +893,39 @@ scale = Vector2(20, 20)
 sprite_frames = SubResource("SpriteFrames_a54l6")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-z_index = -2
+z_index = -7
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0905254, 0.004151, 0.00883667, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1459.0
+offset_top = 22.0
+offset_right = -60.0
+offset_bottom = -986.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0905254, 0.004151, 0.00883667, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 976.0
+offset_top = 22.0
+offset_right = -543.0
+offset_bottom = -986.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -793,11 +936,12 @@ unique_name_in_owner = true
 visible = false
 modulate = Color(0.896656, 0.896656, 0.896656, 1)
 z_index = 3
-layout_mode = 0
-offset_left = 170.0
-offset_top = 112.0
-offset_right = 1753.0
-offset_bottom = 970.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = SubResource("GradientTexture2D_e7rdd")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
@@ -813,6 +957,28 @@ texture = ExtResource("3_blqjs")
 region_enabled = true
 region_rect = Rect2(576, 35, 48, 11)
 
+[node name="coin-bar2" type="Sprite2D" parent="."]
+position = Vector2(1180, 61.5)
+scale = Vector2(9.72727, 9.72727)
+texture = ExtResource("3_blqjs")
+region_enabled = true
+region_rect = Rect2(576, 35, 48, 11)
+
+[node name="gem_count" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1017.0
+offset_top = 39.0
+offset_right = 1289.0
+offset_bottom = 90.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_e7rdd")
+theme_override_font_sizes/font_size = 42
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [node name="coin_count" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
@@ -820,35 +986,13 @@ offset_left = 1488.0
 offset_top = 39.0
 offset_right = 1760.0
 offset_bottom = 90.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_e7rdd")
 theme_override_font_sizes/font_size = 42
 text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
-
-[node name="Coin" parent="." instance=ExtResource("4_fgaav")]
-position = Vector2(1804, 65)
-scale = Vector2(2, 2)
-
-[node name="Coin2" parent="." instance=ExtResource("4_fgaav")]
-unique_name_in_owner = true
-position = Vector2(749, 472)
-scale = Vector2(2, 2)
-
-[node name="Coin3" parent="." instance=ExtResource("4_fgaav")]
-unique_name_in_owner = true
-position = Vector2(1436, 474)
-scale = Vector2(2, 2)
-
-[node name="Coin5" parent="." instance=ExtResource("4_fgaav")]
-unique_name_in_owner = true
-position = Vector2(1455, 930)
-scale = Vector2(2, 2)
-
-[node name="Coin4" parent="." instance=ExtResource("4_fgaav")]
-unique_name_in_owner = true
-position = Vector2(769, 936)
-scale = Vector2(2, 2)
 
 [node name="Label5" type="Label" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -910,24 +1054,35 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="Node2D" type="Node2D" parent="."]
-position = Vector2(203, 280)
+position = Vector2(203, 279)
 
 [node name="AdAmountLabel" type="Label" parent="Node2D"]
 unique_name_in_owner = true
-offset_left = 18.0
-offset_top = 5.0
-offset_right = 128.0
-offset_bottom = 92.0
+offset_left = -16.0
+offset_top = -10.0
+offset_right = 94.0
+offset_bottom = 77.0
 pivot_offset = Vector2(55, 30.05)
 theme_override_fonts/font = ExtResource("2_e7rdd")
 theme_override_font_sizes/font_size = 36
-text = "500"
-horizontal_alignment = 2
+text = "150"
 
-[node name="Coin6" parent="Node2D" instance=ExtResource("4_fgaav")]
+[node name="GemAdAmountLabel" type="Label" parent="Node2D"]
 unique_name_in_owner = true
-position = Vector2(-41, 19)
-scale = Vector2(2, 2)
+offset_left = -3.0
+offset_top = 62.0
+offset_right = 107.0
+offset_bottom = 149.0
+scale = Vector2(1.07629, 1.07629)
+pivot_offset = Vector2(55, 30.05)
+theme_override_fonts/font = ExtResource("2_e7rdd")
+theme_override_font_sizes/font_size = 36
+text = "40"
+
+[node name="CoinBig6" parent="Node2D" instance=ExtResource("9_p5a0g")]
+unique_name_in_owner = true
+position = Vector2(-53, 5)
+scale = Vector2(1, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -994,6 +1149,52 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_e7rdd")
 theme_override_font_sizes/font_size = 42
 text = "Black Sword"
+
+[node name="CoinBig" parent="." instance=ExtResource("9_p5a0g")]
+unique_name_in_owner = true
+position = Vector2(1794, 62)
+scale = Vector2(1, 1)
+
+[node name="CoinBig2" parent="." instance=ExtResource("9_p5a0g")]
+unique_name_in_owner = true
+position = Vector2(749, 472)
+scale = Vector2(1, 1)
+
+[node name="CoinBig3" parent="." instance=ExtResource("9_p5a0g")]
+unique_name_in_owner = true
+position = Vector2(1436, 474)
+scale = Vector2(1, 1)
+
+[node name="CoinBig4" parent="." instance=ExtResource("9_p5a0g")]
+unique_name_in_owner = true
+position = Vector2(769, 936)
+scale = Vector2(1, 1)
+
+[node name="CoinBig5" parent="." instance=ExtResource("9_p5a0g")]
+unique_name_in_owner = true
+position = Vector2(1455, 930)
+scale = Vector2(1, 1)
+
+[node name="Bg-shop" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.25)
+z_index = -7
+position = Vector2(1000, 350.75)
+scale = Vector2(0.981151, 0.981151)
+texture = ExtResource("9_xqmyw")
+region_enabled = true
+region_rect = Rect2(0, 263, 2048, 1512)
+
+[node name="gem_currency" parent="." instance=ExtResource("10_xqmyw")]
+position = Vector2(1317, 61)
+
+[node name="gem_currency2" parent="." instance=ExtResource("10_xqmyw")]
+position = Vector2(153, 358)
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_msgp6")
+}
+autoplay = "bg-moving"
 
 [connection signal="initialization_completed" from="Admob" to="." method="_on_admob_initialization_completed"]
 [connection signal="rewarded_ad_user_earned_reward" from="Admob" to="." method="_on_admob_rewarded_ad_user_earned_reward"]

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxjm37aet6rqg"]
+[gd_scene load_steps=4 format=3 uid="uid://bxjm37aet6rqg"]
 
 [ext_resource type="Script" uid="uid://d3hj1hji4suh8" path="res://inventory/inventory_slot.gd" id="1_7wnod"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="1_nsk0a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7wnod"]
 
 [node name="InventorySlot" type="Control"]
 z_index = 6
@@ -59,6 +61,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7wnod")
 flat = true
 
 [node name="HighlightBackground" type="ColorRect" parent="."]

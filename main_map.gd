@@ -4,10 +4,18 @@ var time_passed: float = 0.0
 var game_over:bool = false
 var end_time:float = 0.0
 
+@onready var game_over_screen = %GameOver
+@onready var revive_button = %ReviveButton # Corrected path if ReviveButton is direct child
+@onready var revive_timer_label = %ReviveTimerLabel # Corrected path
+@onready var revive_countdown_timer = %ReviveCountdownTimer # Corrected path
+
 #const MENU = preload("res://menu.tscn")
 
 var shake_strength:float = 0.0
 
+var bat_spawned: bool = false
+
+@onready var player: CharacterBody2D = $player
 
 var level:int = Autoload.level
 var required_xp = [
@@ -183,21 +191,45 @@ func _ready() -> void:
 
 	%UpgradeMenu.hide()
 	$Score/DebugUI.hide()
-	%GameOver.hide()
+	game_over_screen.hide()
 	%PauseMenu.hide()
 	
 	for gun in get_tree().get_nodes_in_group("guns"):
 		if gun.name == "gun":
 			gun.set_process_mode(Node.PROCESS_MODE_DISABLED);
 			gun.hide()
+	
+	
+	# Connect the ReviveCountdownTimer's timeout signal
+	revive_countdown_timer.timeout.connect(Callable(self, "_on_revive_countdown_timer_timeout"))
+	# Connect the ReviveCountdownTimer's `timeout` and also directly update label in `_process`
+	# or use a dedicated signal for timer updates if not using `_physics_process` for UI.
+	
+	# Connect the revive button pressed signal
+	revive_button.pressed.connect(Callable(self, "_on_revive_button_pressed"))
+	
+	# Connect the "No thanks" button (assuming it's %GameOver/Button or similar)
+	# You had _on_button_pressed, let's assume that's your "No Thanks" or "Continue" button
+
+	# Set process mode to always even if paused, to ensure timer updates
+	revive_countdown_timer.set_process_mode(Node.PROCESS_MODE_ALWAYS)
 
 
 func _process(delta):
-
-
 	# Check if ready to level up
 	var is_ready_to_level = Autoload.score >= required_xp[level]
-
+	
+	# Update revive countdown label if active (only when game is paused and game over screen is visible)
+	# This is often more reliable than relying solely on _physics_process for UI updates
+	if game_over_screen.visible and get_tree().paused and revive_countdown_timer.time_left > 0:
+		var time_left = floor(revive_countdown_timer.time_left) # Floor to get whole seconds
+		revive_timer_label.text = "Reviving in: " + str(time_left) + "s"
+	elif game_over_screen.visible and get_tree().paused:
+		# If timer has run out but screen is still visible, update label
+		if Autoload.life_token <= 0: # Only if they couldn't revive
+			revive_timer_label.text = "Game Over!" # Or "No tokens available!"
+		else:
+			revive_timer_label.text = "Time's up!"
 
 
 func gun1_activate():
@@ -296,20 +328,24 @@ func _physics_process(delta: float) -> void:
 	#%Score.text = "Level " + str(level) + " " + str(score) + "/" + str(required_xp[level])
 	%Score.text = "Level " + str(level)
 	
+	# The timer label update is moved to _process for better responsiveness.
+	# We still keep the check here, but the _process function above is the primary updater now.
+	
 	if score >= required_xp[level]:
+		
 		#open level up pop up - PAUSE MENU
 		current_selection = 0
 		var upgrade_count = 0
 		if %Upgrade4.visible:
-			upgrade_count == 4
+			upgrade_count = 4 # Corrected assignment from == to =
 		else:
-			upgrade_count == 3
+			upgrade_count = 3 # Corrected assignment from == to =
 		%UpgradeMenu.show()
 		%UpgradeButton1.grab_focus()
 		assign_upgrades_to_buttons()
 		%menu_animations.play("show_menu")
 		
-		
+		player._update_stats()
 		get_tree().paused = true
 		level += 1
 	#if level == 2:
@@ -345,24 +381,45 @@ func _physics_process(delta: float) -> void:
 	#print(coins)
 	%Coins.text = str(Autoload.player_coins)
 	
-	if not boss1_spawned and time_passed >= 300:
-		spawn_boss1()
-	elif time_passed >= 60 and not first_wave_speed:
+	
+	
+	# Wave Speed Adjustments
+	if time_passed >= 60 and not first_wave_speed:
 		%MobSpawnTimer.wait_time = 0.2
 		first_wave_speed = true
-	elif time_passed >= 120 and not second_wave_speed:
-		%MobSpawnTimer.wait_time = 1.5
+
+	if time_passed >= 120 and not second_wave_speed:
+		%MobSpawnTimer.wait_time = 1.5 # This looks like a reduction in spawn rate, which is interesting.
 		second_wave_speed = true
-	elif time_passed >= 240 and not third_wave_speed:
+
+	if time_passed >= 240 and not third_wave_speed:
 		%MobSpawnTimer.wait_time = 0.6
 		third_wave_speed = true
-	elif time_passed >= 480 and not _4th_wave_speed:
+
+	if time_passed >= 480 and not _4th_wave_speed:
 		%MobSpawnTimer.wait_time = 0.4
 		_4th_wave_speed = true
-	elif not boss2_spawned and time_passed >= 600:
+
+	# Boss Spawns
+	if time_passed >= 300 and not boss1_spawned:
+		spawn_boss1()
+		boss1_spawned = true
+
+	if time_passed >= 600 and not boss2_spawned:
 		spawn_boss2()
-	elif not boss3_spawned and time_passed >= 900:
+		boss2_spawned = true
+
+	if time_passed >= 900 and not boss3_spawned:
 		spawn_boss3()
+		boss3_spawned = true
+
+	# Specific Mob Spawns (like "bat")
+	if time_passed >= 120 and not bat_spawned:
+		spawn_mob("bat")
+		bat_spawned = true
+		# You could also add a temporary increase in spawn rate for this event
+		%MobSpawnTimer.wait_time = 0.1 # for a short burst
+		# $TemporarySpawnBurstTimer.start(5) # then restore it later
 
 
 func spawn_mob(group_name: String) -> void:
@@ -375,7 +432,7 @@ func spawn_mob(group_name: String) -> void:
 	add_child(new_mob)
 	
 	if new_mob.has_method("reset"):
-		new_mob.reset()
+		new_mob.reset(group_name)
 
 
 # Spawning logic
@@ -413,22 +470,82 @@ func _on_mob_spawn_timer_timeout() -> void:
 		spawn_hard_wave()
 
 
+
+# Called when player health reaches 0
 func _on_player_health_depleted() -> void:
-	%GameOver.show()
+	game_over_screen.show() # Always show the Game Over UI
 	end_time = time_passed
 	game_over = true
-	time_passed = 0.0
-	get_tree().paused = true
+	get_tree().paused = true # Pause the game
+
+	# Check for revive tokens and enable/disable revive option
+	if Autoload.life_token > 0:
+		revive_button.text = "Revive with Token (" + str(Autoload.life_token) + ")"
+		revive_button.disabled = false
+		revive_button.show()
+		revive_timer_label.show()
+		revive_countdown_timer.start() # Start the countdown
+		print("Player health depleted. Showing revive option.")
+	else:
+		# No life tokens, just show "Game Over" and disable revive options
+		revive_button.hide()
+		revive_timer_label.show() # Still show the label
+		revive_timer_label.text = "Game Over!"
+		revive_countdown_timer.stop() # Ensure timer is stopped
+		# Do NOT call finalize_game_over() here immediately.
+		# Let the player see the "Game Over!" message and click the "No Thanks" button
+		# or wait for the "No Thanks" button's associated timer (if any) to trigger it.
+		# If there's no "No Thanks" button and you want it to automatically go to shop after a delay,
+		# you'd set up a *separate* timer here for that.
+		print("Player health depleted. No revive tokens. Displaying Game Over screen.")
 
 
 
-func _on_button_pressed() -> void:
-	Autoload.reset_variables()
-	reset_game()
-	%GameOver.hide()
-	var main_menu = load("res://shop.tscn")
+# This function contains the logic for truly ending the game and going to shop/main menu
+func finalize_game_over() -> void:
+	# Calculate and give XP to Autoload.player_level
+	var xp_gained_this_run = Autoload.score / 10 # Example: 10% of score as XP
+	Autoload.player_level += int(xp_gained_this_run) # Add XP to permanent player level
+	Autoload.save_all_player_data() # Save the updated player_level
+
+	# Now, proceed to the main menu/shop
+	Autoload.reset_variables() # This resets in-game stats for a fresh start
+	reset_game() # This handles scene specific resets (mobs, gems, player pos)
+	
+	# Explicitly hide game over screen if it was visible
+	game_over_screen.hide()
+	
+	var main_menu = load("res://shop.tscn") # Assuming this is your main menu/shop
 	print("Loaded scene path:", main_menu.resource_path)
 	get_tree().change_scene_to_packed(main_menu)
+
+
+
+
+# Called when player clicks "Revive with Token"
+func _on_revive_button_pressed() -> void:
+	if Autoload.life_token > 0:
+		print(Autoload.life_token)
+		Autoload.life_token -= 1 # Consume token
+		Autoload.save_all_player_data() # Save token change
+		
+		game_over_screen.hide() # Hide the entire Game Over UI
+		revive_countdown_timer.stop() # Stop the timer
+		
+		var player_node = get_node("player")
+		player_node.revive_player() # Trigger player revival logic
+		# Ensure the player is unpaused if `revive_player` doesn't handle it
+		get_tree().paused = false
+		print("Player revived with token.")
+	else:
+		print("ERROR: Revive button pressed with no tokens. This should have been disabled or hidden!")
+
+
+
+func _on_button_pressed() -> void: # This should be your "No Thanks" or "Continue" button
+	game_over_screen.hide() # Hide the Game Over UI
+	revive_countdown_timer.stop() # Stop the timer
+	finalize_game_over() # Proceed to final game over steps
 	
 	# Load main menu
 
@@ -502,32 +619,36 @@ func _on_upgrade_button_4_pressed() -> void:
 
 func reset_game():
 	# Reset game state
-	Autoload.score = 0
-	Autoload.level = 1
 	time_passed = 0.0
+	game_over = false
 	get_tree().paused = false
 
 	# Reset UI
 	%Time.text = "00:00"
-	%Score.text = "Level 1 0/..."
-	Autoload.add_coins(coins)
-	#%Coins.text = str(0)
+	%Score.text = "Level 1"
+	%Coins.text = str(Autoload.player_coins)
 	%LevelProgressBar.value = 0
 
 	# Reset player
-	var player = get_node("player")
-	#print(player.max_health)
-	player.health = player.max_health
-	player.velocity = Vector2.ZERO
-	player.global_position = Vector2(300, 300) # spawn position
-	player.get_node("%ProgressBar").value = player.max_health
+	var player_node = get_node("player")
+	player_node._update_stats()
+	player_node.health = player_node.max_health
+	player_node.velocity = Vector2.ZERO
+	player_node.global_position = Vector2(300, 300)
+	player_node.get_node("%ProgressBar").value = player_node.max_health
+	player_node.set_physics_process(true)
+	player_node.visible = true
 
 	# Hide and reset Upgrade Menu or other popups
 	%UpgradeMenu.hide()
+	game_over_screen.hide() # Ensure game over screen is hidden
 
-	# Reset enemies
+	# Reset enemies (return them to pool)
 	for mob in get_tree().get_nodes_in_group("enemies"):
-		mob.queue_free()
+		if mob.has_method("reset") and mob.has_method("_pool_group_name"):
+			PoolManager.return_to_pool(mob._pool_group_name, mob)
+		else:
+			mob.queue_free()
 
 	# Reset gems and coins
 	for drop in get_tree().get_nodes_in_group("drops"):
@@ -535,23 +656,26 @@ func reset_game():
 
 	# Reset guns
 	for gun in get_tree().get_nodes_in_group("guns"):
+		gun.set_process_mode(Node.PROCESS_MODE_DISABLED)
+		gun.hide()
+
+	for gun in get_tree().get_nodes_in_group("guns"):
 		if gun.name == "gun":
 			gun.show()
-			gun.set_process_mode(Node.PROCESS_MODE_INHERIT);
-			continue
-			
-		gun.set_process_mode(Node.PROCESS_MODE_DISABLED);
-		gun.hide() # you define this to hide and disable
-		
-	
+			gun.set_process_mode(Node.PROCESS_MODE_INHERIT)
+			break
+
 	# Reset timers, variables, etc.
 	%MobSpawnTimer.start()
-
-
-#func _on_menu_animations_animation_finished(anim_name: StringName) -> void:
-	#if anim_name == "show_menu":
-		#%UpgradeMenu.show()
-		#print("showed")
+	first_wave_speed = false
+	second_wave_speed = false
+	third_wave_speed = false
+	_4th_wave_speed = false
+	# ... (add other wave flags if necessary) ...
+	boss1_spawned = false
+	boss2_spawned = false
+	boss3_spawned = false
+	bat_spawned = false
 
 
 func _on_pause_button_pressed() -> void:
@@ -563,3 +687,16 @@ func _on_resume_button_pressed() -> void:
 	get_tree().paused = false
 	%PauseMenu.hide()
 	
+
+func _on_player_revived() -> void:
+	get_tree().paused = false # Unpause the game
+	%UpgradeMenu.hide() # Ensure upgrade menu is hidden if it was open
+	%PauseMenu.hide() # Ensure pause menu is hidden if it was open
+	game_over_screen.hide() # NEW: Hide the entire Game Over screen
+
+
+func _on_revive_countdown_timer_timeout() -> void:
+	print("Revive countdown timed out. No revival.")
+	# The timer ran out. If they had tokens but didn't click,
+	# or if they had no tokens, this leads to the shop.
+	finalize_game_over()

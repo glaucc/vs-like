@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://b4auljklap6ql"]
+[gd_scene load_steps=11 format=3 uid="uid://b4auljklap6ql"]
 
 [ext_resource type="Script" uid="uid://dmeu5r50vi4pc" path="res://equip/EquipSlot.gd" id="1_tt47i"]
 [ext_resource type="Texture2D" uid="uid://dfsj77s1d1x5" path="res://Pixel Holy Spell Effect 32x32 Pack 3/01.png" id="2_p87ps"]
 [ext_resource type="Texture2D" uid="uid://dhfqj7r6fcv7x" path="res://assets/UI books & more.png" id="2_x0pac"]
 [ext_resource type="AudioStream" uid="uid://bqstjga83kf2e" path="res://assets/SFX/item-equip-6904.mp3" id="3_8tfrq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x0pac"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c2y83"]
 atlas = ExtResource("2_x0pac")
@@ -78,6 +80,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x0pac")
 flat = true
 
 [node name="EquipParticles" type="CPUParticles2D" parent="."]

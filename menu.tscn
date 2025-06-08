@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b77u2sg5kdopd"]
+[gd_scene load_steps=29 format=3 uid="uid://b77u2sg5kdopd"]
 
 [ext_resource type="Script" uid="uid://d1at8cr4bhu7r" path="res://menu.gd" id="1_mae5d"]
 [ext_resource type="Texture2D" uid="uid://ddsb7hgdt6ulq" path="res://assets/bg/bg1.png" id="2_4hy44"]
@@ -39,6 +39,19 @@ region = Rect2(65, 1, 62, 30)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g7jxm"]
 texture = SubResource("AtlasTexture_dwrpx")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kk3ma"]
+atlas = ExtResource("4_4hy44")
+region = Rect2(1, 225, 62, 30)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nrnbx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7jxm"]
+atlas = ExtResource("4_4hy44")
+region = Rect2(65, 225, 62, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jspdm"]
+texture = SubResource("AtlasTexture_g7jxm")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ecwwl"]
 atlas = ExtResource("4_4hy44")
@@ -127,10 +140,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 1634.0
-offset_top = 494.0
-offset_right = 2132.0
-offset_bottom = 738.0
+offset_left = 1628.0
+offset_top = 382.0
+offset_right = 2126.0
+offset_bottom = 626.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
@@ -142,11 +155,23 @@ flat = true
 icon_alignment = 2
 expand_icon = true
 
+[node name="ShopButton" type="Button" parent="."]
+offset_left = 1630.0
+offset_top = 513.0
+offset_right = 2130.0
+offset_bottom = 757.0
+scale = Vector2(0.5, 0.5)
+theme_override_icons/icon = SubResource("AtlasTexture_kk3ma")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nrnbx")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jspdm")
+flat = true
+expand_icon = true
+
 [node name="SettingsButton" type="Button" parent="."]
-offset_left = 1579.0
-offset_top = 630.0
-offset_right = 2201.0
-offset_bottom = 874.0
+offset_left = 1569.0
+offset_top = 645.0
+offset_right = 2191.0
+offset_bottom = 889.0
 scale = Vector2(0.5, 0.5)
 theme_override_fonts/font = ExtResource("2_ouk20")
 theme_override_font_sizes/font_size = 96
@@ -158,9 +183,9 @@ expand_icon = true
 
 [node name="AchievementsButton" type="Button" parent="."]
 offset_left = 1415.0
-offset_top = 753.0
+offset_top = 765.0
 offset_right = 2356.0
-offset_bottom = 1043.0
+offset_bottom = 1055.0
 scale = Vector2(0.5, 0.5)
 theme_override_icons/icon = SubResource("AtlasTexture_iqepy")
 theme_override_styles/hover = SubResource("StyleBoxTexture_dwrpx")
@@ -170,9 +195,9 @@ expand_icon = true
 
 [node name="QuitButton" type="Button" parent="."]
 offset_left = 1637.0
-offset_top = 897.0
+offset_top = 909.0
 offset_right = 2138.0
-offset_bottom = 1141.0
+offset_bottom = 1153.0
 scale = Vector2(0.5, 0.5)
 theme_override_fonts/font = ExtResource("2_ouk20")
 theme_override_font_sizes/font_size = 96
@@ -209,6 +234,7 @@ autoplay = true
 parameters/looping = true
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="ShopButton" to="." method="_on_shop_button_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="AchievementsButton" to="." method="_on_achievements_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

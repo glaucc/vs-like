@@ -27,3 +27,9 @@ func _on_anims_animation_finished(anim_name: StringName) -> void:
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_shop_button_pressed() -> void:
+	var shop = load("res://shop.tscn")
+	print("Loaded scene path:", shop.resource_path)
+	get_tree().change_scene_to_packed(shop)

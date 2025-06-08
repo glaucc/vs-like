@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://duotfllnrd0t2"]
+
+[ext_resource type="Texture2D" uid="uid://dy3sleoabukh2" path="res://assets/gem-currency.png" id="1_d7dq1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvbbv"]
+atlas = ExtResource("1_d7dq1")
+region = Rect2(0, 0, 734, 717)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ajkbv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvbbv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="gem_currency" type="AnimatedSprite2D"]
+scale = Vector2(0.06, 0.06)
+sprite_frames = SubResource("SpriteFrames_ajkbv")

@@ -1,11 +1,14 @@
+# Player.gd
 extends CharacterBody2D
 
 signal health_depleted
+signal revived # Signal for when player revives
 
-var health = 200.0 * Autoload.player_health_percent
-var max_health = 200.0 * Autoload.player_health_percent
-var speed = 150 * Autoload.player_speed_percent
-var DAMAGE_RATE = 100.0 * Autoload.player_armor_percent
+# Initialize these in _update_stats to ensure they are current
+var health: float
+var max_health: float
+var speed: float
+var DAMAGE_RATE: float # Or rename to player_defense_modifier
 
 #mobile movement support
 var touch_start_pos := Vector2.ZERO
@@ -13,6 +16,17 @@ var touch_current_pos := Vector2.ZERO
 var touching := false
 
 var can_vibrate := true # Android
+var is_invulnerable := false # NEW: for extra life invulnerability
+
+func _ready() -> void:
+	_update_stats() # Call it here to initialize stats
+	%ProgressBar.max_value = max_health
+	%ProgressBar.value = health
+	health = max_health
+
+	# Connect to signals if Autoload emits them on stat changes
+	# (Optional, but good for dynamic updates if stats change mid-game outside of upgrades)
+	# Autoload.connect("player_stats_changed", Callable(self, "_update_stats"))
 
 func _unhandled_input(event: InputEvent) -> void:
 	var screen_width = get_viewport_rect().size.x
@@ -40,7 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	#Movement
+	# Movement
 	var direction := Vector2.ZERO
 
 	if touching:
@@ -72,36 +86,36 @@ func _physics_process(delta: float) -> void:
 		pass
 		#idle animation
 
-	var overlapping_mobs = %HurtBox.get_overlapping_bodies()
-	if overlapping_mobs.size() > 0:
-		health -= overlapping_mobs.size() * DAMAGE_RATE * delta
-		
-		if Autoload.vibration_enabled and can_vibrate:
-			Input.vibrate_handheld(
-		Autoload.vibration_duration_ms,  # Customizable duration (e.g., 200ms)
-		Autoload.vibration_amplitude    # Optional: strength (0.0 to 1.0, Godot 4.4+)
-			)
-		can_vibrate = false
-		await get_tree().create_timer(Autoload.vibration_cooldown_sec).timeout
-		can_vibrate = true
-		
-		#VFX
-		self.modulate = Color(1, 0.3, 0.3) # Flash red
-		await get_tree().create_timer(0.05).timeout
-		self.modulate = Color(1, 1, 1, 1) # Reset
-		
-		%ProgressBar.value = health
-		%ProgressBar.max_value = max_health
-		if health <= 0.0:
-			health_depleted.emit()
-	
-	#---
-	### Health Regeneration
-	#
-	#To implement health regeneration, we'll add a condition to check if `Autoload.health_regen` is greater than `0.0`. If it is, we'll increase the player's health by `Autoload.health_regen` multiplied by `delta` (to ensure it's frame-rate independent). We'll also make sure that health doesn't exceed `max_health`.
-	#
-	#```
+	# Player takes damage from overlapping mobs
+	if not is_invulnerable: # Only take damage if not invulnerable
+		var overlapping_mobs = %HurtBox.get_overlapping_bodies()
+		if overlapping_mobs.size() > 0:
+			health -= overlapping_mobs.size() * DAMAGE_RATE * delta # DMG_RATE is effectively player's defense
+			
+			if Autoload.vibration_enabled and can_vibrate:
+				Input.vibrate_handheld(
+					Autoload.vibration_duration_ms,  # Customizable duration (e.g., 200ms)
+					Autoload.vibration_amplitude     # Optional: strength (0.0 to 1.0, Godot 4.4+)
+				)
+				can_vibrate = false
+				%VibrationCooldownTimer.start(Autoload.vibration_cooldown_sec) # Assuming you add a Timer node named VibrationCooldownTimer
 
+			# VFX
+			self.modulate = Color(1, 0.3, 0.3) # Flash red
+			await get_tree().create_timer(0.05).timeout
+			self.modulate = Color(1, 1, 1, 1) # Reset
+			
+			%ProgressBar.value = health
+			%ProgressBar.max_value = max_health
+
+			if health <= 0.0:
+				# Direct health_depleted emission, Gameplay will handle UI
+				health_depleted.emit()
+				set_physics_process(false) # Stop player movement/damage
+				visible = false # Hide player
+				print("Player health depleted! Signalling Game Over.")
+		
+	# Health Regeneration
 	if Autoload.health_regen > 0.0:
 		health += Autoload.health_regen * delta
 		health = min(health, max_health) # Ensure health doesn't go above max_health
@@ -109,13 +123,43 @@ func _physics_process(delta: float) -> void:
 	# Update the progress bar after potential health regeneration
 	%ProgressBar.value = health
 	%ProgressBar.max_value = max_health
-	#```
-#
-#Here's an explanation of the added code:
-#
-#* **`if Autoload.health_regen > 0.0:`**: This line checks if regeneration is enabled. If `Autoload.health_regen` is `0.0` or less, no regeneration will occur.
-#* **`health += Autoload.health_regen * delta`**: If regeneration is active, this line adds the regeneration amount to the player's `health`. Multiplying by `delta` ensures that the regeneration rate is consistent regardless of the frame rate.
-#* **`health = min(health, max_health)`**: This is crucial to prevent the player's health from exceeding their `max_health`. The `min()` function returns the smaller of the two values, effectively capping the health at `max_health`.
-#* **`%ProgressBar.value = health`**: This line updates the health bar to reflect the regenerated health. It's placed after the regeneration logic so the bar always shows the current health.
-#
-#With these changes, your player will now regenerate health if `Autoload.health_regen` is set to a value greater than `0.0`.
+
+
+# Function to update player stats based on Autoload values
+func _update_stats():
+	max_health = 200.0 * Autoload.player_health_percent
+	speed = 150 * Autoload.player_speed_percent
+	DAMAGE_RATE = 100.0 * Autoload.player_armor_percent
+	
+	health = health + (max_health - %ProgressBar.max_value) 
+	health = min(health, max_health) 
+	
+	%ProgressBar.max_value = max_health
+	%ProgressBar.value = health
+	print("Player stats updated: Max Health=", max_health, ", Speed=", speed, ", DamageRate(Defense)=", DAMAGE_RATE)
+
+# Function to handle actual revival (called by Gameplay button)
+func revive_player():
+	health = max_health # Full health
+	is_invulnerable = true # Grant temporary invulnerability
+	visible = true # Ensure player is visible
+	set_physics_process(true) # Ensure player processing is re-enabled
+	
+	# Visual feedback for revival (e.g., flash, glow)
+	modulate = Color(0.5, 1, 0.5, 1) # Greenish tint
+	await get_tree().create_timer(0.1).timeout # Short flash
+	modulate = Color(1, 1, 1, 1)
+
+	# Invulnerability duration
+	%InvulnerabilityTimer.start(3.0) 
+	
+	revived.emit() # Signal that the player was revived
+	print("Player revived!")
+
+
+func _on_VibrationCooldownTimer_timeout():
+	can_vibrate = true
+
+func _on_InvulnerabilityTimer_timeout():
+	is_invulnerable = false
+	print("Player no longer invulnerable.")

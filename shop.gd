@@ -117,8 +117,8 @@ func _calculate_ad_reward() -> int:
 func _format_coin_amount(amount: int) -> String:
 	if amount >= 1000000:
 		return "%.1fM" % (float(amount) / 1000000.0)
-	elif amount >= 1000:
-		return "%.1fk" % (float(amount) / 1000.0)
+	#elif amount >= 1000:
+		#return "%.1fk" % (float(amount) / 1000.0)
 	else:
 		return str(amount)
 
@@ -396,38 +396,38 @@ func _set_chest_buttons_enabled(enabled: bool) -> void:
 func _on_button_1_mouse_entered() -> void:
 	var label = %Label
 	label.add_theme_font_size_override("font_size", 32)
-	%Coin2.set_scale(Vector2(2.6, 2.6))
+	%CoinBig2.set_scale(Vector2(1.3, 1.3))
 func _on_button_1_mouse_exited() -> void:
 	var label = %Label
 	label.add_theme_font_size_override("font_size", 24)
-	%Coin2.set_scale(Vector2(2, 2))
+	%CoinBig2.set_scale(Vector2(1, 1))
 
 func _on_button_2_mouse_entered() -> void:
 	var label = %Label2
 	label.add_theme_font_size_override("font_size", 32)
-	%Coin3.set_scale(Vector2(2.6, 2.6))
+	%CoinBig3.set_scale(Vector2(1.3, 1.3))
 func _on_button_2_mouse_exited() -> void:
 	var label = %Label2
 	label.add_theme_font_size_override("font_size", 24)
-	%Coin3.set_scale(Vector2(2, 2))
+	%CoinBig3.set_scale(Vector2(1, 1))
 
 func _on_button_3_mouse_entered() -> void:
 	var label = %Label3
 	label.add_theme_font_size_override("font_size", 32)
-	%Coin4.set_scale(Vector2(2.6, 2.6))
+	%CoinBig4.set_scale(Vector2(1.3, 1.3))
 func _on_button_3_mouse_exited() -> void:
 	var label = %Label3
 	label.add_theme_font_size_override("font_size", 24)
-	%Coin4.set_scale(Vector2(2, 2))
+	%CoinBig4.set_scale(Vector2(1, 1))
 
 func _on_button_4_mouse_entered() -> void:
 	var label = %Label4
 	label.add_theme_font_size_override("font_size", 32)
-	%Coin5.set_scale(Vector2(2.6, 2.6))
+	%CoinBig5.set_scale(Vector2(1.3, 1.3))
 func _on_button_4_mouse_exited() -> void:
 	var label = %Label4
 	label.add_theme_font_size_override("font_size", 24)
-	%Coin5.set_scale(Vector2(2, 2))
+	%CoinBig5.set_scale(Vector2(1, 1))
 
 ## --- RARITY DROP SYSTEM ---
 func get_rarity_from_filename(filename: String) -> String:

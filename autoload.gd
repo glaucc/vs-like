@@ -5,7 +5,27 @@ extends Node
 var player_coins: int = 0
 var player_base_attack: int = 10 # Base attack stat for player (used by GameMenu)
 var player_base_defense: int = 5 # Base defense stat for player (used by GameMenu)
-var player_level:int = 1
+var player_level:int = 1 # Actual level
+
+
+#Extra Life
+var life_token: int = 2
+
+
+#Mobs------------
+# In MobData.gd (Autoload)
+var mob_stats = {
+	"mob": {"base_health": 40, "base_speed": 100, "xp_value": 1, "coin_chance": 0.2},
+	"bat": {"base_health": 20, "base_speed": 120, "xp_value": 0.5, "coin_chance": 0.15},
+	"python": {"base_health": 80, "base_speed": 80, "xp_value": 2, "coin_chance": 0.3},
+	# ...
+}
+
+
+
+
+
+
 
 # --- Inventory and Equipment ---
 # Inventory: Dictionary mapping item 'id' (String) to quantity (int)
@@ -23,7 +43,7 @@ var player_equipped_items: Dictionary = {
 # --- Game State Variables (from your original script) ---
 var score: int = 0
 var enemy_speed:float = 0.1
-var level:int = 1
+var level:int = 1 #in game level
 var bullet_speed:int = 500
 var bullet_range:int = 500
 var player_speed_percent:float = 1.0
@@ -98,9 +118,39 @@ func _ready() -> void:
 
 
 func reset_variables():
-	level = 1
-	bullet_speed = 500
+	
+	# Reset in-game specific stats that should start fresh each run
 	score = 0
+	level = 1 # In-game level
+	bullet_speed = 500
+	player_speed_percent = 1.0
+	player_damage_percent = 1.0
+	player_health_percent = 1.0
+	player_curse_percent = 1.0
+	player_luck_percent = 1.0
+	player_armor_percent = 1.0
+	player_attack_speed = 4.0
+	bullet_scale = 1.0
+	crit_chance = 0.0
+	crit_multiplier = 3.0
+	gun1_bullets = 1
+	gun2_bullets = 1
+	gun3_bullets = 1
+	gun4_bullets = 1
+	gun5_bullets = 1
+	gun6_bullets = 1
+	health_regen = 0.0
+	gun_base_damage = 8.0
+	shotgun_base_damage = 20
+	shotgun_magazine = 6
+	shotgun_spread_bullets = 5
+	shotgun_cooldown = 0.3
+	shotgun_reload_duration = 2.0
+	shotgun_bullet_speed = 700
+	shotgun_bullet_range = 500
+
+	
+	
 	player_inventory.clear() # Clear inventory on reset
 	player_equipped_items = { # Reset equipped items
 		"equip_slot_1": "",

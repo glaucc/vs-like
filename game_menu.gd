@@ -14,7 +14,8 @@ extends Control
 const INVENTORY_SLOT_SCENE = preload("res://inventory/InventorySlot.tscn")
 const ITEM_SELECTION_POPUP_SCENE = preload("res://resources/items/data/item_selection_popup.tscn")
 
-var _item_selection_popup_instance: PanelContainer = null
+# Change type to ItemSelectionPopup after adding 'class_name' in popup script
+var _item_selection_popup_instance: ItemSelectionPopup = null # <--- IMPORTANT: Changed type hint here
 
 func _ready() -> void:
 	print("GameMenu: _ready called.")
@@ -24,16 +25,13 @@ func _ready() -> void:
 	equip_slot_3.equip_slot_id = "equip_slot_3"
 	equip_slot_4.equip_slot_id = "equip_slot_4"
 
-	# Connect the 'clicked' signal from each EquipSlot to a handler function in GameMenu
-	# This must be done after setting equip_slot_id as the signal emit uses it.
 	equip_slot_1.clicked.connect(_on_equip_slot_clicked)
 	equip_slot_2.clicked.connect(_on_equip_slot_clicked)
 	equip_slot_3.clicked.connect(_on_equip_slot_clicked)
 	equip_slot_4.clicked.connect(_on_equip_slot_clicked)
 
-
 	_update_all_equip_slots_display()
-	_update_player_stats_display() # <--- NEW: Call this to update stats on start
+	_update_player_stats_display()
 	
 	%ui_anims.play("menu-idle")
 
@@ -46,41 +44,38 @@ func _on_equip_slot_clicked(slot_id: String) -> void:
 		_item_selection_popup_instance = ITEM_SELECTION_POPUP_SCENE.instantiate()
 		add_child(_item_selection_popup_instance) # Add it to the tree first
 
-		# --- DEBUGGING POPUP POSITIONING ---
 		print("DEBUG POPUP: Initial popup position after add_child (before await): ", _item_selection_popup_instance.position)
 
-		# Wait a frame: This ensures the popup has been added to the tree
-		# and its parent's layout has had a chance to calculate its size.
-		await get_tree().process_frame 
+		await get_tree().process_frame # Wait a frame
 		print("DEBUG POPUP: Popup position AFTER await process_frame: ", _item_selection_popup_instance.position)
 		
 		var viewport_size = get_viewport_rect().size
-		var popup_size = _item_selection_popup_instance.size # Get the actual size after layout
+		var popup_size = _item_selection_popup_instance.size
 		print("DEBUG POPUP: Viewport Size: ", viewport_size)
-		print("DEBUG POPUP: Popup Size AFTER await: ", popup_size) # Check this size carefully!
+		print("DEBUG POPUP: Popup Size AFTER await: ", popup_size)
 		
 		var centered_x = (viewport_size.x / 2.0) - (popup_size.x / 2.0)
 		var centered_y = (viewport_size.y / 2.0) - (popup_size.y / 2.0)
 		print("DEBUG POPUP: Calculated Centered X: ", centered_x, ", Centered Y: ", centered_y)
 		
-		var upward_offset = 50 # Move 50 pixels UP from the center. Adjust this value as needed.
+		var upward_offset = 50
 		var final_pos = Vector2(centered_x, centered_y - upward_offset)
 		print("DEBUG POPUP: Final calculated position (with offset): ", final_pos)
 		
 		_item_selection_popup_instance.position = final_pos
 		print("DEBUG POPUP: Popup position AFTER assignment: ", _item_selection_popup_instance.position)
 		print("DEBUG POPUP: Popup Global Position AFTER assignment: ", _item_selection_popup_instance.global_position)
-		# --- END DEBUGGING POPUP POSITIONING ---
 		
 		print("GameMenu: Connecting item_selected signal.")
 		_item_selection_popup_instance.item_selected.connect(_on_item_selected_from_popup)
 	else:
 		print("GameMenu: Popup instance already exists. Showing existing popup.")
-		_item_selection_popup_instance.show() 
-		# Add debug prints here too, if the problem happens on subsequent clicks
+		_item_selection_popup_instance.show()
 		print("DEBUG POPUP: Existing popup position (on show): ", _item_selection_popup_instance.position)
 		print("DEBUG POPUP: Existing popup global position (on show): ", _item_selection_popup_instance.global_position)
 
+	# --- CALL THE ANIMATION PLAY FUNCTION HERE ---
+	_item_selection_popup_instance.play_fade_in_animation() # <--- THIS IS THE KEY LINE
 
 	print("GameMenu: Populating popup with inventory data for slot: ", slot_id)
 	_item_selection_popup_instance.populate_items(Autoload.player_inventory, slot_id)
@@ -153,8 +148,6 @@ func _on_play_button_pressed() -> void:
 	var main_map = load("res://main_map.tscn")
 	print("Loaded scene path:", main_map.resource_path)
 	get_tree().change_scene_to_packed(main_map)
-
-
 
 
 func _on_left_button_pressed() -> void:

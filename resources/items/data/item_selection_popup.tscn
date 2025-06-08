@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://brfa2h0lsj63i"]
+[gd_scene load_steps=8 format=3 uid="uid://brfa2h0lsj63i"]
 
 [ext_resource type="Script" uid="uid://dmmnhytpepo67" path="res://resources/items/data/item_selection_popup.gd" id="1_ll607"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v3dcb"]
@@ -8,7 +8,69 @@ bg_color = Color(0.137255, 0.564706, 0.388235, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3dcb"]
 
+[sub_resource type="Animation" id="Animation_v3dcb"]
+resource_name = "fade-in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bhg6n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bhg6n"]
+_data = {
+&"RESET": SubResource("Animation_bhg6n"),
+&"fade-in": SubResource("Animation_v3dcb")
+}
+
 [node name="ItemSelectionPopup" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
 z_index = 20
 custom_minimum_size = Vector2(500, 450)
 offset_top = 37.0
@@ -20,6 +82,7 @@ script = ExtResource("1_ll607")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 mouse_filter = 2
@@ -63,5 +126,11 @@ mouse_filter = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_bhg6n")
+}
 
 [connection signal="pressed" from="VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]

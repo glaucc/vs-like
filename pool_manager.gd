@@ -22,6 +22,7 @@ func _ready():
 	register_pool("mob", preload("res://mob.tscn"))
 	register_pool("python", preload("res://python.tscn"))
 	register_pool("pyscho", preload("res://psycho.tscn"))
+	register_pool("bat", preload("res://bat.tscn"))
 	
 	#Bosses
 	register_pool("boss1", preload("res://boss_10.tscn"))

@@ -744,8 +744,14 @@ unique_name_in_owner = true
 script = ExtResource("8_dt6kx")
 
 [node name="shotgun" parent="player" instance=ExtResource("9_dt6kx")]
-position = Vector2(148.121, 2.31439)
+position = Vector2(141.178, 2.31439)
 scale = Vector2(2, 2)
+
+[node name="VibrationCooldownTimer" type="Timer" parent="player"]
+unique_name_in_owner = true
+
+[node name="InvulnerabilityTimer" type="Timer" parent="player"]
+unique_name_in_owner = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -30
@@ -773,7 +779,6 @@ autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="GameOver"]
 anchors_preset = 15
@@ -802,7 +807,7 @@ text = "You Died"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="GameOver"]
+[node name="ReturnToMenuButton" type="Button" parent="GameOver"]
 process_mode = 2
 anchors_preset = 8
 anchor_left = 0.5
@@ -825,6 +830,49 @@ icon = SubResource("AtlasTexture_t3ofs")
 flat = true
 icon_alignment = 1
 expand_icon = true
+
+[node name="ReviveButton" type="Button" parent="GameOver"]
+unique_name_in_owner = true
+process_mode = 3
+offset_left = 195.0
+offset_top = 736.0
+offset_right = 554.0
+offset_bottom = 887.0
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 32
+text = "Revive"
+expand_icon = true
+
+[node name="ReviveCountdownTimer" type="Timer" parent="GameOver"]
+unique_name_in_owner = true
+process_mode = 3
+wait_time = 10.0
+one_shot = true
+
+[node name="ReviveTimerLabel" type="Label" parent="GameOver"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+offset_left = 296.0
+offset_top = 620.0
+offset_right = 446.0
+offset_bottom = 716.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 32
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="GameOver"]
+offset_left = 1158.0
+offset_top = 674.0
+offset_right = 1870.0
+offset_bottom = 855.0
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 32
+text = "Watch Ad to get Revive"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
@@ -859,5 +907,10 @@ texture = ExtResource("17_e37sb")
 [connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-cooldown" to="Score/PauseMenu" method="_on_CooldownSlider_value_changed"]
 [connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
+[connection signal="revived" from="player" to="." method="_on_player_revived"]
+[connection signal="timeout" from="player/VibrationCooldownTimer" to="player" method="_on_vibration_cooldown_timer_timeout"]
+[connection signal="timeout" from="player/InvulnerabilityTimer" to="player" method="_on_invulnerability_timer_timeout"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timer_timeout"]
-[connection signal="pressed" from="GameOver/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameOver/ReturnToMenuButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameOver/ReviveButton" to="." method="_on_revive_button_pressed"]
+[connection signal="timeout" from="GameOver/ReviveCountdownTimer" to="." method="_on_revive_countdown_timer_timeout"]
