@@ -18,7 +18,7 @@ animations = [{
 radius = 4.0
 
 [node name="bullet-shotgun" type="Area2D" groups=["bullets"]]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(2, 2)
 collision_mask = 2
 script = ExtResource("1_cei2x")
 

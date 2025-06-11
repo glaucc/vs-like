@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://byeufpkch6dfv"]
 
 [ext_resource type="Texture2D" uid="uid://bh1b4d3qmvwbg" path="res://assets/psycho1.png" id="1_p03fm"]
-[ext_resource type="Script" uid="uid://buq1o7yfh4giv" path="res://psycho.gd" id="1_wnv06"]
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_wnv06"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p03fm"]
 radius = 122.0

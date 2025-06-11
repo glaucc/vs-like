@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://doj3qgp08nbcf"
+path="res://.godot/imported/Revive - Celestial Metal Resurrection Chime.ogg-4e37a815a3eeb1c7edcb2a88ae6f598f.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/SFX/Revive - Celestial Metal Resurrection Chime.ogg"
+dest_files=["res://.godot/imported/Revive - Celestial Metal Resurrection Chime.ogg-4e37a815a3eeb1c7edcb2a88ae6f598f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

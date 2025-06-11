@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=52 format=3 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
@@ -7,14 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://cu74gysmdrlfo" path="res://gun.tscn" id="3_1ns3a"]
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
 [ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
+[ext_resource type="PackedScene" uid="uid://i1mk5roiluv7" path="res://gem.tscn" id="5_qf1q8"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
 [ext_resource type="Texture2D" uid="uid://cuum1miyepyxw" path="res://assets/Orange Button Icons.png" id="6_i4yi8"]
 [ext_resource type="Script" uid="uid://fogay071g7lv" path="res://pause_menu.gd" id="7_1k36j"]
-[ext_resource type="Script" uid="uid://dmxcp7p83404t" path="res://camera_2d.gd" id="8_dt6kx"]
+[ext_resource type="Script" uid="uid://damg5plgh0m8w" path="res://camera_2d.gd" id="8_dt6kx"]
 [ext_resource type="PackedScene" uid="uid://cc12rdodeg0oa" path="res://guns/shotgun.tscn" id="9_dt6kx"]
 [ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
 [ext_resource type="AudioStream" uid="uid://cg4cdjqncvodt" path="res://assets/music/LeftRightExcluded.mp3" id="12_t3ofs"]
+[ext_resource type="Script" uid="uid://cw7hbbgqubvmm" path="res://game_over.gd" id="14_np7p1"]
 [ext_resource type="Texture2D" uid="uid://d2x3y4qxpgv76" path="res://assets/bg/map-tileset.png" id="17_e37sb"]
+[ext_resource type="Texture2D" uid="uid://dux5k55nxc6vx" path="res://assets/vfx/Shine_Sheet.png" id="17_qf1q8"]
+[ext_resource type="AudioStream" uid="uid://inct0vdyv770" path="res://assets/SFX/level-up-289723.ogg" id="18_nr864"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
@@ -137,6 +141,18 @@ _data = {
 }
 point_count = 5
 
+[sub_resource type="Animation" id="Animation_qf1q8"]
+resource_name = "run"
+
+[sub_resource type="Animation" id="Animation_fya7d"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_en5d1"]
+_data = {
+&"idle": SubResource("Animation_fya7d"),
+&"run": SubResource("Animation_qf1q8")
+}
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_dt6kx"]
 atlas = ExtResource("10_4ly05")
 region = Rect2(481, 193, 94, 30)
@@ -147,6 +163,127 @@ texture = SubResource("AtlasTexture_dt6kx")
 [sub_resource type="AtlasTexture" id="AtlasTexture_t3ofs"]
 atlas = ExtResource("10_4ly05")
 region = Rect2(385, 193, 94, 30)
+
+[sub_resource type="Animation" id="Animation_nr864"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label3:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Label4:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644)]
+}
+
+[sub_resource type="Animation" id="Animation_e37sb"]
+resource_name = "upgrade_idle"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644), Vector2(1.018, 1.018)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label2:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644), Vector2(1.018, 1.018)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label3:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644), Vector2(1.018, 1.018)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Label4:scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.897644, 0.897644), Vector2(1.018, 1.018)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nr864"]
+_data = {
+&"RESET": SubResource("Animation_nr864"),
+&"upgrade_idle": SubResource("Animation_e37sb")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fya7d"]
+atlas = ExtResource("17_qf1q8")
+region = Rect2(21, 69, 5, 5)
+
+[sub_resource type="Curve" id="Curve_e37sb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_e37sb"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1)
 
 [node name="MainMap" type="Node2D" groups=["MainMap"]]
 y_sort_enabled = true
@@ -175,6 +312,9 @@ offset_right = 275.0
 offset_bottom = 137.0
 grow_horizontal = 2
 scale = Vector2(1.145, 1.145)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 24
 text = "Level 1"
@@ -253,6 +393,9 @@ offset_right = 278.0
 offset_bottom = 57.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Skill"
@@ -266,6 +409,9 @@ offset_right = 784.0
 offset_bottom = 235.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
@@ -305,6 +451,9 @@ offset_right = 270.0
 offset_bottom = 48.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Skill"
@@ -318,6 +467,9 @@ offset_right = 744.0
 offset_bottom = 199.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
@@ -357,6 +509,9 @@ offset_right = 270.0
 offset_bottom = 48.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Skill"
@@ -370,6 +525,9 @@ offset_right = 774.0
 offset_bottom = 205.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
@@ -411,6 +569,9 @@ offset_right = 270.0
 offset_bottom = 48.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Skill"
@@ -424,6 +585,9 @@ offset_right = 634.0
 offset_bottom = 129.0
 scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 36
 text = "Get more guns!"
@@ -492,6 +656,8 @@ offset_right = 95.0
 offset_bottom = 87.0
 grow_horizontal = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 26
 text = "00:00"
@@ -542,6 +708,27 @@ text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Gems" type="Label" parent="Score"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -477.0
+offset_top = 47.0
+offset_right = -242.0
+offset_bottom = 89.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="gem" parent="Score" instance=ExtResource("5_qf1q8")]
+position = Vector2(1695, 68)
+monitoring = false
+monitorable = false
+
 [node name="Coin1" type="Sprite2D" parent="Score"]
 position = Vector2(1879.75, 67.2499)
 scale = Vector2(2.04167, 2.04167)
@@ -555,6 +742,7 @@ libraries = {
 }
 
 [node name="PauseButton" type="Button" parent="Score"]
+unique_name_in_owner = true
 offset_left = 23.0
 offset_top = 49.0
 offset_right = 79.0
@@ -677,6 +865,7 @@ custom_minimum_size = Vector2(0, 64.89)
 layout_mode = 2
 
 [node name="ResumeButton" type="Button" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -703,7 +892,6 @@ mouse_filter = 2
 color = Color(0.0862745, 0.352941, 0.298039, 1)
 
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
-physics_interpolation_mode = 1
 position = Vector2(963, 547)
 
 [node name="Path2D" type="Path2D" parent="player"]
@@ -744,6 +932,7 @@ unique_name_in_owner = true
 script = ExtResource("8_dt6kx")
 
 [node name="shotgun" parent="player" instance=ExtResource("9_dt6kx")]
+unique_name_in_owner = true
 position = Vector2(141.178, 2.31439)
 scale = Vector2(2, 2)
 
@@ -752,6 +941,12 @@ unique_name_in_owner = true
 
 [node name="InvulnerabilityTimer" type="Timer" parent="player"]
 unique_name_in_owner = true
+
+[node name="player_animations" type="AnimationPlayer" parent="player"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_en5d1")
+}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -30
@@ -779,6 +974,8 @@ autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
+visible = false
+script = ExtResource("14_np7p1")
 
 [node name="ColorRect" type="ColorRect" parent="GameOver"]
 anchors_preset = 15
@@ -874,12 +1071,16 @@ theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 32
 text = "Watch Ad to get Revive"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="GameMusicPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
 process_mode = 3
 stream = ExtResource("12_t3ofs")
 volume_db = -3.0
 autoplay = true
 parameters/looping = true
+
+[node name="PauseMenuMusicPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 repeat_size = Vector2(1920, 1080)
@@ -888,6 +1089,422 @@ repeat_times = 3
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 z_index = -2
 texture = ExtResource("17_e37sb")
+
+[node name="GameWinScreen" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="Levelup-fx" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="Level-up-fx" type="Control" parent="Levelup-fx"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Levelup-fx/Level-up-fx"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 0
+offset_left = 157.0
+offset_top = 186.0
+offset_right = 733.0
+offset_bottom = 250.0
+rotation = 0.24541
+scale = Vector2(0.897644, 0.897644)
+pivot_offset = Vector2(288, 32)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 40
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 64
+text = "LEVEL UP!"
+
+[node name="Label2" type="Label" parent="Levelup-fx/Level-up-fx"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 0
+offset_left = 1316.0
+offset_top = 349.0
+offset_right = 1892.0
+offset_bottom = 413.0
+rotation = -0.154543
+scale = Vector2(0.897644, 0.897644)
+pivot_offset = Vector2(288, 32)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 40
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 64
+text = "LEVEL UP!"
+
+[node name="Label3" type="Label" parent="Levelup-fx/Level-up-fx"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 0
+offset_left = 99.0
+offset_top = 705.838
+offset_right = 675.0
+offset_bottom = 769.838
+rotation = -0.164829
+scale = Vector2(0.897644, 0.897644)
+pivot_offset = Vector2(288, 32)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 40
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 64
+text = "LEVEL UP!"
+
+[node name="Label4" type="Label" parent="Levelup-fx/Level-up-fx"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 0
+offset_left = 1373.0
+offset_top = 657.0
+offset_right = 1949.0
+offset_bottom = 721.0
+rotation = 0.319481
+scale = Vector2(0.897644, 0.897644)
+pivot_offset = Vector2(288, 32)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 40
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 64
+text = "LEVEL UP!"
+
+[node name="LevelUpFX" type="AnimationPlayer" parent="Levelup-fx/Level-up-fx"]
+unique_name_in_owner = true
+process_mode = 3
+libraries = {
+&"": SubResource("AnimationLibrary_nr864")
+}
+autoplay = "upgrade_idle"
+
+[node name="particles" type="Node2D" parent="Levelup-fx/Level-up-fx"]
+unique_name_in_owner = true
+process_mode = 3
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1567, 333)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1567, 737)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(384, 770)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D4" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(398, 285)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D5" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(185, 574)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D6" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1762, 548)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D7" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1441, 551)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D8" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(532, 589)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D9" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(148, 904)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D10" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(505, 961)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D11" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(148, 246)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D12" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(521, 240)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D13" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1423, 170)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D14" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1749, 181)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D15" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1766, 941)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="CPUParticles2D16" type="CPUParticles2D" parent="Levelup-fx/Level-up-fx/particles"]
+position = Vector2(1432, 875)
+scale = Vector2(2, 2)
+amount = 60
+texture = SubResource("AtlasTexture_fya7d")
+lifetime = 1.5
+preprocess = 6.3
+explosiveness = 0.5
+randomness = 0.26
+emission_shape = 1
+emission_sphere_radius = 100.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+scale_amount_curve = SubResource("Curve_e37sb")
+color_ramp = SubResource("Gradient_e37sb")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("18_nr864")
+
+[node name="EnemyTypeChangeTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 60.0
+
+[node name="BossSpawnTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 180.0
 
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]

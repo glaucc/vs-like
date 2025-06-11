@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dv5oq1c4fpv2p"
+path="res://.godot/imported/DSGNImpt_EXPLOSION-Electric Hit_HY_PC-001.ogg-9f78ceb2f808072f425590a168882ff8.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/SFX/DSGNImpt_EXPLOSION-Electric Hit_HY_PC-001.ogg"
+dest_files=["res://.godot/imported/DSGNImpt_EXPLOSION-Electric Hit_HY_PC-001.ogg-9f78ceb2f808072f425590a168882ff8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
