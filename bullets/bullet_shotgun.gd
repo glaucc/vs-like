@@ -7,10 +7,6 @@ var travelled_distance:int = 0
 
 func _physics_process(delta: float) -> void:
 	Autoload.bullet_speed = speed
-	if Autoload.level == 3:
-		speed = 1000
-	elif Autoload.level == 6:
-		speed = 1800
 	
 
 	var direction = Vector2.RIGHT.rotated(rotation)

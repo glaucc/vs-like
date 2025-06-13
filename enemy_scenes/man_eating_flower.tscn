@@ -1,0 +1,105 @@
+[gd_scene load_steps=14 format=3 uid="uid://npn0kbrk8n87"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_d4nff"]
+[ext_resource type="Texture2D" uid="uid://byvmwgj55uv04" path="res://assets/monsters/man_eater_flower.png" id="2_rn1t0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1t0"]
+radius = 31.0
+height = 80.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1vqn"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(0, 152, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bokj"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(60, 152, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6w21"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(120, 152, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rn1t0"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(0, 76, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnkco"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(60, 76, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofate"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(120, 76, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66hxl"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(0, 0, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0blc"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(60, 0, 60, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vv04d"]
+atlas = ExtResource("2_rn1t0")
+region = Rect2(120, 0, 60, 76)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d4nff"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1vqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bokj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6w21")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rn1t0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnkco")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofate")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66hxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0blc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vv04d")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 6.0
+}]
+
+[node name="man_eating_flower" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(2, 2)
+collision_layer = 2
+script = ExtResource("1_d4nff")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_rn1t0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_d4nff")
+animation = &"run-up"
+autoplay = "run-down"
+
+[connection signal="gem" from="." to="." method="_on_gem"]

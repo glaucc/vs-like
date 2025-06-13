@@ -6,6 +6,9 @@ signal revived
 signal player_hit # Emitted when player takes damage
 signal gem_collected(amount: int) # Emitted when player collects a gem
 
+var recoil_velocity: Vector2 = Vector2.ZERO
+var recoil_decay_rate: float = 8.0 # Adjust how quickly recoil fades
+
 # Your existing variables (e.g., speed, health, max_health, etc.)
 # Base values that will be modified by Autoload percentages
 var base_speed: float = 150.0
@@ -49,6 +52,7 @@ func _ready():
 	# Connect timers
 	vibration_cooldown_timer.timeout.connect(_on_VibrationCooldownTimer_timeout)
 	invulnerability_timer.timeout.connect(_on_InvulnerabilityTimer_timeout)
+	
 
 
 # MOBILE MOVEMENT INPUT
@@ -109,10 +113,18 @@ func _physics_process(delta: float) -> void:
 			is_hurt = false
 			# No need to call _update_animation here, it's called after this block
 			# and the `is_hurt` flag will be false, allowing normal animations to resume.
-
+	
 	# Always call to ensure animation is updated based on current state
 	_update_animation(input_direction) 
+	
+	# Apply recoil impulse here
+	if recoil_velocity.length() > 0.1: # Only apply if there's significant recoil
+		velocity += recoil_velocity
+		recoil_velocity = recoil_velocity.move_toward(Vector2.ZERO, recoil_decay_rate * delta)
+	else:
+		recoil_velocity = Vector2.ZERO # Snap to zero if very small
 
+	
 	# REMOVED: Horizontal flipping based on velocity.x
 	# If your animations (e.g., run-left, run-right) are distinct and already
 	# facing the correct direction in their sprite frames, you DO NOT need this.
@@ -299,3 +311,11 @@ func _on_InvulnerabilityTimer_timeout():
 # Vibration cooldown timer timeout
 func _on_VibrationCooldownTimer_timeout():
 	can_vibrate = true
+
+
+# New function to apply recoil from weapons
+func apply_impulse(direction: Vector2, strength: float):
+	# This will directly add to the recoil_velocity, causing a momentary push
+	recoil_velocity += direction * strength
+	# You might want to clamp recoil_velocity to prevent excessive speed
+	# recoil_velocity = recoil_velocity.limit_length(max_recoil_speed)

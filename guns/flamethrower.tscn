@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3 uid="uid://dch60w8x5ki88"]
+
+[ext_resource type="Script" uid="uid://d2qjpw42ypigo" path="res://guns/flamethrower.gd" id="1_eglrw"]
+[ext_resource type="Texture2D" uid="uid://c1xlb1uh5lfkd" path="res://topdown_shooter/guns/flamethrower/flamethrower_side.png" id="1_meyq6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eglrw"]
+radius = 38.0
+height = 240.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eglrw"]
+atlas = ExtResource("1_meyq6")
+region = Rect2(0, 0, 26, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5c25l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eglrw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_meyq6"]
+bg_color = Color(0.0487392, 0.243848, 0.20365, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eglrw"]
+bg_color = Color(0.117647, 0.737255, 0.45098, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="flamethrower" type="Area2D" groups=["guns"]]
+collision_mask = 2
+script = ExtResource("1_eglrw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_eglrw")
+
+[node name="WeaponPivot" type="Marker2D" parent="."]
+
+[node name="Flamethrower" type="AnimatedSprite2D" parent="WeaponPivot"]
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_5c25l")
+animation = &"idle"
+
+[node name="ShootingPoint" type="Marker2D" parent="WeaponPivot/Flamethrower"]
+unique_name_in_owner = true
+position = Vector2(19.6, -4)
+scale = Vector2(0.666667, 0.666667)
+
+[node name="CooldownTimer" type="Timer" parent="WeaponPivot"]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="WeaponPivot"]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="ReloadSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+volume_db = -3.0
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -32.0
+offset_top = 13.0
+offset_right = 30.0
+offset_bottom = 20.0
+theme_override_styles/background = SubResource("StyleBoxFlat_meyq6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_eglrw")
+value = 48.59
+show_percentage = false
+
+[connection signal="timeout" from="WeaponPivot/CooldownTimer" to="." method="_on_CooldownTimer_timeout"]
+[connection signal="timeout" from="WeaponPivot/ReloadTimer" to="." method="_on_ReloadTimer_timeout"]

@@ -1,0 +1,104 @@
+[gd_scene load_steps=14 format=3 uid="uid://cg7dfm8vjjs0i"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_858d8"]
+[ext_resource type="Texture2D" uid="uid://b4888bcqdhudy" path="res://assets/monsters/small_worm.png" id="2_fr4a4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_858d8"]
+radius = 14.0
+height = 64.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p80hg"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yac5e"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_einhh"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_858d8"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fr4a4"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pl86y"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77q0m"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odaxv"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm5my"]
+atlas = ExtResource("2_fr4a4")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pl86y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p80hg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yac5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_einhh")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_858d8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fr4a4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pl86y")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77q0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odaxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pm5my")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 5.0
+}]
+
+[node name="small_worm" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+script = ExtResource("1_858d8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_858d8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_pl86y")
+animation = &"run-up"
+autoplay = "run-down"
+
+[connection signal="gem" from="." to="." method="_on_gem"]

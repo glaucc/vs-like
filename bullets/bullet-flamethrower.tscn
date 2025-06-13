@@ -1,0 +1,149 @@
+[gd_scene load_steps=20 format=3 uid="uid://bban2ji4l1851"]
+
+[ext_resource type="Script" uid="uid://ca0muya4rfqna" path="res://bullets/bullet_flamethrower.gd" id="1_tp874"]
+[ext_resource type="Texture2D" uid="uid://cln736i54vgaf" path="res://assets/guns/Fire Breath SpriteSheet.png" id="2_uwq2a"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qiiy8"]
+radius = 18.0
+height = 38.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjt73"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tynfu"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5741t"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8d1t"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ib2ot"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g37di"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1oe1"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8adui"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icm0d"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_itmkn"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0lmm"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(144, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5sxv"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(192, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jbkv"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(240, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lx80"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(288, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4mqw"]
+atlas = ExtResource("2_uwq2a")
+region = Rect2(336, 96, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qiiy8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjt73")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tynfu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5741t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8d1t")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ib2ot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g37di")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1oe1")
+}],
+"loop": false,
+"name": &"start",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8adui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_icm0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_itmkn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0lmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5sxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jbkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lx80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4mqw")
+}],
+"loop": false,
+"name": &"stop",
+"speed": 16.0
+}]
+
+[node name="bullet-flamethrower" type="Area2D" groups=["bullets"]]
+scale = Vector2(2, 2)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_tp874")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CapsuleShape2D_qiiy8")
+debug_color = Color(0.639216, 0.521569, 0.129412, 0.192157)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["bullets"]]
+sprite_frames = SubResource("SpriteFrames_qiiy8")
+animation = &"attack"
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

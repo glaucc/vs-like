@@ -1,0 +1,105 @@
+[gd_scene load_steps=14 format=3 uid="uid://cfrvbaucnfdik"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_x6q26"]
+[ext_resource type="Texture2D" uid="uid://c2iaq4v0b7l8o" path="res://assets/monsters/slime.png" id="2_7uumt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81gwq"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq7lk"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ik531"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5lrl"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfc04"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhc7p"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6q26"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7uumt"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkojx"]
+atlas = ExtResource("2_7uumt")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xkojx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81gwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq7lk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik531")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5lrl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfc04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhc7p")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6q26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7uumt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkojx")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k5lrl"]
+radius = 12.75
+height = 25.5
+
+[node name="slime" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(4, 4)
+collision_layer = 2
+script = ExtResource("1_x6q26")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xkojx")
+animation = &"run-left"
+autoplay = "run-down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3.5)
+shape = SubResource("CapsuleShape2D_k5lrl")
+
+[connection signal="gem" from="." to="." method="_on_gem"]

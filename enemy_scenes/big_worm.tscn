@@ -1,0 +1,105 @@
+[gd_scene load_steps=14 format=3 uid="uid://crocxa1ga5mb2"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_egbt6"]
+[ext_resource type="Texture2D" uid="uid://cncn1qfldhvt1" path="res://assets/monsters/big_worm.png" id="2_hacs8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcfd4"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(0, 100, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wejl7"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(35, 100, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fukmb"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(70, 100, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87rjy"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(0, 50, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5w8x"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(35, 50, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjvjb"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(70, 50, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxim5"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(0, 0, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlcdy"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(35, 0, 35, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vr7p"]
+atlas = ExtResource("2_hacs8")
+region = Rect2(70, 0, 35, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bbpbx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcfd4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wejl7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fukmb")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87rjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5w8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjvjb")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxim5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlcdy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vr7p")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 6.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2v18t"]
+radius = 14.0
+height = 46.6667
+
+[node name="big_worm" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(3, 3)
+collision_layer = 2
+script = ExtResource("1_egbt6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bbpbx")
+animation = &"run-up"
+autoplay = "run-down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.333333, -3)
+shape = SubResource("CapsuleShape2D_2v18t")
+
+[connection signal="gem" from="." to="." method="_on_gem"]

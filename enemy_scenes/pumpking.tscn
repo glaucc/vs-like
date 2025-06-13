@@ -1,0 +1,103 @@
+[gd_scene load_steps=14 format=3 uid="uid://qp0abowe3tg2"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_bwiag"]
+[ext_resource type="Texture2D" uid="uid://1el3qwv6pdcc" path="res://assets/monsters/pumpking.png" id="2_f68tb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d2uv1"]
+radius = 21.0238
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oiayx"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(0, 92, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sqf6"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(46, 92, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mdhy"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(92, 92, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f68tb"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(0, 46, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qu6n"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(46, 46, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lc1mo"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(92, 46, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tffhk"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(0, 0, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lv853"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(46, 0, 46, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqkl6"]
+atlas = ExtResource("2_f68tb")
+region = Rect2(92, 0, 46, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bwiag"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oiayx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sqf6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mdhy")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f68tb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qu6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lc1mo")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tffhk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lv853")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqkl6")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 6.0
+}]
+
+[node name="pumpking" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(2.4, 2.4)
+collision_layer = 2
+script = ExtResource("1_bwiag")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_d2uv1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bwiag")
+animation = &"run-down"
+autoplay = "run-down"
+
+[connection signal="gem" from="." to="." method="_on_gem"]

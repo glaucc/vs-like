@@ -70,11 +70,13 @@ theme_override_font_sizes/font_size = 36
 text = "Volume"
 
 [node name="Volume" type="HSlider" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 45.245)
 layout_mode = 2
 value = 100.0
 
 [node name="CheckBox1" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(7.515, 105.98)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_p81d2")

@@ -1,0 +1,105 @@
+[gd_scene load_steps=14 format=3 uid="uid://4j61lrbwft7p"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_dpqy2"]
+[ext_resource type="Texture2D" uid="uid://b0jwpof8xcb3k" path="res://assets/monsters/ghost.png" id="1_uweau"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igrpn"]
+radius = 21.0238
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpqy2"]
+atlas = ExtResource("1_uweau")
+region = Rect2(0, 92, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_736ls"]
+atlas = ExtResource("1_uweau")
+region = Rect2(40, 92, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11qav"]
+atlas = ExtResource("1_uweau")
+region = Rect2(80, 92, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uweau"]
+atlas = ExtResource("1_uweau")
+region = Rect2(0, 46, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3lmr"]
+atlas = ExtResource("1_uweau")
+region = Rect2(40, 46, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ow11m"]
+atlas = ExtResource("1_uweau")
+region = Rect2(80, 46, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slrfp"]
+atlas = ExtResource("1_uweau")
+region = Rect2(0, 0, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t12b8"]
+atlas = ExtResource("1_uweau")
+region = Rect2(40, 0, 40, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4tqh"]
+atlas = ExtResource("1_uweau")
+region = Rect2(80, 0, 40, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y3lmr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpqy2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_736ls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11qav")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uweau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3lmr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ow11m")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slrfp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t12b8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4tqh")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 6.0
+}]
+
+[node name="ghost" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(2.2, 2.2)
+collision_layer = 2
+script = ExtResource("1_dpqy2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_igrpn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_y3lmr")
+animation = &"run-up"
+autoplay = "run-down"
+frame_progress = 0.687414
+
+[connection signal="gem" from="." to="." method="_on_gem"]

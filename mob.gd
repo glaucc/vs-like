@@ -126,6 +126,18 @@ func reset(pool_group_name_arg: String):
 			max_health = 80
 		"psycho":
 			max_health = 120
+		"man_eating_flower":
+			max_health = 250
+		"pumpking":
+			max_health = 590
+		"ghost":
+			max_health = 400
+		"small_worm":
+			max_health = 210
+		"big_worm":
+			max_health = 670
+		"slime":
+			max_health = 900
 		"bull_boss":
 			max_health = 500
 		"giant_boss":

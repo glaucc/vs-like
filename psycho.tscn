@@ -1,39 +1,91 @@
-[gd_scene load_steps=8 format=3 uid="uid://byeufpkch6dfv"]
+[gd_scene load_steps=14 format=3 uid="uid://byeufpkch6dfv"]
 
-[ext_resource type="Texture2D" uid="uid://bh1b4d3qmvwbg" path="res://assets/psycho1.png" id="1_p03fm"]
 [ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_wnv06"]
+[ext_resource type="Texture2D" uid="uid://brltd7albw4cu" path="res://assets/monsters/eyeball.png" id="2_wnv06"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p03fm"]
-radius = 122.0
-height = 456.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wnv06"]
-atlas = ExtResource("1_p03fm")
-region = Rect2(0, 0, 640, 640)
+radius = 48.0
+height = 96.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wgi0q"]
-atlas = ExtResource("1_p03fm")
-region = Rect2(0, 640, 640, 640)
+atlas = ExtResource("2_wnv06")
+region = Rect2(0, 76, 32, 38)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pf4cg"]
-atlas = ExtResource("1_p03fm")
-region = Rect2(640, 640, 640, 640)
+atlas = ExtResource("2_wnv06")
+region = Rect2(32, 76, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cmg7"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(64, 76, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnv06"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(0, 38, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4uod"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(32, 38, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvhas"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(64, 38, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hahyd"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(0, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5g5an"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(32, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srgx2"]
+atlas = ExtResource("2_wnv06")
+region = Rect2(64, 0, 32, 38)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7cmg7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wnv06")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_wgi0q")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pf4cg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cmg7")
 }],
 "loop": true,
-"name": &"idle",
-"speed": 4.0
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnv06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4uod")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvhas")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hahyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5g5an")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srgx2")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 6.0
 }]
 
 [node name="psycho" type="CharacterBody2D" groups=["enemies"]]
@@ -41,10 +93,14 @@ collision_layer = 2
 script = ExtResource("1_wnv06")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(12, 67)
+position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_p03fm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_7cmg7")
-animation = &"idle"
-frame_progress = 0.0658863
+animation = &"run-down"
+autoplay = "run-down"
+frame_progress = 0.124931
+
+[connection signal="gem" from="." to="." method="_on_gem"]

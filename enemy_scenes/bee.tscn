@@ -1,0 +1,104 @@
+[gd_scene load_steps=14 format=3 uid="uid://ce113vqseo1kq"]
+
+[ext_resource type="Script" uid="uid://b7nwm1nrpgmo0" path="res://mob.gd" id="1_ve56w"]
+[ext_resource type="Texture2D" uid="uid://bi52yelf2pa57" path="res://assets/monsters/bee.png" id="2_dqeso"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ve56w"]
+radius = 13.0043
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppc83"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2nhg"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6o38l"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqeso"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyl1e"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3op2"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wyhk"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pfpy"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_no3pj"]
+atlas = ExtResource("2_dqeso")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ve56w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppc83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2nhg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6o38l")
+}],
+"loop": true,
+"name": &"run-down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dqeso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyl1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3op2")
+}],
+"loop": true,
+"name": &"run-left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wyhk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pfpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_no3pj")
+}],
+"loop": true,
+"name": &"run-up",
+"speed": 5.0
+}]
+
+[node name="bee" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(3, 3)
+collision_layer = 2
+script = ExtResource("1_ve56w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.333333, -5.33333)
+shape = SubResource("CircleShape2D_ve56w")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ve56w")
+animation = &"run-up"
+autoplay = "run-down"
+
+[connection signal="gem" from="." to="." method="_on_gem"]

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c3sp14hf2pdms" path="res://assets/characters/ch-phase1/Slime1_Idle_full.png" id="2_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://ck1wy5ca1red7" path="res://assets/characters/ch-phase1/Slime1_Hurt_full.png" id="2_sweqy"]
 [ext_resource type="Texture2D" uid="uid://bkdhews0efwwr" path="res://assets/characters/ch-phase1/Slime1_Run_full.png" id="3_hqtel"]
-[ext_resource type="PackedScene" uid="uid://cu74gysmdrlfo" path="res://gun.tscn" id="3_i3pqv"]
+[ext_resource type="PackedScene" path="res://gun.tscn" id="3_i3pqv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v2t6f"]
 atlas = ExtResource("2_sweqy")
@@ -640,8 +640,8 @@ frame_progress = 0.515428
 shape = SubResource("CircleShape2D_sh265")
 
 [node name="gun" parent="." groups=["guns"] instance=ExtResource("3_i3pqv")]
-visible = true
 position = Vector2(115.72, 53.231)
+scale = Vector2(1.55546, 1.55546)
 
 [node name="HurtBox" type="Area2D" parent="."]
 unique_name_in_owner = true

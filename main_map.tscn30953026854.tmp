@@ -719,7 +719,6 @@ autowrap_mode = 2
 [node name="UpgradeButton4" type="Button" parent="Score/UpgradeMenu/Upgrade4"]
 unique_name_in_owner = true
 process_mode = 2
-visible = false
 layout_mode = 0
 offset_left = 4.0
 offset_top = 2.0
@@ -1085,6 +1084,7 @@ autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("14_np7p1")
 
 [node name="ColorRect" type="ColorRect" parent="GameOver"]
@@ -1206,63 +1206,14 @@ texture = ExtResource("17_e37sb")
 unique_name_in_owner = true
 visible = false
 
-[node name="ReturnToMenuButton" type="Button" parent="GameWinScreen"]
-process_mode = 2
-z_index = 5
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -238.0
-offset_top = 366.0
-offset_right = 473.0
-offset_bottom = 558.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.671205, 0.671205)
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 64
-theme_override_styles/hover = SubResource("StyleBoxTexture_i4yi8")
-icon = SubResource("AtlasTexture_t3ofs")
-flat = true
-icon_alignment = 1
-expand_icon = true
-
-[node name="ColorRect" type="ColorRect" parent="GameWinScreen"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.454902)
-
-[node name="Label" type="Label" parent="GameWinScreen/ColorRect"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -392.0
-offset_top = -49.0
-offset_right = 392.0
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 48
-text = "You Actually Won!
-
-Only 3.12% of players
-successfully won the game
-
-Good Job!"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Label" type="Label" parent="GameWinScreen"]
+offset_left = 162.0
+offset_top = 408.0
+offset_right = 1846.0
+offset_bottom = 691.0
+theme_override_font_sizes/font_size = 186
+text = "Game Win Screeen
+WOOO"
 
 [node name="Levelup-fx" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -1678,10 +1629,6 @@ wait_time = 60.0
 unique_name_in_owner = true
 wait_time = 180.0
 
-[node name="DifficultyScalerTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 60.0
-
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade3/UpgradeButton3" to="." method="_on_upgrade_button_3_pressed"]
@@ -1704,7 +1651,6 @@ wait_time = 60.0
 [connection signal="timeout" from="player/VibrationCooldownTimer" to="player" method="_on_vibration_cooldown_timer_timeout"]
 [connection signal="timeout" from="player/InvulnerabilityTimer" to="player" method="_on_invulnerability_timer_timeout"]
 [connection signal="timeout" from="MobSpawnTimer" to="." method="_on_mob_spawn_timer_timeout"]
-[connection signal="pressed" from="GameOver/ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]
+[connection signal="pressed" from="GameOver/ReturnToMenuButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="GameOver/ReviveButton" to="." method="_on_revive_button_pressed"]
 [connection signal="timeout" from="GameOver/ReviveCountdownTimer" to="." method="_on_revive_countdown_timer_timeout"]
-[connection signal="pressed" from="GameWinScreen/ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]

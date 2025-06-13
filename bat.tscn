@@ -97,6 +97,7 @@ animations = [{
 radius = 65.3758
 
 [node name="bat" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
 script = ExtResource("1_tofr1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
