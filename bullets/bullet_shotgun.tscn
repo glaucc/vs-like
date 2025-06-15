@@ -24,9 +24,11 @@ collision_mask = 2
 script = ExtResource("1_cei2x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_cei2x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 shape = SubResource("CircleShape2D_xok6y")
 debug_color = Color(0, 0.6, 0.701961, 0.164706)
 

@@ -24,6 +24,8 @@ var game_duration: float = 600.0 # 10 minutes (600 seconds)
 
 
 @onready var game_music_player = %GameMusicPlayer # Your main game music player
+@onready var game_music1
+@onready var first_music_played:bool = true
 @onready var pause_menu_music_player = %PauseMenuMusicPlayer
 
 @onready var player_animations: AnimationPlayer = %player_animations
@@ -36,17 +38,14 @@ var game_duration: float = 600.0 # 10 minutes (600 seconds)
 @onready var upgrade_button1 = %UpgradeButton1
 @onready var upgrade_button2 = %UpgradeButton2
 @onready var upgrade_button3 = %UpgradeButton3
-@onready var upgrade_button4 = %UpgradeButton4 # If you have a 4th button
 
 @onready var upgrade_text1 = %Upgrade1text
 @onready var upgrade_text2 = %Upgrade2text
 @onready var upgrade_text3 = %Upgrade3text
-@onready var upgrade_text4 = %Upgrade4text # If you have a 4th button
 
 @onready var upgrade_desc1 = %UpgradeDesc1
 @onready var upgrade_desc2 = %UpgradeDesc2
 @onready var upgrade_desc3 = %UpgradeDesc3
-@onready var upgrade_desc4 = %UpgradeDesc4 # If you have a 4th button
 
 @onready var menu_animations = %menu_animations # Assuming an AnimationPlayer for menu animations
 
@@ -294,7 +293,7 @@ var upgrade_levels = {
 	"Shotgun": 2,
 	"Machine Gun": 0,
 	"Laser": 0,
-	"Rocket": 0,
+	"Rocket": 1,
 	"Flamethrower": 0, # Set to 0 if not starting unlocked
 	"Shockwave": 0,
 	
@@ -329,7 +328,11 @@ var _8th_wave_speed: bool = false
 
 
 func _ready() -> void:
+	print("GameMusicPlayer: ", %GameMusicPlayer.get_stream())
 	randomize()
+	
+	
+	game_music1 = %GameMusicPlayer.get_stream()
 
 	# --- MODIFIED: Applying Initial Gun States based on upgrade_levels ---
 	var guns_to_activate = ["Rifle", "Shotgun", "Machine Gun", "Laser", "Rocket", "Flamethrower", "Shockwave"]
@@ -458,8 +461,6 @@ func _ready() -> void:
 	upgrade_button1.pressed.connect(Callable(self, "_on_upgrade_button_1_pressed"))
 	upgrade_button2.pressed.connect(Callable(self, "_on_upgrade_button_2_pressed"))
 	upgrade_button3.pressed.connect(Callable(self, "_on_upgrade_button_3_pressed"))
-	if upgrade_button4:
-		upgrade_button4.pressed.connect(Callable(self, "_on_upgrade_button_4_pressed"))
 
 	# Connect pause and resume buttons
 	pause_button.pressed.connect(Callable(self, "_on_pause_button_pressed"))
@@ -561,8 +562,7 @@ func apply_health_upgrade():
 
 func handle_upgrade_input():
 	var max_selection = 3
-	if upgrade_button4 and upgrade_button4.visible: # Check if button4 exists and is visible
-		max_selection = 4
+
 
 	if Input.is_action_just_pressed("move_up"):
 		current_selection = max(current_selection - 1, 0)
@@ -579,9 +579,7 @@ func handle_upgrade_input():
 			0: upgrade_button1.emit_signal("pressed")
 			1: upgrade_button2.emit_signal("pressed")
 			2: upgrade_button3.emit_signal("pressed")
-			3:
-				if max_selection == 4:
-					upgrade_button4.emit_signal("pressed")
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -690,10 +688,11 @@ func _on_mob_spawn_timer_timeout() -> void:
 
 
 # --- NEW: Game Juice Functions ---
-# Connects to player.player_hit signal
 func _on_player_hit():
-	emit_signal("screen_shake_requested", 5.0, 0.2) # Small shake on player hit
-	# SFX already emitted by _on_play_sfx_requested when player_hit is emitted.
+	print("DEBUG Gameplay: Player hit signal received in Gameplay. Triggering screen shake and sfx.") # ADD THIS DEBUG LINE
+	emit_signal("screen_shake_requested", shake_strength, 0.1) # Trigger a short shake
+	emit_signal("play_sfx", "player_hit") # Play player hit sound
+	# Add any other visual feedback here, like player flashing red if not handled in Player.gd
 
 
 # Connects to player.gem_collected signal
@@ -777,10 +776,7 @@ func _on_upgrade_button_3_pressed():
 	_apply_upgrade(upgrade_button3)
 	%"Level-up-fx".hide()
 
-func _on_upgrade_button_4_pressed():
-	if upgrade_button4: # Ensure button exists before accessing
-		_apply_upgrade(upgrade_button4)
-		%"Level-up-fx".hide()
+
 
 func _apply_upgrade(button: Button):
 	var upgrade_type = button.get_meta("upgrade_type")
@@ -922,12 +918,7 @@ func assign_upgrades_to_buttons():
 		%UpgradeMenu/Upgrade3
 	]
 
-	# Add 4th button/label/desc/container if it exists
-	if upgrade_button4: # Check if the @onready var is not null
-		upgrade_buttons_list.append(upgrade_button4)
-		upgrade_labels_list.append(upgrade_text4)
-		upgrade_descs_list.append(upgrade_desc4)
-		upgrade_containers_list.append(%UpgradeMenu/Upgrade4)
+
 
 
 	var count = upgrade_buttons_list.size()
@@ -1017,7 +1008,7 @@ func reset_game():
 
 	# Reset guns to initial state (only Rifle active)
 	for gun in get_tree().get_nodes_in_group("guns"):
-		if gun.name == "Rifle": # Adjust if your starting gun has a different name
+		if gun.name == "shotgun": # Adjust if your starting gun has a different name
 			gun.show()
 			gun.set_process_mode(Node.PROCESS_MODE_INHERIT)
 		else:
@@ -1103,3 +1094,23 @@ func _on_return_to_menu_button_pressed() -> void:
 	var equipment_menu = load("res://game_menu.tscn")
 	print("Loaded scene path:", equipment_menu.resource_path)
 	get_tree().change_scene_to_packed(equipment_menu)
+
+
+func _on_game_music_player_finished() -> void:
+	first_music_played = !first_music_played
+	print()
+	var audio_stream
+	
+	if audio_stream == load("res://assets/music/full theme.mp3"):
+		audio_stream = load("res://assets/music/LeftRightExcluded.mp3")
+	elif audio_stream == load("res://assets/music/LeftRightExcluded.mp3"):
+		audio_stream = load("res://assets/music/full theme.mp3")
+	
+	if !first_music_played:
+		audio_stream = load("res://assets/music/full theme.mp3")
+		%GameMusicPlayer.set_stream(audio_stream)
+		
+		
+	elif first_music_played:
+		audio_stream = load("res://assets/music/LeftRightExcluded.mp3")
+		%GameMusicPlayer.set_stream(audio_stream)

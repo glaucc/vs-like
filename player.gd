@@ -139,21 +139,26 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide() # Perform movement
 
-
-	# PLAYER TAKES DAMAGE FROM OVERLAPPING MOBS
+	
+	
+	 # PLAYER TAKES DAMAGE FROM OVERLAPPING MOBS
 	if not is_invulnerable: # Only take damage if not invulnerable
 		var overlapping_mobs = hurt_box.get_overlapping_bodies() # Use the @onready var
 		if overlapping_mobs.size() > 0:
+			# --- DEBUG: Damage Calculation Start ---
+
 			var total_contact_damage = Autoload.base_contact_damage_per_second * overlapping_mobs.size()
 
 			# Apply armor percentage reduction here, using Autoload.player_armor_percent
 			var final_damage = total_contact_damage * (1.0 - Autoload.player_armor_percent)
 
+			
+
 			health -= final_damage * delta # Damage over time from collision
 
 			emit_signal("player_hit") # Emit for screen shake/sfx
 
-			# VIBRATION
+			# VIBRATION (keep as is)
 			if Autoload.vibration_enabled and can_vibrate:
 				Input.vibrate_handheld(
 					Autoload.vibration_duration_ms,
@@ -162,27 +167,31 @@ func _physics_process(delta: float) -> void:
 				can_vibrate = false
 				vibration_cooldown_timer.start(Autoload.vibration_cooldown_sec)
 
-			# VFX
+			# VFX (keep as is for now - we'll refine this later if needed)
 			self.modulate = Color(1, 0.3, 0.3) # Flash red
-			# Using call_deferred with await for better timing on visual effects
 			await get_tree().create_timer(0.05).timeout
 			self.modulate = Color(1, 1, 1, 1) # Reset
 
-			health_progress_bar.value = health
+			# REMOVED: Redundant health_progress_bar.value = health here.
+			# It will be set at the end of _physics_process after regeneration.
 
 			if health <= 0.0:
 				health = 0 # Ensure health doesn't go negative on display
 				health_depleted.emit()
 				set_physics_process(false) # Stop player movement/damage
 				visible = false # Hide player
-				print("Player health depleted! Signalling Game Over.")
+		# else: # Uncomment for very verbose debug if no mobs are detected by hurtbox
+		#     print("DEBUG Player: No overlapping mobs detected by HurtBox for damage.")
+
 
 	# HEALTH REGENERATION
 	if Autoload.health_regen > 0.0:
-		health += Autoload.health_regen * delta
+		var regen_amount_this_frame = Autoload.health_regen * delta
+		health += regen_amount_this_frame
 		health = min(health, max_health) # Ensure health doesn't go above max_health
 
-	# Update the progress bar after potential health regeneration
+
+	# Update the progress bar after all health changes for the frame
 	health_progress_bar.value = health
 
 
@@ -235,7 +244,6 @@ func _update_animation(current_input_direction: Vector2):
 			sprite.play(animation_to_play)
 		else:
 			# Fallback for missing animations (e.g., if you don't have all directional hurt anims)
-			printerr("Animation '", animation_to_play, "' not found. Falling back to 'idle-down'.")
 			sprite.play("idle-down") # Or a generic "idle" / "run"
 
 # Player damage function for external calls (e.g., projectiles)

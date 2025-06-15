@@ -84,8 +84,11 @@ var laser_base_damage: int = 42 # Corrected typo: laset_base_damage -> laser_bas
 
 # Rocket Launcher
 var rocket_bullets: int = 1 # Number of rockets per shot, or rockets in magazine
-var explosion_size: float = 1.0
+var explosion_size: float = 100.0
 var rocket_base_damage: int = 46
+
+var rocket_magazine_size: int = 3   # How many rockets in a magazine
+var rocket_reload_duration: float = 2.5 # How long it takes to reload rockets
 
 
 # Flamethrower specific stats
@@ -128,7 +131,7 @@ var player_base_attack: int = 10 # This could be the base for all weapon damage 
 var player_base_defense: int = 5
 var player_health_percent:float = 1.0 # Multiplier for player's max health
 var player_curse_percent:float = 1.0 # Affects enemy difficulty or negative events
-var player_armor_percent:float = 1.0 # Damage reduction from enemies
+var player_armor_percent:float = 0.0 # Damage reduction from enemies
 
 # NEW: Base damage taken from touching mobs (before armor reduction)
 var base_contact_damage_per_second: float = 30.0
@@ -165,8 +168,8 @@ func _ready() -> void:
 	load_all_player_data()
 	load_settings()
 	apply_audio_settings()
-	
-	player_coins = 10000
+	player_armor_percent = 0.0
+	#player_coins = 10000
 
 	if not has_node("/root/ItemData"):
 		print("ERROR: Autoload 'ItemData' not found! Please add 'item_data.gd' to Project Settings -> Autoloads and name it 'ItemData'.")
@@ -177,7 +180,7 @@ func _ready() -> void:
 		total_coins = 1000
 		total_gems = 50
 		# Activate the rifle by default for new players if it's the starting weapon
-		rifle_active = true # Ensure rifle is active if it's the starter
+		rifle_active = false # Ensure rifle is active if it's the starter
 		save_all_player_data()
 
 # --- Helper to get a specific weapon instance from the scene tree ---
@@ -264,14 +267,11 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 
 	match upgrade_type:
 		
-		
-		
-		
 		# --- Gun Activations (usually the first level of a gun's upgrade path) ---
 		"Rifle":
 			if upgrade_data.get("activate_gun", false): # Check for the 'activate_gun' flag in upgrade data
 				rifle_active = true
-				var rifle_instance = get_player_weapon_instance("Rifle") # Use consistent capitalization with node name
+				var rifle_instance = get_player_weapon_instance("gun") # Use consistent capitalization with node name
 				if rifle_instance:
 					rifle_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					rifle_instance.show()
@@ -284,7 +284,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 				if upgrade_data.has("attack_speed_increase"): rifle_attack_speed += upgrade_data.attack_speed_increase
 				if upgrade_data.has("bullets_increase"): rifle_bullets += upgrade_data.bullets_increase
 				
-				var rifle_instance = get_player_weapon_instance("Rifle")
+				var rifle_instance = get_player_weapon_instance("gun")
 				if rifle_instance and rifle_instance.has_method("_update_stats_from_autoload"):
 					rifle_instance._update_stats_from_autoload()
 				print("Autoload: Rifle upgraded. New rifle_base_damage: %d, rifle_attack_speed: %f, rifle_bullets: %d" % [rifle_base_damage, rifle_attack_speed, rifle_bullets])
@@ -292,7 +292,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 		"Shotgun":
 			if upgrade_data.get("activate_gun", false):
 				shotgun_active = true
-				var shotgun_instance = get_player_weapon_instance("Shotgun")
+				var shotgun_instance = get_player_weapon_instance("shotgun")
 				if shotgun_instance:
 					shotgun_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					shotgun_instance.show()
@@ -305,7 +305,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 				if upgrade_data.has("cooldown_reduction"): shotgun_cooldown = max(0.1, shotgun_cooldown - upgrade_data.cooldown_reduction)
 				if upgrade_data.has("reload_reduction"): shotgun_reload_duration = max(0.5, shotgun_reload_duration - upgrade_data.reload_reduction)
 				
-				var shotgun_instance = get_player_weapon_instance("Shotgun")
+				var shotgun_instance = get_player_weapon_instance("shotgun")
 				if shotgun_instance and shotgun_instance.has_method("_update_stats_from_autoload"):
 					shotgun_instance._update_stats_from_autoload()
 				print("Autoload: Shotgun upgraded. New shotgun_base_damage: %d, shotgun_spread_bullets: %d" % [shotgun_base_damage, shotgun_spread_bullets])
@@ -314,7 +314,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 		"MachineGun":
 			if upgrade_data.get("activate_gun", false):
 				machinegun_active = true
-				var machinegun_instance = get_player_weapon_instance("MachineGun")
+				var machinegun_instance = get_player_weapon_instance("machinegun")
 				if machinegun_instance:
 					machinegun_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					machinegun_instance.show()
@@ -324,7 +324,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 			else:
 				if upgrade_data.has("damage_increase"): machinegun_base_damage += upgrade_data.damage_increase
 				# Add other machine gun specific upgrades here
-				var machinegun_instance = get_player_weapon_instance("MachineGun")
+				var machinegun_instance = get_player_weapon_instance("machinegun")
 				if machinegun_instance and machinegun_instance.has_method("_update_stats_from_autoload"):
 					machinegun_instance._update_stats_from_autoload()
 				print("Autoload: Machine Gun upgraded. New machinegun_base_damage: %d" % machinegun_base_damage)
@@ -332,7 +332,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 		"Laser":
 			if upgrade_data.get("activate_gun", false):
 				laser_active = true
-				var laser_instance = get_player_weapon_instance("Laser")
+				var laser_instance = get_player_weapon_instance("laser")
 				if laser_instance:
 					laser_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					laser_instance.show()
@@ -342,15 +342,15 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 			else:
 				if upgrade_data.has("damage_increase"): laser_base_damage += upgrade_data.damage_increase
 				# Add other laser specific upgrades here
-				var laser_instance = get_player_weapon_instance("Laser")
+				var laser_instance = get_player_weapon_instance("laser")
 				if laser_instance and laser_instance.has_method("_update_stats_from_autoload"):
 					laser_instance._update_stats_from_autoload()
 				print("Autoload: Laser upgraded. New laser_base_damage: %d" % laser_base_damage)
 
-		"RocketLauncher":
+		"rocket":
 			if upgrade_data.get("activate_gun", false):
 				rocket_active = true
-				var rocket_instance = get_player_weapon_instance("RocketLauncher")
+				var rocket_instance = get_player_weapon_instance("rocket")
 				if rocket_instance:
 					rocket_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					rocket_instance.show()
@@ -360,8 +360,11 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 			else:
 				if upgrade_data.has("damage_increase"): rocket_base_damage += upgrade_data.damage_increase
 				if upgrade_data.has("explosion_size_increase"): explosion_size += upgrade_data.explosion_size_increase
+				if upgrade_data.has("magazine_increase"): rocket_magazine_size += upgrade_data.magazine_increase # NEW
+				if upgrade_data.has("reload_speed_increase"): rocket_reload_duration = max(0.1, rocket_reload_duration - upgrade_data.reload_speed_increase) # NEW, ensure min reload time
+				
 				# Add other rocket launcher specific upgrades here
-				var rocket_instance = get_player_weapon_instance("RocketLauncher")
+				var rocket_instance = get_player_weapon_instance("rocket")
 				if rocket_instance and rocket_instance.has_method("_update_stats_from_autoload"):
 					rocket_instance._update_stats_from_autoload()
 				print("Autoload: Rocket Launcher upgraded. New rocket_base_damage: %d, explosion_size: %f" % [rocket_base_damage, explosion_size])
@@ -369,7 +372,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 		"Flamethrower":
 			if upgrade_data.get("activate_gun", false):
 				flamethrower_active = true
-				var flamethrower_instance = get_player_weapon_instance("Flamethrower")
+				var flamethrower_instance = get_player_weapon_instance("flamethrower")
 				if flamethrower_instance:
 					flamethrower_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					flamethrower_instance.show()
@@ -380,7 +383,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 		"Shockwave":
 			if upgrade_data.get("activate_gun", false):
 				shockwave_active = true
-				var shockwave_instance = get_player_weapon_instance("Shockwave") # Or whatever your Shockwave node is named
+				var shockwave_instance = get_player_weapon_instance("shockwave") # Or whatever your Shockwave node is named
 				if shockwave_instance:
 					shockwave_instance.set_process_mode(Node.PROCESS_MODE_INHERIT)
 					shockwave_instance.show()
@@ -391,7 +394,7 @@ func apply_gameplay_upgrade(upgrade_type: String, upgrade_data: Dictionary):
 				if upgrade_data.has("damage_increase"): shockwave_base_damage += upgrade_data.damage_increase
 				if upgrade_data.has("cooldown_reduction"): shockwave_cooldown = max(1.0, shockwave_cooldown - upgrade_data.cooldown_reduction) # Ensure min cooldown
 				# Add other shockwave specific upgrades here
-				var shockwave_instance = get_player_weapon_instance("Shockwave")
+				var shockwave_instance = get_player_weapon_instance("shockwave")
 				if shockwave_instance and shockwave_instance.has_method("_update_stats_from_autoload"):
 					shockwave_instance._update_stats_from_autoload()
 				print("Autoload: Shockwave upgraded. New shockwave_base_damage: %d, shockwave_cooldown: %f" % [shockwave_base_damage, shockwave_cooldown])
@@ -487,7 +490,7 @@ func reset_variables():
 	crit_multiplier = 3.0
 	player_health_percent = 1.0
 	player_curse_percent = 1.0
-	player_armor_percent = 1.0
+	player_armor_percent = 0.0
 
 	# Gun-specific in-run temporary stats (NOT activation status, which is permanent)
 	rifle_bullets = 1
@@ -510,7 +513,7 @@ func reset_variables():
 	laser_base_damage = 42 # Reset to its initial value
 
 	rocket_bullets = 1
-	explosion_size = 1.0 # Reset to its initial value
+	explosion_size = 100.0 # Reset to its initial value
 	rocket_base_damage = 46 # Reset to its initial value
 
 	flamethrower_bullets = 1
@@ -598,6 +601,11 @@ func save_all_player_data():
 	config.set_value("rocket_stats", "rocket_bullets", rocket_bullets)
 	config.set_value("rocket_stats", "explosion_size", explosion_size) # Added to save
 	config.set_value("rocket_stats", "rocket_base_damage", rocket_base_damage) # Added to save
+	
+	config.set_value("rocket_stats", "active", rocket_active)
+	config.set_value("rocket_stats", "magazine_size", rocket_magazine_size) # NEW
+	config.set_value("rocket_stats", "reload_duration", rocket_reload_duration) # NEW
+
 
 	config.set_value("shockwave_stats", "shockwave_amount", shockwave_amount)
 	config.set_value("shockwave_stats", "shockwave_cooldown", shockwave_cooldown)
@@ -688,8 +696,16 @@ func load_all_player_data():
 		laser_base_damage = config.get_value("laser_stats", "laser_base_damage", laser_base_damage) # Added to load
 
 		rocket_bullets = config.get_value("rocket_stats", "rocket_bullets", rocket_bullets)
-		explosion_size = config.get_value("rocket_stats", "explosion_size", explosion_size) # Added to load
-		rocket_base_damage = config.get_value("rocket_stats", "rocket_base_damage", rocket_base_damage) # Added to load
+		#explosion_size = config.get_value("rocket_stats", "explosion_size", explosion_size) # Added to load
+		#rocket_base_damage = config.get_value("rocket_stats", "rocket_base_damage", rocket_base_damage) # Added to load
+		
+		# Rocket Launcher Loads
+		rocket_active = config.get_value("rocket_stats", "active", rocket_active)
+		rocket_base_damage = config.get_value("rocket_stats", "base_damage", rocket_base_damage)
+		explosion_size = config.get_value("rocket_stats", "explosion_size", explosion_size)
+		rocket_magazine_size = config.get_value("rocket_stats", "magazine_size", rocket_magazine_size) # NEW
+		rocket_reload_duration = config.get_value("rocket_stats", "reload_duration", rocket_reload_duration) # NEW
+
 
 		shockwave_amount = config.get_value("shockwave_stats", "shockwave_amount", shockwave_amount)
 		shockwave_cooldown = config.get_value("shockwave_stats", "shockwave_cooldown", shockwave_cooldown)

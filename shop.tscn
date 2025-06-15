@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://bjxvd45txvxxv"]
+[gd_scene load_steps=82 format=3 uid="uid://bjxvd45txvxxv"]
 
 [ext_resource type="Script" uid="uid://dinq422e63jx0" path="res://shop.gd" id="1_6lah5"]
 [ext_resource type="Texture2D" uid="uid://e16e8gqwlk7c" path="res://assets/Chests.png" id="1_viryw"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cmkon3srsu28n" path="res://coin_big.tscn" id="9_p5a0g"]
 [ext_resource type="Texture2D" uid="uid://b0njqc374rwa4" path="res://assets/bg/bg-shop.jpg" id="9_xqmyw"]
 [ext_resource type="PackedScene" uid="uid://duotfllnrd0t2" path="res://gem_currency.tscn" id="10_xqmyw"]
+[ext_resource type="AudioStream" uid="uid://cpsgw768lh143" path="res://assets/music/Boss-a-Nova.ogg" id="11_sw5c6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gmb2m"]
 
@@ -1195,6 +1196,9 @@ libraries = {
 &"": SubResource("AnimationLibrary_msgp6")
 }
 autoplay = "bg-moving"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_sw5c6")
 
 [connection signal="initialization_completed" from="Admob" to="." method="_on_admob_initialization_completed"]
 [connection signal="rewarded_ad_user_earned_reward" from="Admob" to="." method="_on_admob_rewarded_ad_user_earned_reward"]

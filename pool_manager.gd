@@ -21,7 +21,7 @@ func _ready():
 	#Mobs
 	register_pool("mob", preload("res://mob.tscn"))
 	register_pool("python", preload("res://python.tscn"))
-	register_pool("pyscho", preload("res://psycho.tscn"))
+	register_pool("psycho", preload("res://psycho.tscn"))
 	register_pool("bat", preload("res://bat.tscn"))
 	register_pool("ghost", preload("res://enemy_scenes/ghost.tscn"))
 	register_pool("pumpking", preload("res://enemy_scenes/pumpking.tscn"))
@@ -29,6 +29,10 @@ func _ready():
 	register_pool("bee", preload("res://enemy_scenes/bee.tscn"))
 	register_pool("small_worm", preload("res://enemy_scenes/small_worm.tscn"))
 	register_pool("big_worm", preload("res://enemy_scenes/big_worm.tscn"))
+	
+	
+	# Projectile
+	register_pool("rocket_projectile", preload("res://bullets/bullet-rocket.tscn"))
 	
 	#Bosses
 	register_pool("boss1", preload("res://boss_10.tscn"))

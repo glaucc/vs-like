@@ -1,0 +1,157 @@
+[gd_scene load_steps=23 format=3 uid="uid://dukddjsqoafs1"]
+
+[ext_resource type="Texture2D" uid="uid://byj7ti1lcv01e" path="res://assets/vfx/gun-Spritesheets/Rocket Fire 2-Sheet.png" id="1_um530"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpinl"]
+atlas = ExtResource("1_um530")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tc1kx"]
+atlas = ExtResource("1_um530")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6m5px"]
+atlas = ExtResource("1_um530")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvwqw"]
+atlas = ExtResource("1_um530")
+region = Rect2(450, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jv6k"]
+atlas = ExtResource("1_um530")
+region = Rect2(600, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn4ix"]
+atlas = ExtResource("1_um530")
+region = Rect2(0, 150, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gysbw"]
+atlas = ExtResource("1_um530")
+region = Rect2(150, 150, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gluwb"]
+atlas = ExtResource("1_um530")
+region = Rect2(300, 150, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mopjw"]
+atlas = ExtResource("1_um530")
+region = Rect2(450, 150, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g83ks"]
+atlas = ExtResource("1_um530")
+region = Rect2(600, 150, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpabt"]
+atlas = ExtResource("1_um530")
+region = Rect2(0, 300, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7ive"]
+atlas = ExtResource("1_um530")
+region = Rect2(150, 300, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68dr2"]
+atlas = ExtResource("1_um530")
+region = Rect2(300, 300, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypjh8"]
+atlas = ExtResource("1_um530")
+region = Rect2(450, 300, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8g83f"]
+atlas = ExtResource("1_um530")
+region = Rect2(600, 300, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_om3ht"]
+atlas = ExtResource("1_um530")
+region = Rect2(0, 450, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjlnv"]
+atlas = ExtResource("1_um530")
+region = Rect2(150, 450, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aguny"]
+atlas = ExtResource("1_um530")
+region = Rect2(300, 450, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cviu"]
+atlas = ExtResource("1_um530")
+region = Rect2(450, 450, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1xqd"]
+atlas = ExtResource("1_um530")
+region = Rect2(600, 450, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xganh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpinl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tc1kx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6m5px")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvwqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jv6k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn4ix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gysbw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gluwb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mopjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g83ks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpabt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7ive")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68dr2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypjh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8g83f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_om3ht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjlnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aguny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cviu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1xqd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 25.0
+}]
+
+[node name="bg-rocket-bullet" type="AnimatedSprite2D"]
+z_index = -1
+sprite_frames = SubResource("SpriteFrames_xganh")
+autoplay = "default"
+frame_progress = 0.31415

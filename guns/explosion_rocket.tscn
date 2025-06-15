@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcxa8ef4vmnsy"]
+
+[ext_resource type="Texture2D" uid="uid://coehnunv0ubg8" path="res://topdown_shooter/other/explode1.png" id="1_iwul7"]
+[ext_resource type="Script" uid="uid://crxp8mtrfvftk" path="res://guns/explosion_rocket.gd" id="1_xecsa"]
+[ext_resource type="AudioStream" uid="uid://bi44najngvr6u" path="res://assets/SFX/rocket-explosion.ogg" id="2_phwyt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phwyt"]
+atlas = ExtResource("1_iwul7")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xecsa"]
+atlas = ExtResource("1_iwul7")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8llaa"]
+atlas = ExtResource("1_iwul7")
+region = Rect2(100, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qrxew"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_phwyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xecsa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8llaa")
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_75s2v"]
+radius = 80.025
+
+[node name="explosion-rocket" type="Area2D" groups=["bullets"]]
+physics_interpolation_mode = 2
+z_index = 1
+collision_mask = 2
+script = ExtResource("1_xecsa")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["bullets"]]
+unique_name_in_owner = true
+z_index = 1
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_qrxew")
+animation = &"explosion"
+autoplay = "explosion"
+frame = 2
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_75s2v")
+debug_color = Color(0.958, 0, 0.528, 0.208)
+
+[node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_phwyt")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_AnimatedSprite2D_animation_finished"]

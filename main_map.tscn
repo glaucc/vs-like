@@ -1,12 +1,11 @@
-[gd_scene load_steps=54 format=3 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=55 format=3 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
 [ext_resource type="Texture2D" uid="uid://dafbal3p60kov" path="res://pixel-ball.png" id="2_km2bi"]
 [ext_resource type="FontFile" uid="uid://btooiaidvf2ux" path="res://PressStart2P-Regular.ttf" id="2_v4mvp"]
-[ext_resource type="PackedScene" path="res://gun.tscn" id="3_1ns3a"]
+[ext_resource type="PackedScene" uid="uid://8sewa62lg184" path="res://guns/gun.tscn" id="3_1ns3a"]
 [ext_resource type="Texture2D" uid="uid://dvnyw37au1np7" path="res://topdown_shooter/other/coin2.png" id="5_286o7"]
-[ext_resource type="Texture2D" uid="uid://csdpghma23j5p" path="res://assets/Arrow.png" id="5_fnffn"]
 [ext_resource type="PackedScene" uid="uid://i1mk5roiluv7" path="res://gem.tscn" id="5_qf1q8"]
 [ext_resource type="Script" uid="uid://dca03a0yu3fg7" path="res://debug_ui.gd" id="6_286o7"]
 [ext_resource type="Texture2D" uid="uid://cuum1miyepyxw" path="res://assets/Orange Button Icons.png" id="6_i4yi8"]
@@ -15,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cc12rdodeg0oa" path="res://guns/shotgun.tscn" id="9_dt6kx"]
 [ext_resource type="Texture2D" uid="uid://0lg704w863mf" path="res://assets/Green Buttons Text.png" id="10_4ly05"]
 [ext_resource type="AudioStream" uid="uid://cg4cdjqncvodt" path="res://assets/music/LeftRightExcluded.mp3" id="12_t3ofs"]
+[ext_resource type="PackedScene" uid="uid://bnr26aljp08ou" path="res://guns/rocket.tscn" id="14_en5d1"]
 [ext_resource type="PackedScene" uid="uid://dch60w8x5ki88" path="res://guns/flamethrower.tscn" id="14_fya7d"]
 [ext_resource type="Script" uid="uid://cw7hbbgqubvmm" path="res://game_over.gd" id="14_np7p1"]
 [ext_resource type="Texture2D" uid="uid://d2x3y4qxpgv76" path="res://assets/bg/map-tileset.png" id="17_e37sb"]
@@ -27,10 +27,6 @@ bg_color = Color(0, 0, 0, 0.494118)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1k36j"]
 bg_color = Color(0.117647, 0.737255, 0.45098, 1)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_286o7"]
-atlas = ExtResource("5_fnffn")
-region = Rect2(2528, 2464, 544, 160)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ly05"]
 atlas = ExtResource("5_286o7")
@@ -109,6 +105,21 @@ region = Rect2(129, 257, 30, 30)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1k36j"]
 texture = SubResource("AtlasTexture_i4yi8")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_en5d1"]
+content_margin_left = 10.0
+content_margin_top = 7.0
+content_margin_right = 10.0
+content_margin_bottom = 7.0
+bg_color = Color(0.709804, 0.698039, 1, 0.52549)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vreyb"]
+bg_color = Color(0.435294, 0.258824, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1k36j"]
 atlas = ExtResource("10_4ly05")
@@ -664,110 +675,7 @@ offset_left = 4.0
 offset_top = 2.0
 offset_right = 544.0
 offset_bottom = 182.0
-focus_next = NodePath("../../Upgrade4/UpgradeButton4")
 flat = true
-
-[node name="Upgrade4" type="ColorRect" parent="Score/UpgradeMenu"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -271.0
-offset_top = 729.0
-offset_right = 269.0
-offset_bottom = -21.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0862745, 0.352941, 0.298039, 1)
-
-[node name="Upgrade4text" type="Label" parent="Score/UpgradeMenu/Upgrade4"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 90.0
-offset_top = 12.0
-offset_right = 270.0
-offset_bottom = 48.0
-scale = Vector2(0.5, 0.5)
-theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 30
-theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
-text = "Skill"
-
-[node name="UpgradeDesc4" type="Label" parent="Score/UpgradeMenu/Upgrade4"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 130.0
-offset_top = 89.0
-offset_right = 634.0
-offset_bottom = 129.0
-scale = Vector2(0.5, 0.5)
-theme_override_colors/font_color = Color(0.925181, 0.954354, 0.937353, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 30
-theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
-text = "Get more guns!"
-autowrap_mode = 2
-
-[node name="UpgradeButton4" type="Button" parent="Score/UpgradeMenu/Upgrade4"]
-unique_name_in_owner = true
-process_mode = 2
-visible = false
-layout_mode = 0
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 544.0
-offset_bottom = 182.0
-flat = true
-
-[node name="arrows" type="Node2D" parent="Score/UpgradeMenu"]
-visible = false
-
-[node name="arrow1" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
-unique_name_in_owner = true
-position = Vector2(-60, 240)
-scale = Vector2(0.2, 0.2)
-texture = SubResource("AtlasTexture_286o7")
-
-[node name="arrow2" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
-unique_name_in_owner = true
-position = Vector2(598, 240)
-rotation = -3.14159
-scale = Vector2(0.2, 0.2)
-texture = SubResource("AtlasTexture_286o7")
-
-[node name="arrow3" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
-unique_name_in_owner = true
-position = Vector2(-60, 443)
-scale = Vector2(0.2, 0.2)
-texture = SubResource("AtlasTexture_286o7")
-
-[node name="arrow4" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
-unique_name_in_owner = true
-position = Vector2(598, 443)
-rotation = -3.14159
-scale = Vector2(0.2, 0.2)
-texture = SubResource("AtlasTexture_286o7")
-
-[node name="arrow5" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
-unique_name_in_owner = true
-position = Vector2(-60, 626)
-scale = Vector2(0.2, 0.2)
-texture = SubResource("AtlasTexture_286o7")
-
-[node name="arrow6" type="Sprite2D" parent="Score/UpgradeMenu/arrows"]
-unique_name_in_owner = true
-position = Vector2(598, 626)
-rotation = -3.14159
-scale = Vector2(0.2, 0.2)
-texture = SubResource("AtlasTexture_286o7")
 
 [node name="Time" type="Label" parent="Score"]
 unique_name_in_owner = true
@@ -788,6 +696,7 @@ text = "00:00"
 horizontal_alignment = 1
 
 [node name="DebugUI" type="CanvasLayer" parent="Score"]
+visible = false
 script = ExtResource("6_286o7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Score/DebugUI"]
@@ -895,105 +804,160 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("7_1k36j")
 
-[node name="MarginContainer" type="MarginContainer" parent="Score/PauseMenu"]
+[node name="ColorRect" type="ColorRect" parent="Score/PauseMenu"]
+self_modulate = Color(0, 0, 0, 0.75)
+z_index = -2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 58.0
-offset_top = -48.0
-offset_right = -58.0
-offset_bottom = 185.0
+offset_top = -17.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.95, 0.95)
+mouse_filter = 2
+color = Color(0.0862745, 0.352941, 0.298039, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Score/PauseMenu/MarginContainer"]
-layout_mode = 2
-
-[node name="volume" type="Label" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="volume" type="Label" parent="Score/PauseMenu"]
 custom_minimum_size = Vector2(0, 45.245)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 30.0
+offset_right = 1560.0
+offset_bottom = 75.245
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 32
 text = "Volume"
 
-[node name="Volume" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="Volume" type="HSlider" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 45.245)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 73.0
+offset_right = 783.0
+offset_bottom = 118.245
+theme_override_styles/slider = SubResource("StyleBoxFlat_en5d1")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_vreyb")
 value = 100.0
 
-[node name="CheckBox" type="CheckBox" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(7.515, 105.98)
 layout_mode = 2
+offset_left = 852.0
+offset_top = 42.0
+offset_right = 1050.0
+offset_bottom = 148.0
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 32
 text = "Mute"
 flat = true
 expand_icon = true
 
-[node name="FlipControlsCheckbox" type="CheckBox" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="FlipControlsCheckbox" type="CheckBox" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 layout_mode = 2
+offset_left = 53.0
+offset_top = 146.0
+offset_right = 967.0
+offset_bottom = 226.0
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 24
 text = "Flip Controls
 (Move with Left, Shoot with Right)"
+expand_icon = true
 
-[node name="Vibration_toggle" type="CheckBox" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="Vibration_toggle" type="CheckBox" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 80.81)
 layout_mode = 2
+offset_left = 873.0
+offset_top = 455.0
+offset_right = 1361.0
+offset_bottom = 536.0
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 24
 text = "Vibration Enabled"
 flat = true
 
-[node name="vib-duration" type="Label" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="vib-duration" type="Label" parent="Score/PauseMenu"]
 custom_minimum_size = Vector2(0, 68.685)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 266.0
+offset_right = 533.0
+offset_bottom = 335.0
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 24
 text = "Vibration Duration"
 vertical_alignment = 1
 
-[node name="HSlider-vib-duration" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="HSlider-vib-duration" type="HSlider" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68.685)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 316.0
+offset_right = 785.0
+offset_bottom = 385.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_en5d1")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_vreyb")
 
-[node name="vib-duration3" type="Label" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="vib-duration3" type="Label" parent="Score/PauseMenu"]
 custom_minimum_size = Vector2(0, 72.47)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 415.0
+offset_right = 793.0
+offset_bottom = 487.47
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 24
 text = "Vibration Amplitude (Strength)"
 vertical_alignment = 1
 
-[node name="HSlider-vib-amplitude" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="HSlider-vib-amplitude" type="HSlider" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 72.47)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 463.0
+offset_right = 785.0
+offset_bottom = 535.47
+theme_override_styles/slider = SubResource("StyleBoxFlat_en5d1")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_vreyb")
 
-[node name="vib-duration2" type="Label" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="vib-duration2" type="Label" parent="Score/PauseMenu"]
 custom_minimum_size = Vector2(0, 64.89)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 551.0
+offset_right = 793.0
+offset_bottom = 616.0
 theme_override_fonts/font = ExtResource("2_v4mvp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 24
 text = "Vibration Cooldown"
 vertical_alignment = 1
 
-[node name="HSlider-vib-cooldown" type="HSlider" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="HSlider-vib-cooldown" type="HSlider" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64.89)
 layout_mode = 2
+offset_left = 58.0
+offset_top = 591.0
+offset_right = 783.0
+offset_bottom = 656.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_en5d1")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_vreyb")
 
-[node name="ResumeButton" type="Button" parent="Score/PauseMenu/MarginContainer/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="Score/PauseMenu"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+offset_left = 985.0
+offset_top = 607.0
+offset_right = 1600.0
+offset_bottom = 807.0
 mouse_default_cursor_shape = 2
 theme_override_icons/icon = SubResource("AtlasTexture_1k36j")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_1k36j")
@@ -1002,20 +966,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_nr864")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_fya7d")
 flat = true
 expand_icon = true
-
-[node name="ColorRect" type="ColorRect" parent="Score/PauseMenu"]
-self_modulate = Color(1, 1, 1, 0.854902)
-z_index = -2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -65.0
-offset_bottom = 138.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.0862745, 0.352941, 0.298039, 1)
 
 [node name="player" parent="." instance=ExtResource("1_dyl4d")]
 position = Vector2(963, 547)
@@ -1046,6 +996,9 @@ scale = Vector2(2, 2)
 [node name="flamethrower" parent="player" instance=ExtResource("14_fya7d")]
 unique_name_in_owner = true
 position = Vector2(-120.348, -4.62878)
+
+[node name="rocket" parent="player" instance=ExtResource("14_en5d1")]
+position = Vector2(-43.9734, -62.4886)
 
 [node name="VibrationCooldownTimer" type="Timer" parent="player"]
 unique_name_in_owner = true
@@ -1085,6 +1038,7 @@ autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("14_np7p1")
 
 [node name="ColorRect" type="ColorRect" parent="GameOver"]
@@ -1266,6 +1220,7 @@ vertical_alignment = 1
 
 [node name="Levelup-fx" type="CanvasLayer" parent="."]
 process_mode = 3
+visible = false
 
 [node name="Level-up-fx" type="Control" parent="Levelup-fx"]
 unique_name_in_owner = true
@@ -1685,20 +1640,19 @@ wait_time = 60.0
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade3/UpgradeButton3" to="." method="_on_upgrade_button_3_pressed"]
-[connection signal="pressed" from="Score/UpgradeMenu/Upgrade4/UpgradeButton4" to="." method="_on_upgrade_button_4_pressed"]
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/kill" to="Score/DebugUI" method="_on_kill_pressed"]
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/add_xp" to="Score/DebugUI" method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/+5minutes" to="Score/DebugUI" method="_on_minutes_pressed"]
 [connection signal="pressed" from="Score/DebugUI/VBoxContainer/reset_health" to="Score/DebugUI" method="_on_reset_health_pressed"]
 [connection signal="pressed" from="Score/PauseButton" to="." method="_on_pause_button_pressed"]
-[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/Volume" to="Score/PauseMenu" method="_on_volume_value_changed"]
-[connection signal="toggled" from="Score/PauseMenu/MarginContainer/VBoxContainer/CheckBox" to="Score/PauseMenu" method="_on_check_box_toggled"]
-[connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/FlipControlsCheckbox" to="Score/PauseMenu" method="_on_flip_controls_checkbox_pressed"]
-[connection signal="toggled" from="Score/PauseMenu/MarginContainer/VBoxContainer/Vibration_toggle" to="Score/PauseMenu" method="_on_VibrationToggle_toggled"]
-[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-duration" to="Score/PauseMenu" method="_on_DurationSlider_value_changed"]
-[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-amplitude" to="Score/PauseMenu" method="_on_AmplitudeSlider_value_changed"]
-[connection signal="value_changed" from="Score/PauseMenu/MarginContainer/VBoxContainer/HSlider-vib-cooldown" to="Score/PauseMenu" method="_on_CooldownSlider_value_changed"]
-[connection signal="pressed" from="Score/PauseMenu/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="value_changed" from="Score/PauseMenu/Volume" to="Score/PauseMenu" method="_on_volume_value_changed"]
+[connection signal="toggled" from="Score/PauseMenu/CheckBox" to="Score/PauseMenu" method="_on_check_box_toggled"]
+[connection signal="pressed" from="Score/PauseMenu/FlipControlsCheckbox" to="Score/PauseMenu" method="_on_flip_controls_checkbox_pressed"]
+[connection signal="toggled" from="Score/PauseMenu/Vibration_toggle" to="Score/PauseMenu" method="_on_VibrationToggle_toggled"]
+[connection signal="value_changed" from="Score/PauseMenu/HSlider-vib-duration" to="Score/PauseMenu" method="_on_DurationSlider_value_changed"]
+[connection signal="value_changed" from="Score/PauseMenu/HSlider-vib-amplitude" to="Score/PauseMenu" method="_on_AmplitudeSlider_value_changed"]
+[connection signal="value_changed" from="Score/PauseMenu/HSlider-vib-cooldown" to="Score/PauseMenu" method="_on_CooldownSlider_value_changed"]
+[connection signal="pressed" from="Score/PauseMenu/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
 [connection signal="revived" from="player" to="." method="_on_player_revived"]
 [connection signal="timeout" from="player/VibrationCooldownTimer" to="player" method="_on_vibration_cooldown_timer_timeout"]
@@ -1707,4 +1661,5 @@ wait_time = 60.0
 [connection signal="pressed" from="GameOver/ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]
 [connection signal="pressed" from="GameOver/ReviveButton" to="." method="_on_revive_button_pressed"]
 [connection signal="timeout" from="GameOver/ReviveCountdownTimer" to="." method="_on_revive_countdown_timer_timeout"]
+[connection signal="finished" from="GameMusicPlayer" to="." method="_on_game_music_player_finished"]
 [connection signal="pressed" from="GameWinScreen/ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]
