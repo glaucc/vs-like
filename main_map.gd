@@ -292,8 +292,8 @@ var upgrade_levels = {
 	"Rifle": 0,
 	"Shotgun": 2,
 	"Machine Gun": 0,
-	"Laser": 0,
-	"Rocket": 1,
+	"Laser": 1,
+	"Rocket": 0,
 	"Flamethrower": 0, # Set to 0 if not starting unlocked
 	"Shockwave": 0,
 	
@@ -330,6 +330,16 @@ var _8th_wave_speed: bool = false
 func _ready() -> void:
 	print("GameMusicPlayer: ", %GameMusicPlayer.get_stream())
 	randomize()
+	
+	
+	print("gun, ", Autoload.rifle_active)
+	print("shotgun, ", Autoload.shotgun_active)
+	print("machinegun, ", Autoload.machinegun_active)
+	print("laser, ", Autoload.laser_active)
+	print("rocket, ", Autoload.rocket_active)
+	print("flamethrower, ", Autoload.flamethrower_active)
+	print("shockwave, ", Autoload.shockwave_active)
+	
 	
 	
 	game_music1 = %GameMusicPlayer.get_stream()
@@ -699,6 +709,10 @@ func _on_player_hit():
 func _on_player_gem_collected(amount: int):
 	Autoload.add_gems(amount) # Call Autoload's function to update current run's gems
 	# SFX already emitted by _on_play_sfx_requested when gem_collect is emitted.
+	emit_signal("play_sfx", "gem_collect") # Play win sound
+	print("deez nts")
+	%gem_sound.play()
+
 	#pass     
 
 
@@ -717,7 +731,7 @@ func _on_play_sfx_requested(sfx_name: String):
 		"ui_resume": sfx_path = "res://assets/SFX/unpause.ogg"
 		"player_death": sfx_path = "res://assets/SFX/arcade-game-over.ogg"
 		"revive": sfx_path = "res://assets/SFX/Revive - Celestial Metal Resurrection Chime.ogg"
-		"gem_collect": sfx_path = "res://assets/SFX/Sparkling Gem Collection Sound.ogg"
+		"gem_collect": sfx_path = "res://assets/SFX/gem_collect.ogg"
 		"game_win": sfx_path = "res://assets/SFX/win_sfx.ogg"
 		"boss_spawn": sfx_path = "res://assets/SFX/final_bell.mp3" # New SFX for boss
 		# Add more SFX paths as needed
@@ -796,15 +810,52 @@ func _apply_upgrade(button: Button):
 		
 		
 		
-		# --- NEW CODE START ---
+		# --- MINIMAL CHANGE START (Removed has_property check) ---
 		# After an upgrade is applied (especially gun-related ones),
 		# tell all active gun nodes to update their stats from Autoload.
-		print("DEBUG: Calling _update_stats_from_autoload on all active guns after upgrade.")
+		print("DEBUG: Calling _update_gun_states_after_upgrade on all guns.")
 		for gun_node in get_tree().get_nodes_in_group("guns"):
-			# Only update if the gun node is active and has the method
-			if gun_node.is_processing() and gun_node.has_method("_update_stats_from_autoload"):
+			var gun_name_for_autoload = ""
+			match gun_node.name:
+				"gun": gun_name_for_autoload = "rifle"
+				"shotgun": gun_name_for_autoload = "shotgun"
+				"machinegun": gun_name_for_autoload = "machine_gun"
+				"laser": gun_name_for_autoload = "laser"
+				"rocket": gun_name_for_autoload = "rocket"
+				"flamethrower": gun_name_for_autoload = "flamethrower"
+				"shockwave": gun_name_for_autoload = "shockwave"
+				_: continue # Skip if not a known gun node
+
+			var autoload_active_flag_name = gun_name_for_autoload + "_active"
+
+			# Direct access to the Autoload property.
+			# This relies on the properties (e.g., Autoload.rocket_active) always being declared in Autoload.gd.
+			# If the property name is constructed incorrectly, this will result in a runtime error.
+			# However, with the `match` statement, the names should be correct.
+			var should_be_active = Autoload.get(autoload_active_flag_name)
+
+			print("DEBUG: Processing gun_node:", gun_node.name, " | should_be_active (Autoload):", should_be_active)
+
+			if should_be_active:
+				if gun_node.get_process_mode() != Node.PROCESS_MODE_INHERIT:
+					gun_node.set_process_mode(Node.PROCESS_MODE_INHERIT)
+					print("DEBUG: Enabled processing for gun:", gun_node.name)
+				if not gun_node.is_visible_in_tree():
+					gun_node.show()
+					print("DEBUG: Made gun visible:", gun_node.name)
+			else: # Ensure guns that should be inactive remain so
+				if gun_node.get_process_mode() != Node.PROCESS_MODE_DISABLED:
+					gun_node.set_process_mode(Node.PROCESS_MODE_DISABLED)
+					# print("DEBUG: Disabled processing for gun:", gun_node.name)
+				if gun_node.is_visible_in_tree():
+					gun_node.hide()
+					# print("DEBUG: Made gun invisible:", gun_node.name)
+			
+			# Always call _update_stats_from_autoload if it exists, for active or newly activated guns
+			if gun_node.has_method("_update_stats_from_autoload"):
 				gun_node._update_stats_from_autoload()
-		# --- NEW CODE END ---
+				print("DEBUG: Updated stats for gun:", gun_node.name)
+		# --- MINIMAL CHANGE END ---
 		
 		
 		

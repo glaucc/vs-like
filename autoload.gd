@@ -58,7 +58,7 @@ var shockwave_active: bool = false
 # Individual gun stats (these are also permanent and upgraded over time)
 # Rifle/Pistol
 var rifle_bullets: int = 1
-var rifle_base_damage: int = 15 # Initialized rifle_base_damage
+var rifle_base_damage: int = 25 # Initialized rifle_base_damage
 var rifle_attack_speed: float = 1.0
 
 # Shotgun specific stats
@@ -80,6 +80,9 @@ var machinegun_base_damage: int = 22
 # Laser
 var laser_bullets: int = 1 # For laser, this might be a single beam, or number of concurrent beams
 var laser_base_damage: int = 42 # Corrected typo: laset_base_damage -> laser_base_damage
+var laser_damage_per_second : int = 120
+var laser_duration : float = 2.0
+var laser_cooldown : float = 5.0
 
 
 # Rocket Launcher
@@ -513,7 +516,8 @@ func reset_variables():
 	laser_base_damage = 42 # Reset to its initial value
 
 	rocket_bullets = 1
-	explosion_size = 100.0 # Reset to its initial value
+	if explosion_size < 50:
+		explosion_size = 50.0  # Reset to its initial value
 	rocket_base_damage = 46 # Reset to its initial value
 
 	flamethrower_bullets = 1

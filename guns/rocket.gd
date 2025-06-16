@@ -73,7 +73,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		cooldown_timer.stop()
 	
-	current_explosion_size = 100.0
+	current_explosion_size = Autoload.explosion_size
+	if current_explosion_size < 50.0:
+		current_explosion_size = 50.0
 
 
 func fire() -> void:
@@ -156,7 +158,9 @@ func _process(delta: float) -> void:
 func _update_stats_from_autoload() -> void:
 	current_damage = Autoload.rocket_base_damage
 	#current_explosion_size = Autoload.explosion_size
-	current_explosion_size = 100.0
+	current_explosion_size = Autoload.explosion_size
+	if current_explosion_size < 50.0:
+		current_explosion_size = 50.0
 	fire_cooldown = Autoload.player_attack_speed
 	current_reload_duration = Autoload.rocket_reload_duration
 	

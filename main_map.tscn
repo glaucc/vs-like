@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=57 format=3 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
@@ -17,10 +17,12 @@
 [ext_resource type="PackedScene" uid="uid://bnr26aljp08ou" path="res://guns/rocket.tscn" id="14_en5d1"]
 [ext_resource type="PackedScene" uid="uid://dch60w8x5ki88" path="res://guns/flamethrower.tscn" id="14_fya7d"]
 [ext_resource type="Script" uid="uid://cw7hbbgqubvmm" path="res://game_over.gd" id="14_np7p1"]
+[ext_resource type="PackedScene" uid="uid://c800jev4ehi8d" path="res://guns/laser.tscn" id="15_vreyb"]
 [ext_resource type="Texture2D" uid="uid://d2x3y4qxpgv76" path="res://assets/bg/map-tileset.png" id="17_e37sb"]
 [ext_resource type="Texture2D" uid="uid://dux5k55nxc6vx" path="res://assets/vfx/Shine_Sheet.png" id="17_qf1q8"]
 [ext_resource type="AudioStream" uid="uid://b4byentga1x6s" path="res://assets/SFX/Offline [Pause Menu Music I].ogg" id="18_en5d1"]
 [ext_resource type="AudioStream" uid="uid://inct0vdyv770" path="res://assets/SFX/level-up-289723.ogg" id="18_nr864"]
+[ext_resource type="AudioStream" uid="uid://chxik3rjjq1yi" path="res://assets/SFX/gem_collect.ogg" id="22_exhny"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
@@ -1000,6 +1002,8 @@ position = Vector2(-120.348, -4.62878)
 [node name="rocket" parent="player" instance=ExtResource("14_en5d1")]
 position = Vector2(-43.9734, -62.4886)
 
+[node name="laser" parent="player" instance=ExtResource("15_vreyb")]
+
 [node name="VibrationCooldownTimer" type="Timer" parent="player"]
 unique_name_in_owner = true
 
@@ -1637,6 +1641,10 @@ wait_time = 180.0
 unique_name_in_owner = true
 wait_time = 60.0
 
+[node name="gem_sound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("22_exhny")
+
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade3/UpgradeButton3" to="." method="_on_upgrade_button_3_pressed"]
@@ -1653,7 +1661,9 @@ wait_time = 60.0
 [connection signal="value_changed" from="Score/PauseMenu/HSlider-vib-amplitude" to="Score/PauseMenu" method="_on_AmplitudeSlider_value_changed"]
 [connection signal="value_changed" from="Score/PauseMenu/HSlider-vib-cooldown" to="Score/PauseMenu" method="_on_CooldownSlider_value_changed"]
 [connection signal="pressed" from="Score/PauseMenu/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="gem_collected" from="player" to="." method="_on_player_gem_collected"]
 [connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
+[connection signal="player_hit" from="player" to="." method="_on_player_hit"]
 [connection signal="revived" from="player" to="." method="_on_player_revived"]
 [connection signal="timeout" from="player/VibrationCooldownTimer" to="player" method="_on_vibration_cooldown_timer_timeout"]
 [connection signal="timeout" from="player/InvulnerabilityTimer" to="player" method="_on_invulnerability_timer_timeout"]

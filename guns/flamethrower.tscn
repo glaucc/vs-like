@@ -73,6 +73,7 @@ volume_db = -3.0
 
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
+volume_db = 3.023
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true

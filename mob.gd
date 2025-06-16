@@ -49,29 +49,33 @@ func take_damage(damage: float, is_crit: bool = false):
 		
 		const SMOKE_EXPLOSION = preload("res://smoke_explosion/smoke_explosion.tscn")
 		var smoke = SMOKE_EXPLOSION.instantiate()
-		get_parent().add_child(smoke)
-		smoke.global_position = global_position
 		
-		var rng = randf()
+		var target_parent = get_parent()
+		if target_parent:
 		
-		# Apply player luck to coin drops
-		var effective_big_coin_chance = 0.02 * Autoload.player_luck_percent
-		var effective_regular_coin_chance = 0.2 * Autoload.player_luck_percent
-
-		if rng < effective_big_coin_chance:
-			var new_coin_big = coin_big.instantiate()
-			get_parent().add_child(new_coin_big)
-			new_coin_big.global_position = global_position
-			new_coin_big.global_position.x += 50
-		elif rng < effective_regular_coin_chance:
-			var new_coin = coin.instantiate()
-			get_parent().add_child(new_coin)
-			new_coin.global_position = global_position
-			new_coin.global_position.x += 30
+			get_parent().add_child(smoke)
+			smoke.global_position = global_position
+		
+			var rng = randf()
 			
-		PoolManager.return_to_pool(_pool_group_name, self) # Use the stored group name
-		set_process(false)
-		visible = false
+			# Apply player luck to coin drops
+			var effective_big_coin_chance = 0.02 * Autoload.player_luck_percent
+			var effective_regular_coin_chance = 0.2 * Autoload.player_luck_percent
+
+			if rng < effective_big_coin_chance:
+				var new_coin_big = coin_big.instantiate()
+				get_parent().add_child(new_coin_big)
+				new_coin_big.global_position = global_position
+				new_coin_big.global_position.x += 50
+			elif rng < effective_regular_coin_chance:
+				var new_coin = coin.instantiate()
+				get_parent().add_child(new_coin)
+				new_coin.global_position = global_position
+				new_coin.global_position.x += 30
+			
+			PoolManager.return_to_pool(_pool_group_name, self) # Use the stored group name
+			set_process(false)
+			visible = false
 			
 	else:
 		# Flash red when hurt, but no special "hurt" animation for mobs based on your clarification
@@ -101,15 +105,21 @@ func show_damage_number(damage: float, is_crit: bool = false) -> void:
 	else:
 		label.modulate = Color(1, 0, 0) # Red
 
-	get_parent().add_child(label)
-	label.global_position = global_position
-	label.global_position.y -= 40
+	var target_parent = get_parent()
+	if target_parent:
+		# If a parent exists, add the label to it and position it relative to the mob
+		target_parent.add_child(label)
+		label.global_position = global_position
+		label.global_position.y -= 40
+	
 
 
 func _on_gem() -> void:
-	var gem_instance = preload("res://gem.tscn").instantiate()
-	get_parent().add_child(gem_instance)
-	gem_instance.global_position = global_position
+	var target_parent = get_parent()
+	if target_parent:
+		var gem_instance = preload("res://gem.tscn").instantiate()
+		target_parent.add_child(gem_instance)
+		gem_instance.global_position = global_position
 
 
 # NEW: The reset function for pooled mobs
