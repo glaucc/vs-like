@@ -687,6 +687,8 @@ under_age_of_consent = 1
 personalization_state = 2
 debug_application_id = "ca-app-pub-3940256099942544~3347511713"
 debug_rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+real_application_id = "ca-app-pub-9662284664462592~9980844487"
+real_rewarded_id = "ca-app-pub-9662284664462592/8667762815"
 metadata/_custom_type_script = "uid://ci1l8jm70jtp6"
 
 [node name="Label" type="Label" parent="."]
@@ -1066,10 +1068,11 @@ offset_bottom = 77.0
 pivot_offset = Vector2(55, 30.05)
 theme_override_fonts/font = ExtResource("2_e7rdd")
 theme_override_font_sizes/font_size = 36
-text = "150"
+text = "450"
 
 [node name="GemAdAmountLabel" type="Label" parent="Node2D"]
 unique_name_in_owner = true
+visible = false
 offset_left = -3.0
 offset_top = 62.0
 offset_right = 107.0
@@ -1109,6 +1112,7 @@ expand_icon = true
 
 [node name="GiftButton" type="Button" parent="."]
 unique_name_in_owner = true
+modulate = Color(0.190762, 0.190762, 0.190762, 1)
 layout_mode = 0
 offset_left = 1661.0
 offset_top = 285.0
@@ -1189,6 +1193,7 @@ region_rect = Rect2(0, 263, 2048, 1512)
 position = Vector2(1317, 61)
 
 [node name="gem_currency2" parent="." instance=ExtResource("10_xqmyw")]
+visible = false
 position = Vector2(153, 358)
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]

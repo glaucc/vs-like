@@ -39,6 +39,7 @@ corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 
 [node name="rocket" type="Area2D" groups=["guns"]]
+z_index = 1
 scale = Vector2(2.5, 2.5)
 collision_mask = 2
 script = ExtResource("1_at01x")
@@ -66,12 +67,11 @@ scale = Vector2(2, 2)
 
 [node name="CooldownTimer" type="Timer" parent="WeaponPivot"]
 unique_name_in_owner = true
-wait_time = 0.3
+wait_time = 0.05
 one_shot = true
 
 [node name="ReloadTimer" type="Timer" parent="WeaponPivot"]
 unique_name_in_owner = true
-wait_time = 2.0
 one_shot = true
 
 [node name="ReloadSound" type="AudioStreamPlayer" parent="."]

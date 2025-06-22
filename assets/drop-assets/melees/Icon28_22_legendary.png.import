@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8bqrwbd1b617"
-path="res://.godot/imported/Icon28_22_legendary.png-95f754bed2e696c40e05cfc7e3faa8d0.ctex"
+uid="uid://csuehqow843y0"
+path="res://.godot/imported/icon28_22_legendary.png-809262d5430fde273dbd0da9362c8a7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/melees/Icon28_22_legendary.png"
-dest_files=["res://.godot/imported/Icon28_22_legendary.png-95f754bed2e696c40e05cfc7e3faa8d0.ctex"]
+source_file="res://assets/drop-assets/melees/icon28_22_legendary.png"
+dest_files=["res://.godot/imported/icon28_22_legendary.png-809262d5430fde273dbd0da9362c8a7d.ctex"]
 
 [params]
 

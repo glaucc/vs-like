@@ -37,6 +37,7 @@ corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 
 [node name="flamethrower" type="Area2D" groups=["guns"]]
+z_index = 2
 collision_mask = 2
 script = ExtResource("1_eglrw")
 

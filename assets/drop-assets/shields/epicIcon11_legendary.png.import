@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iopb5psquuq6"
-path="res://.godot/imported/epicIcon11_legendary.png-35d2fc5197e1222da161163893a18552.ctex"
+uid="uid://c8xwdx40hbipi"
+path="res://.godot/imported/epicicon11_legendary.png-1d412e30b19b2a49c07a21f99a51d1e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/shields/epicIcon11_legendary.png"
-dest_files=["res://.godot/imported/epicIcon11_legendary.png-35d2fc5197e1222da161163893a18552.ctex"]
+source_file="res://assets/drop-assets/shields/epicicon11_legendary.png"
+dest_files=["res://.godot/imported/epicicon11_legendary.png-1d412e30b19b2a49c07a21f99a51d1e0.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://csw82k1bsqpt7"]
+[gd_scene load_steps=58 format=3 uid="uid://csw82k1bsqpt7"]
 
 [ext_resource type="PackedScene" uid="uid://8sms0sxmh0oo" path="res://player.tscn" id="1_dyl4d"]
 [ext_resource type="Script" uid="uid://c6ourd1xf8fag" path="res://main_map.gd" id="1_ob7o4"]
@@ -23,6 +23,7 @@
 [ext_resource type="AudioStream" uid="uid://b4byentga1x6s" path="res://assets/SFX/Offline [Pause Menu Music I].ogg" id="18_en5d1"]
 [ext_resource type="AudioStream" uid="uid://inct0vdyv770" path="res://assets/SFX/level-up-289723.ogg" id="18_nr864"]
 [ext_resource type="AudioStream" uid="uid://chxik3rjjq1yi" path="res://assets/SFX/gem_collect.ogg" id="22_exhny"]
+[ext_resource type="Script" uid="uid://ci1l8jm70jtp6" path="res://addons/AdmobPlugin/Admob.gd" id="24_ftst8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ns3a"]
 bg_color = Color(0, 0, 0, 0.494118)
@@ -425,6 +426,19 @@ process_mode = 1
 y_sort_enabled = true
 script = ExtResource("1_ob7o4")
 
+[node name="Admob" type="Node" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+script = ExtResource("24_ftst8")
+child_directed = 1
+under_age_of_consent = 1
+personalization_state = 2
+debug_application_id = "ca-app-pub-3940256099942544~3347511713"
+debug_rewarded_id = "ca-app-pub-3940256099942544/5224354917"
+real_application_id = "ca-app-pub-9662284664462592~9980844487"
+real_rewarded_id = "ca-app-pub-9662284664462592/9119180187"
+metadata/_custom_type_script = "uid://ci1l8jm70jtp6"
+
 [node name="Score" type="CanvasLayer" parent="."]
 
 [node name="LevelProgressBar" type="ProgressBar" parent="Score"]
@@ -732,9 +746,9 @@ unique_name_in_owner = true
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -290.0
+offset_left = -328.0
 offset_top = 47.0
-offset_right = -55.0
+offset_right = -93.0
 offset_bottom = 89.0
 grow_horizontal = 0
 theme_override_fonts/font = ExtResource("2_v4mvp")
@@ -745,6 +759,7 @@ vertical_alignment = 1
 
 [node name="Gems" type="Label" parent="Score"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -760,12 +775,13 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="gem" parent="Score" instance=ExtResource("5_qf1q8")]
+visible = false
 position = Vector2(1695, 68)
 monitoring = false
 monitorable = false
 
 [node name="Coin1" type="Sprite2D" parent="Score"]
-position = Vector2(1879.75, 67.2499)
+position = Vector2(1841.75, 67.2499)
 scale = Vector2(2.04167, 2.04167)
 texture = SubResource("AtlasTexture_4ly05")
 
@@ -1042,7 +1058,6 @@ autostart = true
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-visible = false
 script = ExtResource("14_np7p1")
 
 [node name="ColorRect" type="ColorRect" parent="GameOver"]
@@ -1060,17 +1075,32 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -392.0
+offset_left = 104.0
 offset_top = -49.0
-offset_right = 392.0
+offset_right = 888.0
 offset_bottom = 49.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 20
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 63
 text = "You Died"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label_token" type="Label" parent="GameOver/ColorRect"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 656.0
+offset_top = 216.0
+offset_right = 1360.0
+offset_bottom = 248.0
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 20
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 32
+text = "Not Enough Life Tokens"
 
 [node name="ReturnToMenuButton" type="Button" parent="GameOver"]
 process_mode = 2
@@ -1099,13 +1129,15 @@ expand_icon = true
 [node name="ReviveButton" type="Button" parent="GameOver"]
 unique_name_in_owner = true
 process_mode = 3
-offset_left = 195.0
+offset_left = 80.0
 offset_top = 736.0
-offset_right = 554.0
-offset_bottom = 887.0
+offset_right = 792.0
+offset_bottom = 886.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 32
-text = "Revive"
+text = "Revive (-1 Token)"
 expand_icon = true
 
 [node name="ReviveCountdownTimer" type="Timer" parent="GameOver"]
@@ -1117,27 +1149,43 @@ one_shot = true
 [node name="ReviveTimerLabel" type="Label" parent="GameOver"]
 unique_name_in_owner = true
 process_mode = 3
-visible = false
-offset_left = 296.0
+offset_left = 1368.0
 offset_top = 620.0
-offset_right = 446.0
+offset_right = 1518.0
 offset_bottom = 716.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 20
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 32
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="GameOver"]
-offset_left = 1158.0
-offset_top = 674.0
-offset_right = 1870.0
-offset_bottom = 855.0
+[node name="ReviveAdButton" type="Button" parent="GameOver"]
+unique_name_in_owner = true
+offset_left = 80.0
+offset_top = 560.0
+offset_right = 792.0
+offset_bottom = 710.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_v4mvp")
 theme_override_font_sizes/font_size = 32
-text = "Watch Ad to get Revive"
+text = "Watch Ad (+1 Token)"
+
+[node name="LifeTokenLabel" type="Label" parent="GameOver"]
+unique_name_in_owner = true
+offset_left = 168.0
+offset_top = 472.0
+offset_right = 616.0
+offset_bottom = 536.0
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 20
+theme_override_fonts/font = ExtResource("2_v4mvp")
+theme_override_font_sizes/font_size = 32
+text = "Life Tokens: 0"
 
 [node name="GameMusicPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
@@ -1645,6 +1693,20 @@ wait_time = 60.0
 unique_name_in_owner = true
 stream = ExtResource("22_exhny")
 
+[node name="gem2" parent="." instance=ExtResource("5_qf1q8")]
+position = Vector2(1056, 592)
+
+[node name="gem5" parent="." instance=ExtResource("5_qf1q8")]
+position = Vector2(800, 600)
+
+[node name="gem3" parent="." instance=ExtResource("5_qf1q8")]
+position = Vector2(976, 640)
+
+[node name="gem4" parent="." instance=ExtResource("5_qf1q8")]
+position = Vector2(1120, 560)
+
+[connection signal="initialization_completed" from="Admob" to="." method="_on_admob_initialization_completed"]
+[connection signal="rewarded_ad_user_earned_reward" from="Admob" to="." method="_on_admob_rewarded_ad_user_earned_reward"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade1/UpgradeButton1" to="." method="_on_upgrade_button_1_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade2/UpgradeButton2" to="." method="_on_upgrade_button_2_pressed"]
 [connection signal="pressed" from="Score/UpgradeMenu/Upgrade3/UpgradeButton3" to="." method="_on_upgrade_button_3_pressed"]
@@ -1671,5 +1733,6 @@ stream = ExtResource("22_exhny")
 [connection signal="pressed" from="GameOver/ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]
 [connection signal="pressed" from="GameOver/ReviveButton" to="." method="_on_revive_button_pressed"]
 [connection signal="timeout" from="GameOver/ReviveCountdownTimer" to="." method="_on_revive_countdown_timer_timeout"]
+[connection signal="pressed" from="GameOver/ReviveAdButton" to="." method="_on_revive_ad_button_pressed"]
 [connection signal="finished" from="GameMusicPlayer" to="." method="_on_game_music_player_finished"]
 [connection signal="pressed" from="GameWinScreen/ReturnToMenuButton" to="." method="_on_return_to_menu_button_pressed"]

@@ -89,24 +89,13 @@ func _ready() -> void:
 	_set_chest_buttons_enabled(true)
 	print("DEBUG: Game initialized. State: IDLE")
 	
-	# Removed _update_ad_labels() as it's ad-related
-	
 	_update_player_progress_labels()
 	
 	admob.initialize()
-	
-	# Removed entire AdMob initialization block
-	# if admob_node:
-	#     print("DEBUG: Admob node found. Initializing and connecting signals.")
-	#     admob_node.initialize()
-	#     admob_node.initialization_completed.connect(_on_admob_initialization_completed)
-	#     admob_node.rewarded_ad_loaded.connect(_on_rewarded_ad_loaded)
-	#     admob_node.rewarded_ad_failed_to_load.connect(_on_rewarded_ad_failed_to_load)
-	#     admob_node.rewarded_ad_dismissed_full_screen_content.connect(_on_rewarded_ad_dismissed_full_screen_content)
-	#     admob_node.rewarded_ad_user_earned_reward.connect(_on_rewarded_ad_user_earned_reward)
-	# else:
-	#     print("ERROR: Admob node not found in scene. Ad functions will not work.")
-	#     _set_ad_button_enabled(false)
+
+
+func _process(delta: float) -> void:
+	%coin_count.text = _format_coin_amount(Autoload.player_coins)
 
 
 func _calculate_ad_reward() -> int:
@@ -117,8 +106,6 @@ func _calculate_ad_reward() -> int:
 func _format_coin_amount(amount: int) -> String:
 	if amount >= 1000000:
 		return "%.1fM" % (float(amount) / 1000000.0)
-	#elif amount >= 1000:
-		#return "%.1fk" % (float(amount) / 1000.0)
 	else:
 		return str(amount)
 
@@ -132,69 +119,98 @@ func _update_player_progress_labels() -> void:
 			total_items += Autoload.player_inventory[item_id]
 		item_count_label.text = "Items: " + str(total_items)
 	
-	# Removed _update_ad_labels()
-	
-## --- AD-RELATED FUNCTIONS ---
-# Removed func _on_admob_initialization_completed(...)
-# Removed func _on_ad_button_pressed()
-# Removed func _on_rewarded_ad_loaded(...)
-# Removed func _on_rewarded_ad_failed_to_load(...)
-# Removed func _on_rewarded_ad_dismissed_full_screen_content(...)
-# Removed func _on_rewarded_ad_user_earned_reward(...)
-# Removed func _update_ad_labels()
 
-## --- Dynamically Populates items_by_rarity_dict ---
+
+
+# --- MODIFIED _populate_items_by_rarity ---
 func _populate_items_by_rarity() -> void:
-	print("DEBUG: Populating items_by_rarity_dict dynamically...")
+	print("DEBUG_MOBILE_SHOP: Starting _populate_items_by_rarity()...")
 	items_by_rarity_dict.clear()
 
 	var base_dir = "res://assets/drop-assets/"
+	print("DEBUG_MOBILE_SHOP: Base directory for scanning: " + base_dir)
 	var dir = DirAccess.open(base_dir)
 
 	if dir:
+		print("DEBUG_MOBILE_SHOP: Successfully opened directory: " + base_dir)
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		var items_scanned_count = 0
+		while file_name != "":
+			print("DEBUG_MOBILE_SHOP: Found item/dir: " + file_name + " (Is dir: " + str(dir.current_is_dir()) + ")")
+			if dir.current_is_dir():
+				var sub_dir_path = base_dir + file_name + "/"
+				print("DEBUG_MOBILE_SHOP: Scanning subdirectory: " + sub_dir_path)
+				_scan_directory_for_items(sub_dir_path)
+			# MODIFIED LINE: Check if it's a PNG or JPG file (or their import file)
+			elif file_name.ends_with(".png") or file_name.ends_with(".jpg") or file_name.ends_with(".png.import") or file_name.ends_with(".jpg.import"):
+				var actual_file_path = base_dir + file_name
+				
+				# If it's an .import file, strip the .import suffix to get the actual image path
+				if actual_file_path.ends_with(".import"):
+					actual_file_path = actual_file_path.replace(".import", "")
+					print("DEBUG_MOBILE_SHOP: Corrected path from .import: " + actual_file_path)
+				
+				print("DEBUG_MOBILE_SHOP: Adding item from base dir: " + actual_file_path)
+				_add_item_path_to_rarity_dict(actual_file_path)
+				items_scanned_count += 1
+			file_name = dir.get_next()
+		dir.list_dir_end()
+		print("DEBUG_MOBILE_SHOP: Total items scanned in _populate_items_by_rarity (top level): " + str(items_scanned_count))
+	else:
+		print("ERROR_MOBILE_SHOP: Could not open directory for item scanning: " + base_dir)
+
+	print("DEBUG_MOBILE_SHOP: Finished populating items_by_rarity_dict. Contents: " + str(items_by_rarity_dict))
+
+
+
+
+# --- MODIFIED _scan_directory_for_items ---
+func _scan_directory_for_items(path: String) -> void:
+	print("DEBUG_MOBILE_SHOP: Entering _scan_directory_for_items() for path: " + path)
+	var dir = DirAccess.open(path)
+	if dir:
+		print("DEBUG_MOBILE_SHOP: Successfully opened sub-directory: " + path)
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
+			print("DEBUG_MOBILE_SHOP: Found sub-item/dir: " + file_name + " (Is dir: " + str(dir.current_is_dir()) + ") for path: " + path)
 			if dir.current_is_dir():
-				var sub_dir_path = base_dir + file_name + "/"
-				_scan_directory_for_items(sub_dir_path)
-			elif file_name.ends_with(".png") or file_name.ends_with(".jpg"):
-				var full_path = base_dir + file_name
+				_scan_directory_for_items(path + file_name + "/")
+			# MODIFIED LINE: Check if it's a PNG or JPG file (or their import file)
+			elif file_name.ends_with(".png") or file_name.ends_with(".jpg") or file_name.ends_with(".png.import") or file_name.ends_with(".jpg.import"):
+				var full_path = path + file_name
+				
+				# If it's an .import file, strip the .import suffix to get the actual image path
+				if full_path.ends_with(".import"):
+					full_path = full_path.replace(".import", "")
+					print("DEBUG_MOBILE_SHOP: Corrected path from .import: " + full_path)
+				
+				print("DEBUG_MOBILE_SHOP: Adding item from sub-dir: " + full_path)
 				_add_item_path_to_rarity_dict(full_path)
 			file_name = dir.get_next()
 		dir.list_dir_end()
 	else:
-		print("ERROR: Could not open directory for item scanning: ", base_dir)
+		print("ERROR_MOBILE_SHOP: Could not open sub-directory for item scanning: " + path)
 
-	print("DEBUG: Finished populating items_by_rarity_dict:", items_by_rarity_dict)
 
-func _scan_directory_for_items(path: String) -> void:
-	var dir = DirAccess.open(path)
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if dir.current_is_dir():
-				_scan_directory_for_items(path + file_name + "/")
-			elif file_name.ends_with(".png") or file_name.ends_with(".jpg"):
-				var full_path = path + file_name
-				_add_item_path_to_rarity_dict(full_path)
-			file_name = dir.get_next()
-		dir.list_dir_end()
+
 
 func _add_item_path_to_rarity_dict(path: String) -> void:
+	print("DEBUG_MOBILE_SHOP: _add_item_path_to_rarity_dict called with path: " + path)
 	var rarity = get_rarity_from_filename(path.get_file())
 	if not items_by_rarity_dict.has(rarity):
 		items_by_rarity_dict[rarity] = []
+		print("DEBUG_MOBILE_SHOP: Created new rarity array for: " + rarity)
 	items_by_rarity_dict[rarity].append(path)
-	print("DEBUG SHOP: Scanned item: ", path, " (Rarity: ", rarity, ")")
+	print("DEBUG_MOBILE_SHOP: Added item path to dictionary. Rarity: " + rarity + ", Path: " + path)
 
 	var item_id_from_filename = path.get_file().get_basename()
 	if get_node_or_null("/root/ItemData"):
 		ItemData.register_item_path(item_id_from_filename, path)
-		print("DEBUG SHOP: Registered item_id '", item_id_from_filename, "' with path: '", path, "' in ItemData.")
+		print("DEBUG_MOBILE_SHOP: Registered item_id '" + item_id_from_filename + "' with path: '" + path + "' in ItemData.")
 	else:
-		print("Shop WARNING: ItemData Autoload not found. Cannot register item path for:", item_id_from_filename)
+		print("WARNING_MOBILE_SHOP: ItemData Autoload not found. Cannot register item path for: " + item_id_from_filename)
 
 ## --- CHEST OPENING LOGIC ---
 func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
@@ -215,7 +231,6 @@ func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
 		%AnimationPlayer.play("glow_pulse")
 		
 		_set_chest_buttons_enabled(false)
-		# Removed _set_ad_button_enabled(false)
 		print("DEBUG: All chest buttons disabled during chest opening. State: OPENING_CHEST_ANIMATION")
 
 		chest.play("default")
@@ -226,6 +241,7 @@ func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
 		current_chest_state = ChestState.ITEM_DROPPING
 
 		var chest_name = chest.name.to_lower()
+		print("DEBUG_MOBILE_SHOP: Attempting to drop item for chest type: " + chest_name)
 		if "normal" in chest_name:
 			drop_random_image("normal")
 		elif "bloody" in chest_name:
@@ -240,7 +256,6 @@ func _open_chest(cost: int, button: Button, chest: AnimatedSprite2D) -> void:
 		%text_anim.play("not_enough_coins")
 		current_chest_state = ChestState.IDLE
 		_set_chest_buttons_enabled(true)
-		# Removed _set_ad_button_enabled(true)
 		
 		waiting_for_tap = false    
 		
@@ -254,7 +269,7 @@ func _on_button_1_pressed() -> void:
 	current_chest_state = ChestState.OPENING_CHEST_ANIMATION
 	print("DEBUG: Button 1 pressed. State: OPENING_CHEST_ANIMATION")
 	
-	_open_chest(40, %Button1, %"chest-normal2")
+	_open_chest(400, %Button1, %"chest-normal2")
 	
 	await get_tree().create_timer(2).timeout
 	if not tapped_early and current_chest_state == ChestState.ITEM_DISPLAYED_WAITING_FOR_TAP:
@@ -265,7 +280,7 @@ func _on_button_2_pressed() -> void:
 	waiting_for_tap = true
 	tapped_early = false
 	current_chest_state = ChestState.OPENING_CHEST_ANIMATION
-	_open_chest(200, %Button2, %"chest-bloody2")
+	_open_chest(2000, %Button2, %"chest-bloody2")
 	await get_tree().create_timer(2).timeout
 	if not tapped_early and current_chest_state == ChestState.ITEM_DISPLAYED_WAITING_FOR_TAP:
 		%text_anim.play("tap_continue")
@@ -275,7 +290,7 @@ func _on_button_3_pressed() -> void:
 	waiting_for_tap = true
 	tapped_early = false
 	current_chest_state = ChestState.OPENING_CHEST_ANIMATION
-	_open_chest(800, %Button3, %"chest-gold2")
+	_open_chest(8000, %Button3, %"chest-gold2")
 	await get_tree().create_timer(2).timeout
 	if not tapped_early and current_chest_state == ChestState.ITEM_DISPLAYED_WAITING_FOR_TAP:
 		%text_anim.play("tap_continue")
@@ -285,7 +300,7 @@ func _on_button_4_pressed() -> void:
 	waiting_for_tap = true
 	tapped_early = false
 	current_chest_state = ChestState.OPENING_CHEST_ANIMATION
-	_open_chest(4000, %Button4, %"chest-legendary2")
+	_open_chest(40000, %Button4, %"chest-legendary2")
 	await get_tree().create_timer(2).timeout
 	if not tapped_early and current_chest_state == ChestState.ITEM_DISPLAYED_WAITING_FOR_TAP:
 		%text_anim.play("tap_continue")
@@ -377,7 +392,6 @@ func _cleanup_chest_display() -> void:
 	print("DEBUG: Post-cleanup cooldown finished.")
 
 	_set_chest_buttons_enabled(true)
-	# Removed _set_ad_button_enabled(true)
 	current_chest_state = ChestState.IDLE
 	print("DEBUG: All chest buttons re-enabled. State: IDLE.")
 	
@@ -389,8 +403,6 @@ func _set_chest_buttons_enabled(enabled: bool) -> void:
 	%Button2.disabled = not enabled
 	%Button3.disabled = not enabled
 	%Button4.disabled = not enabled
-
-# Removed func _set_ad_button_enabled(enabled: bool)
 
 ## --- MOUSE HOVER ANIMATIONS ---
 func _on_button_1_mouse_entered() -> void:
@@ -440,16 +452,17 @@ func get_rarity_from_filename(filename: String) -> String:
 
 # MODIFIED: This function now creates the Sprite2D and passes it to _animate_item_drop
 func drop_random_image(chest_type: String) -> void:
-	print("DEBUG: drop_random_image called for chest_type:", chest_type)
+	print("DEBUG_MOBILE_SHOP: drop_random_image called for chest_type: " + chest_type)
 
 	if not CHEST_DROP_CHANCES.has(chest_type):
-		print("ERROR: Unknown chest type: ", chest_type, ". Defaulting to normal chest drops.")
+		print("ERROR_MOBILE_SHOP: Unknown chest type: " + chest_type + ". Defaulting to normal chest drops.")
 		chest_type = "normal"
 
 	var chosen_rarity = _get_random_rarity(chest_type) # Changed to use _get_random_rarity
-	print("DEBUG: Chosen rarity for ", chest_type, " chest: ", chosen_rarity)
+	print("DEBUG_MOBILE_SHOP: Chosen rarity for " + chest_type + " chest: " + chosen_rarity)
 
 	if items_by_rarity_dict.has(chosen_rarity) and not items_by_rarity_dict[chosen_rarity].is_empty():
+		print("DEBUG_MOBILE_SHOP: Found items for chosen rarity: " + chosen_rarity)
 		var available_items: Array = items_by_rarity_dict[chosen_rarity]
 		var random_index = randi() % available_items.size()
 		_current_dropped_item_path = available_items[random_index]
@@ -457,10 +470,11 @@ func drop_random_image(chest_type: String) -> void:
 		# This line correctly derives the Item.id from the image path's base filename.
 		_current_dropped_item_id_for_inventory = _current_dropped_item_path.get_file().get_basename()
 
-		print("DEBUG: Dropped item path: ", _current_dropped_item_path, " (ID: ", _current_dropped_item_id_for_inventory, ")")
+		print("DEBUG_MOBILE_SHOP: Dropped item path: " + _current_dropped_item_path + " (ID: " + _current_dropped_item_id_for_inventory + ")")
 
 		var texture: Texture2D = load(_current_dropped_item_path)
 		if texture:
+			print("DEBUG_MOBILE_SHOP: Successfully loaded texture for: " + _current_dropped_item_path)
 			var sprite = Sprite2D.new()
 			sprite.texture = texture
 			
@@ -483,13 +497,13 @@ func drop_random_image(chest_type: String) -> void:
 				var dropped_item_resource = ItemData.get_item_by_id(_current_dropped_item_id_for_inventory)
 				if dropped_item_resource:
 					item_name = dropped_item_resource.item_name
-					print("DEBUG SHOP: Retrieved item name from ItemData: ", item_name)
+					print("DEBUG_MOBILE_SHOP: Retrieved item name from ItemData: " + item_name)
 				else:
 					item_name = _current_dropped_item_id_for_inventory.capitalize().replace("_", " ")
-					print("DEBUG SHOP: ItemData exists but returned null for item ID. Derived name: ", item_name)
+					print("WARNING_MOBILE_SHOP: ItemData exists but returned null for item ID. Derived name: " + item_name)
 			else:
 				item_name = _current_dropped_item_id_for_inventory.capitalize().replace("_", " ")
-				print("DEBUG SHOP: ItemData Autoload not found. Derived name: ", item_name)
+				print("WARNING_MOBILE_SHOP: ItemData Autoload not found. Derived name: " + item_name)
 			
 			%ItemNameLabel.text = item_name
 			%ItemNameLabel.add_theme_color_override("font_color", rarity_color)
@@ -497,10 +511,10 @@ func drop_random_image(chest_type: String) -> void:
 
 			_animate_item_drop(sprite) # Pass the created sprite to the animation function
 		else:
-			print("ERROR: Could not load texture for path: ", _current_dropped_item_path)
+			print("ERROR_MOBILE_SHOP: Could not load texture for path: " + _current_dropped_item_path)
 			_cleanup_chest_display() # Clean up if texture fails to load
 	else:
-		print("ERROR: No items found for rarity: ", chosen_rarity, " or dictionary is empty for this rarity.")
+		print("ERROR_MOBILE_SHOP: No items found for rarity: " + chosen_rarity + " or dictionary is empty for this rarity. items_by_rarity_dict: " + str(items_by_rarity_dict))
 		_current_dropped_item_path = ""
 		_current_dropped_item_rarity = ""
 		_current_dropped_item_id_for_inventory = ""
@@ -621,5 +635,7 @@ func _on_admob_initialization_completed(status_data: InitializationStatus) -> vo
 
 
 func _on_admob_rewarded_ad_user_earned_reward(ad_id: String, reward_data: RewardItem) -> void:
-	Autoload.add_coins(earned_coins)
+	_calculate_ad_reward()
+	Autoload.add_coins(450)
 	Autoload.save_all_player_data()
+	print("granted")

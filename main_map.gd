@@ -9,6 +9,16 @@ var shake_strength:float = 0.0
 
 var pause_menu_opened = Autoload.pause_menu_opened
 
+
+#---------ADS-----------
+@onready var revive_ad_button: Button = %ReviveAdButton
+@onready var admob: Admob = %Admob
+
+var is_initialized : bool = false
+#-------------------------
+
+
+
 @onready var difficulty_scaler_timer = %DifficultyScalerTimer # New Timer node
 var base_mob_spawn_rate: float = 0.7 # Starting spawn rate
 var min_mob_spawn_rate: float = 0.1 # Fastest spawn rate
@@ -144,10 +154,10 @@ const all_upgrades = {
 	],
 	"Movement Speed": [
 		{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
-		{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
-		{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
-		{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
-		{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
+		#{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
+		#{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
+		#{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
+		#{"desc": "Movement Speed: +10%", "value": 1.1, "type": "Player_Speed_Multiplier"},
 	],
 	#"Damage Bonus": [
 		#{"desc": "Damage Bonus: +10%", "value": 1.1, "type": "Player_Damage_Multiplier"},
@@ -157,11 +167,11 @@ const all_upgrades = {
 		#{"desc": "Damage Bonus: +10%", "value": 1.1, "type": "Player_Damage_Multiplier"},
 	#],
 	"Crit Chance": [
-		{"desc": "Crit Chance: +5%", "value": 0.05, "type": "Player_CritChance_Addition"},
-		{"desc": "Crit Chance: +5%", "value": 0.05, "type": "Player_CritChance_Addition"},
-		{"desc": "Crit Chance: +5%", "value": 0.05, "type": "Player_CritChance_Addition"},
-		{"desc": "Crit Chance: +5%", "value": 0.05, "type": "Player_CritChance_Addition"},
-		{"desc": "Crit Chance: +5%", "value": 0.05, "type": "Player_CritChance_Addition"},
+		{"desc": "Crit Chance: +2%", "value": 0.02, "type": "Player_CritChance_Addition"},
+		{"desc": "Crit Chance: +2%", "value": 0.02, "type": "Player_CritChance_Addition"},
+		{"desc": "Crit Chance: +2%", "value": 0.02, "type": "Player_CritChance_Addition"},
+		{"desc": "Crit Chance: +2%", "value": 0.02, "type": "Player_CritChance_Addition"},
+		{"desc": "Crit Chance: +2%", "value": 0.02, "type": "Player_CritChance_Addition"},
 	],
 	#"Crit Damage": [
 		#{"desc": "Crit Damage: +25%", "value": 0.25, "type": "Player_CritDamage_Addition"},
@@ -228,14 +238,14 @@ const all_upgrades = {
 		{"desc": "Shotgun: +75 Range", "value": 75, "type": "Shotgun_Range"},
 		{"desc": "Shotgun: +40 Speed", "value": 40, "type": "Shotgun_Speed"},
 	],
-	"Machine Gun": [ # Assuming node name is "machinegun"
-		{"desc": "Machine Gun (New)", "activate_gun": true, "type": "Machine_Gun"},
-		{"desc": "Machine Gun: +0.2 Fire Rate", "value": 0.2, "type": "Machine_Gun_FireRate"}, # Increase rate (smaller cooldown)
-		{"desc": "Machine Gun: +1 Damage", "value": 1, "type": "Machine_Gun_Damage"},
-		{"desc": "Machine Gun: -0.05s Cooldown", "value": 0.05, "type": "Machine_Gun_Cooldown_Reduction"},
-		{"desc": "Machine Gun: +50 Range", "value": 50, "type": "Machine_Gun_Range"},
-		{"desc": "Machine Gun: +30 Speed", "value": 30, "type": "Machine_Gun_Speed"},
-	],
+	#"Machine Gun": [ # Assuming node name is "machinegun"
+		#{"desc": "Machine Gun (New)", "activate_gun": true, "type": "Machine_Gun"},
+		#{"desc": "Machine Gun: +0.2 Fire Rate", "value": 0.2, "type": "Machine_Gun_FireRate"}, # Increase rate (smaller cooldown)
+		#{"desc": "Machine Gun: +1 Damage", "value": 1, "type": "Machine_Gun_Damage"},
+		#{"desc": "Machine Gun: -0.05s Cooldown", "value": 0.05, "type": "Machine_Gun_Cooldown_Reduction"},
+		#{"desc": "Machine Gun: +50 Range", "value": 50, "type": "Machine_Gun_Range"},
+		#{"desc": "Machine Gun: +30 Speed", "value": 30, "type": "Machine_Gun_Speed"},
+	#],
 	"Laser": [
 		{"desc": "Laser (New)", "activate_gun": true, "type": "Laser"},
 		{"desc": "Laser: +1 Tick Damage", "value": 1, "type": "Laser_Damage"},
@@ -254,21 +264,21 @@ const all_upgrades = {
 	],
 	"Flamethrower": [ # Changed from "Gun 6"
 		{"desc": "Flamethrower (New)", "activate_gun": true, "type": "Flamethrower"},
-		{"desc": "Flamethrower: Both Sides", "value": Autoload.FireMode.BOTH_SIDES, "type": "Flamethrower_FireMode"},
+		#{"desc": "Flamethrower: Both Sides", "value": Autoload.FireMode.BOTH_SIDES, "type": "Flamethrower_FireMode"},
 		{"desc": "Flamethrower: Shorter Reload", "value": 0.3, "type": "Flamethrower_Reload_Reduction"}, # Reduce by 0.3 seconds
-		{"desc": "Flamethrower: Four Sides", "value": Autoload.FireMode.FOUR_SIDES, "type": "Flamethrower_FireMode"},
+		#{"desc": "Flamethrower: Four Sides", "value": Autoload.FireMode.FOUR_SIDES, "type": "Flamethrower_FireMode"},
 		{"desc": "Flamethrower: +20 Damage", "value": 20, "type": "Flamethrower_Damage"},
 		{"desc": "Flamethrower: +100 Range", "value": 100, "type": "Flamethrower_Range"}, # This would likely affect projectile lifetime or maximum distance
 		{"desc": "Flamethrower: +50 Speed", "value": 50, "type": "Flamethrower_Speed"},
 	],
-	"Shockwave": [
-		{"desc": "Shockwave (New)", "activate_gun": true, "type": "Shockwave"},
-		{"desc": "+1 Shockwave", "value": 1, "type": "Shockwave_Amount"},
-		{"desc": "-1s Cooldown (Shockwave)", "value": 1.0, "type": "Shockwave_Cooldown_Reduction"},
-		{"desc": "+10 Damage (Shockwave)", "value": 10, "type": "Shockwave_Damage"},
-		{"desc": "+50 Radius (Shockwave)", "value": 50, "type": "Shockwave_Radius"},
-		{"desc": "+0.1 Scale Speed (Shockwave)", "value": 0.1, "type": "Shockwave_Scale_Speed"}, # How fast it grows
-	],
+	#"Shockwave": [
+		#{"desc": "Shockwave (New)", "activate_gun": true, "type": "Shockwave"},
+		#{"desc": "+1 Shockwave", "value": 1, "type": "Shockwave_Amount"},
+		#{"desc": "-1s Cooldown (Shockwave)", "value": 1.0, "type": "Shockwave_Cooldown_Reduction"},
+		#{"desc": "+10 Damage (Shockwave)", "value": 10, "type": "Shockwave_Damage"},
+		#{"desc": "+50 Radius (Shockwave)", "value": 50, "type": "Shockwave_Radius"},
+		#{"desc": "+0.1 Scale Speed (Shockwave)", "value": 0.1, "type": "Shockwave_Scale_Speed"}, # How fast it grows
+	#],
 }
 
 var upgrade_levels = {
@@ -290,16 +300,16 @@ var upgrade_levels = {
 	
 	#Active guns (initial level 0 for inactive, 1+ for upgrades)
 	"Rifle": 0,
-	"Shotgun": 2,
-	"Machine Gun": 0,
-	"Laser": 1,
-	"Rocket": 0,
+	"Shotgun": 0,
+	#"Machine Gun": 0,
+	"Laser": 0,
+	"Rocket": 1,
 	"Flamethrower": 0, # Set to 0 if not starting unlocked
-	"Shockwave": 0,
+	#"Shockwave": 0,
 	
 	# Evo (example placeholders)
-	"Anti-Gravity Gun": 0,
-	"Water Vortex": 0,
+	#"Anti-Gravity Gun": 0,
+	#"Water Vortex": 0,
 }
 
 
@@ -330,8 +340,10 @@ var _8th_wave_speed: bool = false
 func _ready() -> void:
 	print("GameMusicPlayer: ", %GameMusicPlayer.get_stream())
 	randomize()
+	%Label_token.hide()
 	
-	
+	admob.initialize()
+
 	print("gun, ", Autoload.rifle_active)
 	print("shotgun, ", Autoload.shotgun_active)
 	print("machinegun, ", Autoload.machinegun_active)
@@ -525,10 +537,13 @@ func _process(delta):
 		# Check for game over based on time limit
 		if time_passed >= game_duration and not game_over:
 			_on_game_duration_end()
-			game_over = true # Prevent further time updates
-			get_tree().paused = true # Pause the game to show win screen
-			game_win_screen.show() # Display the "You Win!" screen
-			emit_signal("play_sfx", "game_win") # Play win sound
+			if !%GameOver.visible:
+				game_over = true # Prevent further time updates
+				get_tree().paused = true # Pause the game to show win screen
+				game_win_screen.show() # Display the "You Win!" screen
+				emit_signal("play_sfx", "game_win") # Play win sound
+	
+		
 
 
 # These individual gun activation functions are largely superseded by Autoload.apply_gameplay_upgrade
@@ -874,6 +889,7 @@ func _apply_upgrade(button: Button):
 func _on_player_health_depleted() -> void:
 	# print("--- TRACE (Gameplay): _on_player_health_depleted() ENTRY ---")
 	game_over_screen.show()
+	%LifeTokenLabel.text = "Life Tokens: " + str(Autoload.life_token)
 	# print("TRACE (Gameplay): After game_over_screen.show(), game_over_screen.is_visible() = ", game_over_screen.is_visible())
 
 	end_time = time_passed # Store time of death
@@ -892,14 +908,13 @@ func _on_player_health_depleted() -> void:
 
 
 	if Autoload.life_token > 0:
-		revive_button.text = "Revive with Token (" + str(Autoload.life_token) + ")"
 		revive_button.disabled = false
 		revive_button.show()
 		revive_timer_label.show()
 		revive_countdown_timer.start()
 		# print("TRACE (Gameplay): Player health depleted. Showing revive option. Timer started.")
 	else:
-		revive_button.hide()
+		#revive_button.hide()
 		revive_timer_label.show()
 		revive_timer_label.text = "Game Over!" # Final text here
 		revive_countdown_timer.stop()
@@ -917,9 +932,10 @@ func finalize_game_over() -> void:
 
 	Autoload.reset_variables() # Reset run-specific variables for a new game
 	# reset_game() # This function is not defined. If changing scene, it might not be needed.
-
+	
 	game_over_screen.hide()
-	game_win_screen.show() # Ensure win screen is hidden too
+	if !%GameOver.visible:
+		game_win_screen.show() # Ensure win screen is hidden too
 	%GameMusicPlayer.stop()
 
 	#var shop_scene = load("res://shop.tscn") # Load your shop scene
@@ -935,6 +951,8 @@ func _on_revive_button_pressed() -> void:
 	if Autoload.life_token > 0:
 		Autoload.life_token -= 1
 		Autoload.save_all_player_data() # Save token deduction immediately
+	else:
+		%Label_token.show()
 
 		game_over_screen.hide()
 		revive_countdown_timer.stop()
@@ -1137,12 +1155,25 @@ func _on_player_revived() -> void:
 
 
 func _on_revive_countdown_timer_timeout() -> void:
-	print("TRACE (Gameplay): Revive countdown timed out. No revival.")
-	finalize_game_over()
+	var equipment_menu = load("res://game_menu.tscn")
+	
+	var xp_gained_this_run = Autoload.score / 10 # Example conversion for permanent level
+	Autoload.player_level += int(xp_gained_this_run)
+	Autoload.total_coins += Autoload.player_coins # Add current run coins to total permanent
+	Autoload.total_gems += Autoload.player_gems # Add current run gems to total permanent
+	Autoload.save_all_player_data() # Save all permanent data
+
+	Autoload.reset_variables() # Reset run-specific variables for a new game
+	# reset_game() # This function is not defined. If changing scene, it might not be needed.
+	
+	get_tree().paused = false
+	get_tree().change_scene_to_packed(equipment_menu)
 
 
 func _on_return_to_menu_button_pressed() -> void:
 	var equipment_menu = load("res://game_menu.tscn")
+	self.hide()
+	get_tree().paused = false
 	print("Loaded scene path:", equipment_menu.resource_path)
 	get_tree().change_scene_to_packed(equipment_menu)
 
@@ -1165,3 +1196,20 @@ func _on_game_music_player_finished() -> void:
 	elif first_music_played:
 		audio_stream = load("res://assets/music/LeftRightExcluded.mp3")
 		%GameMusicPlayer.set_stream(audio_stream)
+
+
+func _on_admob_initialization_completed(status_data: InitializationStatus) -> void:
+	is_initialized = true
+
+
+func _on_admob_rewarded_ad_user_earned_reward(ad_id: String, reward_data: RewardItem) -> void:
+	Autoload.add_life_token(1)
+	%LifeTokenLabel.text = "Life Tokens: " + str(Autoload.life_token)
+	%Label_token.hide()
+
+
+func _on_revive_ad_button_pressed() -> void:
+	if is_initialized:
+		admob.load_rewarded_ad()
+		await admob.rewarded_ad_loaded
+		admob.show_rewarded_ad()

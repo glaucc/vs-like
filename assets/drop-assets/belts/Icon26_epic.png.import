@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ev5gf1v87ciw"
-path="res://.godot/imported/Icon26_epic.png-23d986c1894533f815f0aed76b07420d.ctex"
+uid="uid://xaredy7losuj"
+path="res://.godot/imported/icon26_epic.png-f1a14f4e42aec60278c1d05c938a0ca9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/belts/Icon26_epic.png"
-dest_files=["res://.godot/imported/Icon26_epic.png-23d986c1894533f815f0aed76b07420d.ctex"]
+source_file="res://assets/drop-assets/belts/icon26_epic.png"
+dest_files=["res://.godot/imported/icon26_epic.png-f1a14f4e42aec60278c1d05c938a0ca9.ctex"]
 
 [params]
 

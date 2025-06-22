@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cc62c5yhnnu4q"
-path="res://.godot/imported/Icon29_20_rare.png-9cdb58fff31d18b2a9c1cbc7c17d4af1.ctex"
+uid="uid://rfec5xbaekov"
+path="res://.godot/imported/icon29_20_rare.png-252754747c70c71837215bfb1671fb99.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/guns/Icon29_20_rare.png"
-dest_files=["res://.godot/imported/Icon29_20_rare.png-9cdb58fff31d18b2a9c1cbc7c17d4af1.ctex"]
+source_file="res://assets/drop-assets/guns/icon29_20_rare.png"
+dest_files=["res://.godot/imported/icon29_20_rare.png-252754747c70c71837215bfb1671fb99.ctex"]
 
 [params]
 

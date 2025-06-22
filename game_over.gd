@@ -12,9 +12,10 @@ func _process(delta):
 	# This _process will run even when get_tree().paused is true because of PROCESS_MODE_ALWAYS.
 	if is_visible(): # Only update if the game over screen is currently visible
 		if revive_countdown_timer and revive_timer_label:
+			%GameWinScreen.hide()
 			var time_left = floor(revive_countdown_timer.time_left)
 			if revive_countdown_timer.time_left > 0:
-				revive_timer_label.text = "Reviving in: " + str(time_left) + "s"
+				revive_timer_label.text = str(time_left) + "s"
 				# print("DEBUG (GameOverScreen._process): Updating revive_timer_label to: ", revive_timer_label.text)
 			else:
 				# This condition is for when the timer has run out

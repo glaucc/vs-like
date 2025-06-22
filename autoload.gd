@@ -8,7 +8,7 @@ var player_gems: int = 0 # Gems collected during the current run, added to total
 var player_level: int = 1 # This is the permanent player account level (e.g., used for shop unlocks)
 var total_coins: int = 0 # Total coins for shop/permanent purchases
 var total_gems: int = 0 # Total gems for shop/premium currency (PERMANENT SAVE)
-var life_token: int = 2 # Revive tokens (Permanent, deducts from this pool)
+var life_token: int = 0 # Revive tokens (Permanent, deducts from this pool)
 
 # --- Game State (Current run progress) ---
 var score: int = 0 # XP collected during the current run
@@ -20,7 +20,7 @@ var level: int = 1 # Current in-game level (XP level)
 	"mob": {"base_health": 240, "base_speed": 100, "xp_value": 1, "coin_chance": 0.2},
 	"bat": {"base_health": 260, "base_speed": 120, "xp_value": 1, "coin_chance": 0.15}, # Updated health
 	"python": {"base_health": 290, "base_speed": 80, "xp_value": 2, "coin_chance": 0.3},
-	"psycho": {"base_health": 310, "base_speed": 90, "xp_value": 3, "coin_chance": 0.25},
+	"psycho": {"base_health": 350, "base_speed": 90, "xp_value": 3, "coin_chance": 0.25},
 	"man_eating_flower": {"base_health": 250, "base_speed": 70, "xp_value": 5, "coin_chance": 0.2}, # Added, assuming speed/xp/coin
 	"pumpking": {"base_health": 390, "base_speed": 60, "xp_value": 10, "coin_chance": 0.3}, # Added, assuming speed/xp/coin
 	"ghost": {"base_health": 430, "base_speed": 110, "xp_value": 7, "coin_chance": 0.18}, # Added, assuming speed/xp/coin
@@ -88,9 +88,9 @@ var laser_cooldown : float = 5.0
 # Rocket Launcher
 var rocket_bullets: int = 1 # Number of rockets per shot, or rockets in magazine
 var explosion_size: float = 100.0
-var rocket_base_damage: int = 46
+var rocket_base_damage: int = 102
 
-var rocket_magazine_size: int = 3   # How many rockets in a magazine
+var rocket_magazine_size: int = 4   # How many rockets in a magazine
 var rocket_reload_duration: float = 2.5 # How long it takes to reload rockets
 
 
@@ -172,7 +172,7 @@ func _ready() -> void:
 	load_settings()
 	apply_audio_settings()
 	player_armor_percent = 0.0
-	#player_coins = 10000
+	player_coins = 350
 
 	if not has_node("/root/ItemData"):
 		print("ERROR: Autoload 'ItemData' not found! Please add 'item_data.gd' to Project Settings -> Autoloads and name it 'ItemData'.")
@@ -518,7 +518,7 @@ func reset_variables():
 	rocket_bullets = 1
 	if explosion_size < 50:
 		explosion_size = 50.0  # Reset to its initial value
-	rocket_base_damage = 46 # Reset to its initial value
+	rocket_base_damage = 102 # Reset to its initial value
 
 	flamethrower_bullets = 1
 	flamethrower_base_damage = 52 # Reset to its initial value
@@ -646,7 +646,7 @@ func load_all_player_data():
 		# Load Player Permanent Data
 		total_coins = config.get_value("player_data", "total_coins", 0)
 		total_gems = config.get_value("player_data", "total_gems", 0)
-		life_token = config.get_value("player_data", "life_token", 2)
+		life_token = config.get_value("player_data", "life_token", 0)
 		player_level = config.get_value("player_data", "player_level", 1)
 
 		# Load Inventory

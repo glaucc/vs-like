@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dggnmm3b8rtdt"
-path="res://.godot/imported/legendary-Icon12_legendary.png-87abbbeab84a5e4beef46b57c47ddc46.ctex"
+uid="uid://de5wyia2n0jj4"
+path="res://.godot/imported/legendary-icon12_legendary.png-7004532d985dd69c64af5435433f1d85.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/shields/legendary-Icon12_legendary.png"
-dest_files=["res://.godot/imported/legendary-Icon12_legendary.png-87abbbeab84a5e4beef46b57c47ddc46.ctex"]
+source_file="res://assets/drop-assets/shields/legendary-icon12_legendary.png"
+dest_files=["res://.godot/imported/legendary-icon12_legendary.png-7004532d985dd69c64af5435433f1d85.ctex"]
 
 [params]
 

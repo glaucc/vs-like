@@ -25,6 +25,7 @@ func _ready() -> void:
 	cooldown_timer.timeout.connect(_on_CooldownTimer_timeout)
 	cooldown_timer.start() # Start the timer immediately to fire the first shot
 
+
 func _physics_process(delta):
 	# Handle recoil return for the gun's visual
 	if recoil_offset.length() > 0.1:
@@ -33,23 +34,35 @@ func _physics_process(delta):
 		recoil_offset = Vector2.ZERO
 	
 	# Apply the recoil offset to the weapon's local position
-	position = recoil_offset # This will move the weapon node itself
+	position = recoil_offset
 
-	# Targeting logic (similar to shotgun)
-	var enemies = get_overlapping_bodies()
-	var target_direction = Vector2.RIGHT # Default direction if no enemies
+	# Targeting logic
+	var enemies = get_overlapping_bodies() # Requires this node to have an Area2D/CollisionShape2D
+	var target_enemy: CharacterBody2D = null
+	var min_distance: float = INF
 
 	if not enemies.is_empty():
-		var closest = enemies[0]
 		for enemy in enemies:
-			if global_position.distance_to(enemy.global_position) < global_position.distance_to(closest.global_position):
-				closest = enemy
-		target_direction = (closest.global_position - global_position).normalized()
-	
-	look_at(global_position + target_direction) # Rotate the weapon to face the closest enemy or default direction
+			# Ensure the overlapping node is an enemy type you want to target
+			if enemy is CharacterBody2D and enemy.is_in_group("enemies"): # Add group check for robustness
+				var distance = global_position.distance_to(enemy.global_position)
+				if distance < min_distance:
+					min_distance = distance
+					target_enemy = enemy # Store the closest enemy
+
+	if target_enemy: # Only if an enemy was found within overlapping bodies
+		look_at(target_enemy.global_position) # <-- Move look_at OUTSIDE the loop
+		# The target_direction variable below is now correctly derived from the final target_enemy
+		# target_direction = (target_enemy.global_position - global_position).normalized()
+	else:
+		# Optional: If no target, perhaps point in a default direction or last known direction
+		# look_at(global_position + Vector2.RIGHT) # Example: point right
+		pass # Or do nothing, weapon stays in last position
 
 	# The actual shooting is now solely controlled by the CooldownTimer timeout
 	# No need for 'if can_shoot:' check here within _physics_process for shooting.
+
+
 
 
 func _on_CooldownTimer_timeout():

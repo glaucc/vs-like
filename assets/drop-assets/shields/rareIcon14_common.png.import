@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cteyjkowjp4kk"
-path="res://.godot/imported/rareIcon14_common.png-9136d4673ff482b5071897ac667ee79b.ctex"
+uid="uid://bfydhl7svapcg"
+path="res://.godot/imported/rareicon14_common.png-854c62fb10e280adc0bd047eff219264.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/shields/rareIcon14_common.png"
-dest_files=["res://.godot/imported/rareIcon14_common.png-9136d4673ff482b5071897ac667ee79b.ctex"]
+source_file="res://assets/drop-assets/shields/rareicon14_common.png"
+dest_files=["res://.godot/imported/rareicon14_common.png-854c62fb10e280adc0bd047eff219264.ctex"]
 
 [params]
 

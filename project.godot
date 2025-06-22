@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="VS-simulator"
+config/tags=PackedStringArray("production")
 run/main_scene="uid://b77u2sg5kdopd"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)

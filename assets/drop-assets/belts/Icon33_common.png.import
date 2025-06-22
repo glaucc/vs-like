@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://l3we2lsas63e"
-path="res://.godot/imported/Icon33_common.png-b38137898c73ae2422932dca0f1e50c0.ctex"
+uid="uid://dikvx0vivlt24"
+path="res://.godot/imported/icon33_common.png-c9b693d35f61528b374b80d31983dff5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drop-assets/belts/Icon33_common.png"
-dest_files=["res://.godot/imported/Icon33_common.png-b38137898c73ae2422932dca0f1e50c0.ctex"]
+source_file="res://assets/drop-assets/belts/icon33_common.png"
+dest_files=["res://.godot/imported/icon33_common.png-c9b693d35f61528b374b80d31983dff5.ctex"]
 
 [params]
 
