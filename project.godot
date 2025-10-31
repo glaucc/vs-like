@@ -10,13 +10,14 @@ config_version=5
 
 [application]
 
-config/name="VS-simulator"
+config/name="Ball Fighters"
 config/tags=PackedStringArray("production")
 run/main_scene="uid://b77u2sg5kdopd"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 boot_splash/use_filter=false
+config/icon="uid://djhej5t4kmyib"
 
 [audio]
 
